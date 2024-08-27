@@ -32,6 +32,20 @@ class Patient(db.Model, SerializerMixin):
         "Prescription", back_populates="patient", cascase="all, delete-orphan"
     )
 
+    def __repr__(self):
+        return f"""
+            <Patient #{self.id}:
+                First Name: {self.first_name}
+                Last Name: {self.last_name}
+                DOB: {self.date_of_birth}
+                Gender: {self.gender}
+                Address: {self.address}
+                Phone number: {self.phone_number}
+                Email: {self.email}
+                Insurance ID: {self.insurance_id}
+            >
+        """
+
     def __init__(self, email, password_hash=None, **kwargs):
         super().__init__(email=email, **kwards)
         if password_hash:
