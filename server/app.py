@@ -11,7 +11,10 @@ DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db'
 
 # Local imports
 from config import app, db, api
-from models.order import Order
-from models.order_item import OrderItem
-from models.user import User
-from models.product import Product
+from models.patient import Patient
+from models.doctor import Doctor
+from models.prescription import Prescription
+from models.appointment import Appointment
+from models.billing import Billing
+from models.avs import AVS
+
