@@ -5,6 +5,7 @@ from models.__init__ import (
     association_proxy,
     flask_bcrypt,
     validates,
+    datetime,
     re,
 )
 
@@ -30,10 +31,10 @@ class Patient(db.Model, SerializerMixin):
         "Appointment", back_populates="patients", cascade="all, delete-orphan"
     )
     prescriptions = db.relationship(
-        "Prescription", back_populates="patient", cascase="all, delete-orphan"
+        "Prescription", back_populates="patient", cascade="all, delete-orphan"
     )
-    billings = association_proxy("appointment", "billing")
-    medical_records = association_proxy("appoinment", "medical_record")
+    billings = association_proxy("appointments", "billing")
+    avss = association_proxy("appointments", "avs")
 
     def __repr__(self):
         return f"""
@@ -87,19 +88,23 @@ class Patient(db.Model, SerializerMixin):
         elif not re.match(r"^[\w\.-]+@([\w]+\.)+[\w-]{2,}$", email):
             raise ValueError("Email must be in a proper format")
         return email
+    
+    @validates('date_of_birth')
+    def validate_date_of_birth(self, _, date_of_birth):
+        if date_of_birth > datetime.date.today():
+            raise ValueError("Date of birth cannot be in the future")
+        return date_of_birth
 
     @validates("gender")
     def validate_gender(self, _, gender):
         if not isinstance(gender, str):
             raise TypeError("Gender must be a string")
         elif not [
-            "woman",
-            "man",
+            "female",
+            "male",
             "cisgender",
             "transgender",
-            "nonbinary",
-            "genderqueer",
-            "genderfluid",
+            "non-binary",
             "agender",
             "unsure",
             "not listed",

@@ -14,17 +14,17 @@ class Appointment(db.Model, SerializerMixin):
     date = db.Column(db.DateTime, nullable=False)
     reason = db.Column(db.String)
     status = db.Column(db.String, nullable=False)
-    patient_id = db.Column(db.Integer)
-    doctor_id = db.Column(db.Integer)
+    patient_id = db.Column(db.Integer, ForeignKey("patients.id"), nullable=False)
+    doctor_id = db.Column(db.Integer, ForeignKey("doctors.id"), nullable=False)
+    billing_id = db.Column(db.Integer, ForeignKey("billings.id"), nullable=False)
+    avs_id = db.Column(db.Integer, ForeignKey("avss.id"), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    billing = db.relationship(
-        "Billing", back_populates="appointments", cascade="all, delete-orphan"
-    )
-    avs = db.relationship(
-        "AVS", back_populates="appointments", cascade="all, delete-orphan"
-    )
+    patient = db.relationship("Patient", back_populates="appointments")
+    doctor = db.relationship("Doctor", back_populates="appointments")
+    billing = db.relationship("Billing", back_populates="appointments")
+    avs = db.relationship("AVS", back_populates="appointments")
 
     def __repr__(self):
         return f"""
