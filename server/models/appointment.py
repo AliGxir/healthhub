@@ -1,8 +1,6 @@
 from models.__init__ import (
     db,
     SerializerMixin,
-    hybrid_property,
-    flask_bcrypt,
     validates,
     re,
 )
@@ -12,7 +10,7 @@ class Appointment(db.Model, SerializerMixin):
 
     __tablename__ = "appointments"
 
-    id = db.Column(db.Integer, primary_key=True)    
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, nullable=False)
     reason = db.Column(db.String)
     status = db.Column(db.String, nullable=False)
@@ -20,9 +18,13 @@ class Appointment(db.Model, SerializerMixin):
     doctor_id = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
-    billing = db.relationship("Billing", back_populates="appointments", cascade="all, delete-orphan")
-    avs = db.relationship("AVS", back_populates="appointments", cascade="all, delete-orphan")
+
+    billing = db.relationship(
+        "Billing", back_populates="appointments", cascade="all, delete-orphan"
+    )
+    avs = db.relationship(
+        "AVS", back_populates="appointments", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"""
@@ -35,6 +37,4 @@ class Appointment(db.Model, SerializerMixin):
             >
         """
 
-    serialized_rules=("-billing", "-avs")
-    
-    
+    serialized_rules = ("-billing", "-avs")

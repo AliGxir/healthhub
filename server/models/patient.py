@@ -2,6 +2,7 @@ from models.__init__ import (
     db,
     SerializerMixin,
     hybrid_property,
+    association_proxy,
     flask_bcrypt,
     validates,
     re,
@@ -31,6 +32,8 @@ class Patient(db.Model, SerializerMixin):
     prescriptions = db.relationship(
         "Prescription", back_populates="patient", cascase="all, delete-orphan"
     )
+    billings = association_proxy("appointment", "billing")
+    medical_records = association_proxy("appoinment", "medical_record")
 
     def __repr__(self):
         return f"""
@@ -47,7 +50,7 @@ class Patient(db.Model, SerializerMixin):
         """
 
     def __init__(self, email, password_hash=None, **kwargs):
-        super().__init__(email=email, **kwards)
+        super().__init__(email=email, **kwargs)
         if password_hash:
             self.password_hash = password_hash
 
