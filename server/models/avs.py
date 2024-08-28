@@ -3,6 +3,8 @@ from models.__init__ import (
     SerializerMixin,
     association_proxy,
     validates,
+    datetime,
+    date,
     re,
 )
 
@@ -68,4 +70,4 @@ class AVS(db.Model, SerializerMixin):
             raise TypeError("Treatment must be of type string")
         if len(treatment) < 5:
             raise ValueError("Treatment must be greater than 5 characters")
-        return treatment 
+        return treatment

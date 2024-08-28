@@ -75,13 +75,13 @@ class Appointment(db.Model, SerializerMixin):
         return status
 
     @validates("patient_id")
-    def validate_status(self, _, patient_id):
+    def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
         return patient_id
 
     @validates("doctor_id")
-    def validate_status(self, _, doctor_id):
+    def validate_doctor_id(self, _, doctor_id):
         if not isinstance(doctor_id, int):
             raise TypeError("Doctor_id must be of type integer")
         return doctor_id
@@ -93,7 +93,7 @@ class Appointment(db.Model, SerializerMixin):
         return billing_id
 
     @validates("avs_id")
-    def validate_status(self, _, avs_id):
+    def validate_avs_id(self, _, avs_id):
         if not isinstance(avs_id, int):
             raise TypeError("Avs_id must be of type integer")
         return avs_id

@@ -83,13 +83,13 @@ class Prescription(db.Model, SerializerMixin):
         return instructions
         
     @validates("patient_id")
-    def validate_status(self, _, patient_id):
+    def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
         return patient_id
 
     @validates("doctor_id")
-    def validate_status(self, _, doctor_id):
+    def validate_doctor_id(self, _, doctor_id):
         if not isinstance(doctor_id, int):
             raise TypeError("Doctor_id must be of type integer")
         return doctor_id
