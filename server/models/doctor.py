@@ -25,10 +25,10 @@ class Doctor(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     appointments = db.relationship(
-        "Appointment", back_populates="doctors", cascade="all, delete-orphan"
+        "Appointment", back_populates="doctor", cascade="all, delete-orphan"
     )
     prescriptions = db.relationship(
-        "Prescription", back_populates="doctors", cascade="all, delete-orphan"
+        "Prescription", back_populates="doctor", cascade="all, delete-orphan"
     )
     avss = association_proxy("appointments", "avs")
 

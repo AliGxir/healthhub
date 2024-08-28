@@ -29,7 +29,7 @@ class Patient(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     appointments = db.relationship(
-        "Appointment", back_populates="patients", cascade="all, delete-orphan"
+        "Appointment", back_populates="patient", cascade="all, delete-orphan"
     )
     prescriptions = db.relationship(
         "Prescription", back_populates="patient", cascade="all, delete-orphan"
@@ -94,11 +94,8 @@ class Patient(db.Model, SerializerMixin):
     def validate_date_of_birth(self, _, date_of_birth):
         if not isinstance(date_of_birth, date):
             raise TypeError("Date of birth must be of type date")
-        elif date_of_birth > datetime.date.today():
+        elif date_of_birth > date.today():
             raise ValueError("Date of birth cannot be in the future")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", date_of_birth):
-            raise ValueError("Date of birth must be in the format MM/DD/YYYY")
         return date_of_birth
 
     @validates("gender")
