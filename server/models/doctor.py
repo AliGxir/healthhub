@@ -11,7 +11,7 @@ from models.__init__ import (
 class Doctor(db.Model, SerializerMixin):
 
     __tablename__ = "doctors"
-    
+
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
@@ -21,14 +21,14 @@ class Doctor(db.Model, SerializerMixin):
     _password_hash = db.Column("password", db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
+
     appointments = db.relationship(
         "Appointment", back_populates="doctors", cascade="all, delete-orphan"
     )
     prescriptions = db.relationship(
         "Prescription", back_populates="doctors", cascase="all, delete-orphan"
     )
-    
+
     def __repr__(self):
         return f"""
             <Patient #{self.id}:
@@ -39,13 +39,14 @@ class Doctor(db.Model, SerializerMixin):
                 Email: {self.email}
             >
         """
+
     def __init__(self, email, password_hash=None, **kwargs):
         super().__init__(email=email, **kwards)
         if password_hash:
             self.password_hash = password_hash
 
     serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
-    
+
     @hybrid_property
     def password_hash(self):
         raise AttributeError("Passwords are private")
@@ -77,9 +78,41 @@ class Doctor(db.Model, SerializerMixin):
         elif not re.match(r"^[\w\.-]+@([\w]+\.)+[\w-]{2,}$", email):
             raise ValueError("Email must be in a proper format")
         return email
-    
+
     @validates("specialty")
-    
+    def validate_specialty(self, _, specialty):
+        specialties_list = [
+            "internal medicine",
+            "family medicine",
+            "neurology",
+            "urology",
+            "plastic surgery",
+            "cardiology",
+            "hematology",
+            "pediatrics",
+            "sports medicine",
+            "emergency medicine",
+            "dermatology",
+            "immunology",
+            "orthopedics",
+            "geriatrics",
+            "general surgery",
+            "neonatology",
+            "infectious diseases",
+            "surgery",
+            "obstetrics and gynaecology",
+            "psychiatry",
+            "gastroenterology",
+            "endocrinology",
+            "ophthalmology",
+            "radiology",
+            "intensive care medicine",
+        ]
+        if specialty not in specialties_list:
+            raise ValueError("Specialty must be one of the specialty in list")
+        elif not isinstance(specialty, str) or not specialty:
+            raise TypeError("Specialty must be a string and not empty")
+        return specialty
 
     @validates("phone_number")
     def validate_phone_number(self, _, phone_number):
