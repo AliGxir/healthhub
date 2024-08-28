@@ -31,6 +31,8 @@ class Doctor(db.Model, SerializerMixin):
     )
     avss = association_proxy("appointments", "avs")
 
+    serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
+
     def __repr__(self):
         return f"""
             <Patient #{self.id}:
@@ -46,8 +48,6 @@ class Doctor(db.Model, SerializerMixin):
         super().__init__(email=email, **kwargs)
         if password_hash:
             self.password_hash = password_hash
-
-    serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
 
     @hybrid_property
     def password_hash(self):

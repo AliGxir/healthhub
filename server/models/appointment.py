@@ -2,7 +2,8 @@ from models.__init__ import (
     db,
     SerializerMixin,
     validates,
-    re,
+    datetime,
+    re, 
 )
 
 
@@ -23,8 +24,14 @@ class Appointment(db.Model, SerializerMixin):
 
     patient = db.relationship("Patient", back_populates="appointments")
     doctor = db.relationship("Doctor", back_populates="appointments")
-    billing = db.relationship("Billing", back_populates="appointments", cascade="all, delete-orphan")
-    avs = db.relationship("AVS", back_populates="appointments", cascade="all, delete-orphan")
+    billing = db.relationship(
+        "Billing", back_populates="appointments", cascade="all, delete-orphan"
+    )
+    avs = db.relationship(
+        "AVS", back_populates="appointments", cascade="all, delete-orphan"
+    )
+
+    serialized_rules = ("-billing", "-avs")
 
     def __repr__(self):
         return f"""
@@ -32,9 +39,52 @@ class Appointment(db.Model, SerializerMixin):
                 Date: {self.date}
                 Reason: {self.reason}
                 Status: {self.status}
-                Patient ID: {self.patient_id}
-                Doctor ID: {self.doctor_id}
+                Patient: {self.patient}
+                Doctor: {self.doctor}
+                Billing: {self.billing}
+                AVS: {self.avs}
             >
         """
-
-    serialized_rules = ("-billing", "-avs")
+    
+    @validates("date")
+    def validate_date(self, _, date):
+        if not isinstance(date, datetime):
+            raise TypeError("Date must be of type Datetime")
+        elif not re.match(
+            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", date):
+            raise ValueError("Date must be in the format MM/DD/YYYY")
+        return date
+    
+    @validates("reason")
+    def validate_reason(Self, _, reason):
+        if not isinstance(reason, str):
+            raise TypeError("Reason must be a string")
+        elif 6 < len(reason) < 20: 
+            raise ValueError("Reason must be 6-20 characters long")
+    
+    @validates("status")
+    def validate_status(self, _, status):
+        if not isinstance(status, str):
+            raise TypeError("Status must be a string")
+        elif status not in ["scheduled", "completed", "canceled"]:
+            raise ValueError("Status must be one of the option: scheduled, completed, or canceled")
+        
+    @validates("patient_id")
+    def validate_status(self, _, patient_id):
+        if not isinstance(patient_id, int):
+            raise TypeError("Patient_id must be of type integer")
+        
+    @validates("doctor_id")
+    def validate_status(self, _, doctor_id):
+        if not isinstance(doctor_id, int):
+            raise TypeError("Doctor_id must be of type integer")
+        
+    @validates("billing_id")
+    def validate_billing_id(self, _, billing_id):
+        if not isinstance(billing_id, int):
+            raise TypeError("Billing_id must be of type integer")
+        
+    @validates("avs_id")
+    def validate_status(self, _, avs_id):
+        if not isinstance(avs_id, int):
+            raise TypeError("Avs_id must be of type integer")

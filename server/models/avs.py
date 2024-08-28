@@ -25,3 +25,30 @@ class AVS(db.Model, SerializerMixin):
     
     serialize_rules = ("-appointments",)
     
+    def __repr__(self):
+        return f"""
+            <AVS #{self.id}:
+                Record Date: {self.record_date}
+                Notes: {self.notes}
+                Diagnosis: {self.diagnosis}
+                Treatment: {self.treatment}
+                Patient: {self.patient}
+                Doctor: {self.doctor}
+            >
+        """
+    
+    @validates("record_date")
+    def validate_record_date(self, _, record_date):
+        pass
+    
+    @validates("notes")
+    def validate_notes(Self, _, notes):
+        pass
+    
+    @validates("diagnosis")
+    def validate_diagnosis(self, _, diagnosis):
+        pass
+        
+    @validates("treatment")
+    def validate_treatment(self, _,treatment):
+        pass

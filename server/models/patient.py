@@ -6,6 +6,7 @@ from models.__init__ import (
     flask_bcrypt,
     validates,
     datetime,
+    date,
     re,
 )
 
@@ -36,6 +37,8 @@ class Patient(db.Model, SerializerMixin):
     billings = association_proxy("appointments", "billing")
     avss = association_proxy("appointments", "avs")
 
+    serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
+
     def __repr__(self):
         return f"""
             <Patient #{self.id}:
@@ -54,8 +57,6 @@ class Patient(db.Model, SerializerMixin):
         super().__init__(email=email, **kwargs)
         if password_hash:
             self.password_hash = password_hash
-
-    serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
 
     @hybrid_property
     def password_hash(self):
@@ -88,11 +89,16 @@ class Patient(db.Model, SerializerMixin):
         elif not re.match(r"^[\w\.-]+@([\w]+\.)+[\w-]{2,}$", email):
             raise ValueError("Email must be in a proper format")
         return email
-    
-    @validates('date_of_birth')
+
+    @validates("date_of_birth")
     def validate_date_of_birth(self, _, date_of_birth):
-        if date_of_birth > datetime.date.today():
+        if not isinstance(date_of_birth, date):
+            raise TypeError("Date of birth must be of type date")
+        elif date_of_birth > datetime.date.today():
             raise ValueError("Date of birth cannot be in the future")
+        elif not re.match(
+            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", date_of_birth):
+            raise ValueError("Date of birth must be in the format MM/DD/YYYY")
         return date_of_birth
 
     @validates("gender")
