@@ -23,8 +23,8 @@ class Appointment(db.Model, SerializerMixin):
 
     patient = db.relationship("Patient", back_populates="appointments")
     doctor = db.relationship("Doctor", back_populates="appointments")
-    billing = db.relationship("Billing", back_populates="appointments")
-    avs = db.relationship("AVS", back_populates="appointments")
+    billing = db.relationship("Billing", back_populates="appointments", cascade="all, delete-orphan")
+    avs = db.relationship("AVS", back_populates="appointments", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"""

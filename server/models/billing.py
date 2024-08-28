@@ -19,3 +19,5 @@ class Billing(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
     appointments = db.relationship("Appointment", back_populates="billing")
+    
+    serialized_rules = ("-appointments",)
