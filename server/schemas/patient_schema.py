@@ -13,7 +13,8 @@ class PatientSchema(ma.SQLAlchemySchema):
     password_hash = fields.String(validate=validate.Length(min=8, max=50))
     email = fields.String(required=True, validate=validate.Email(error="Invalid email format"), validate=validate.Length(min=2, max=256))
     date_of_birth = fields.Date(required=True)
-    gender = fields.String(validate=validate.OneOf(["female",
+    gender = fields.String(validate=validate.OneOf([
+            "female",
             "male",
             "cisgender",
             "transgender",

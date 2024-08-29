@@ -109,7 +109,7 @@ class Doctor(db.Model, SerializerMixin):
             "endocrinology",
             "ophthalmology",
             "radiology",
-            "intensive care medicine",
+            "intensive care medicine"
         ]
         if specialty not in specialties_list:
             raise ValueError("Specialty must be one of the specialty in list")
