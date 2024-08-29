@@ -111,7 +111,7 @@ class Patient(db.Model, SerializerMixin):
             "agender",
             "unsure",
             "not listed",
-            "prefer not to answer",
+            "prefer not to answer"
         ]:
             raise ValueError("please select from one of the options")
         return gender

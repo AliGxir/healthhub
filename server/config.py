@@ -2,7 +2,7 @@
 
 # Remote library imports
 from flask import Flask
-from flask_cors import CORS
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -28,6 +28,8 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
+
+ma = Marshallow(app)
 
 app.config["SESSION_TYPE"] = "sqlalchemy"
 app.config["SESSION_SQLALCHEMY"] = db
