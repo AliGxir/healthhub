@@ -18,9 +18,12 @@ from models.appointment import Appointment
 from models.billing import Billing
 from models.avs import AVS
 from schemas.patient_schema import PatientSchema
+from schemas.doctor_schema import DoctorSchema
 
 patients_schema = PatientSchema(many=True, session=db.session)
 patient_schema = PatientSchema(many=True, session=db.session)
+doctors_schema = DoctorSchema(many=True, session=db.session)
+doctor_schema = DoctorSchema(many=True, session=db.session)
 
 class Patients(Resource):
     def get(self):
@@ -61,9 +64,24 @@ class PatientById(Resource):
                 return {'error': str(e)}, 400
         return {'error': 'Could not find patient'}, 404
     
+class Doctors(Resource):
+    def get(self):
+        doctors = doctors_schema.dump(Doctor.query)
+        return doctors, 200
+    
+class DoctorById(Resource):
+    def get(self, id):
+        if doctor := db.session.get(Doctor, id):
+            doctor_schema = DoctorSchema()
+            return doctor_schema.dump(doctor), 200
+        return {'error': 'Could not find that doctor'}, 404
+    
 
 api.add_resource(Patients, "/patients")
 api.add_resource(PatientById, "/patient/<int:id>")
+api.add_resource(Doctors, "/doctors")
+api.add_resource(DoctorById, "/doctor/<int:id>")
+
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
