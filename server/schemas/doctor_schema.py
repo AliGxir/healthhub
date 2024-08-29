@@ -8,10 +8,16 @@ class DoctorSchema(ma.SQLAlchemySchema):
         load_instance = True
         fields = ["id", "first_name", "last_name", "specialty", "phone_number", "email"]
         
-    first_name = fields.String(required=True, validate=validate.length(min=3, max=20))
-    last_name = fields.String(required=True, validate=validate.length(min=3, max=20))
+    first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
+    last_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
     password_hash = fields.String(validate=validate.Length(min=8, max=50))
-    email = fields.String(required=True, validate=validate.Email(error="Invalid email format"), validate=validate.Length(min=2, max=256))
+    email = fields.String(
+        required=True,
+        validate=[
+            validate.Email(error="Invalid email format"),
+            validate.Length(min=2, max=256),
+        ],
+    )
     specialty = fields.String(validate=validate.OneOf([ 
             "internal medicine",
             "family medicine",

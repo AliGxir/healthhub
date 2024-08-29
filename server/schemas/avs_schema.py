@@ -1,10 +1,10 @@
 from marshmallow import fields, validate
-from models.appointment import Appointment
+from models.avs import AVS
 from config import ma
 
 class AppointmentSchema(ma.SQLAlchemySchema):
     class Meta():
-        model = Appointment
+        model = AVS
         load_instance = True
         fields = ["id", "record_date", "notes", "diagnosis", "treatment"]
         

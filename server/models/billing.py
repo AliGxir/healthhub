@@ -46,8 +46,10 @@ class Billing(db.Model, SerializerMixin):
     def validate_amount_due(Self, _, amount_due):
         if not isinstance(amount_due, float):
             raise TypeError("Amount due must be of type float")
-        elif amount_due < 0.01:
-            raise ValueError("Amount due must be greater than $0.01")
+        elif amount_due <= 0:
+            raise ValueError("Amount due must be greater than zero")
+        elif round(amount_due, 2) != amount_due:
+            raise ValueError("Amount due must not have more than two decimal places.")
         return amount_due
 
     @validates("payment_status")

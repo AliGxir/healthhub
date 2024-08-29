@@ -29,7 +29,7 @@ db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
 
-ma = Marshallow(app)
+ma = Marshmallow(app)
 
 app.config["SESSION_TYPE"] = "sqlalchemy"
 app.config["SESSION_SQLALCHEMY"] = db
@@ -43,3 +43,4 @@ flask_bcrypt = Bcrypt(app)
 
 # flask-session configuration
 Session(app)
+
