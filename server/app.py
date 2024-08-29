@@ -17,17 +17,53 @@ from models.prescription import Prescription
 from models.appointment import Appointment
 from models.billing import Billing
 from models.avs import AVS
+from schemas.patient_schema import PatientSchema
 
+patients_schema = PatientSchema(many=True, session=db.session)
+patient_schema = PatientSchema(many=True, session=db.session)
 
 class Patients(Resource):
     def get(self):
-        try:
-            serialized_patients = [
-                patient.to_dict(
-                    rules=("-_password_hash", "-appointments", "-prescriptions")
-                )
-                for patient in Patient.query
-            ]
-            return make_response(serialized_patients, 200)
-        except Exception as e:
-            return make_response({"error": str(e)}, 400)
+        patients = patients_schema.dump(Patient.query)
+        return patients, 200
+    
+class PatientById(Resource):
+    def get(self, id):
+        if patient := db.session.get(Patient, id):
+            patient_schema = PatientSchema()
+            return patient_schema.dump(patient), 200
+        return {'error': 'Could not find that patient'}, 404
+    
+    def patch(self, id):
+        if patient := db.session.get(Patient, id):
+            try:
+                data = request.json
+                # Validate data
+                patient_schema.validate(data)
+                # Deserialize data and allow for partial updates
+                updated_patient = patient_schema.load(data, instance=patient, partial=True)
+                db.session.commit()
+                # Serialize the data and package your JSON response
+                return patient_schema.dump(updated_patient), 200
+            except Exception as e:
+                db.session.rollback()
+                return {'error': str(e)}, 400
+        return {'error': 'Patient not found'}, 404
+
+    def delete(self, id):
+        if patient := db.session.get(Patient, id):
+            try:
+                db.session.delete(patient)
+                db.session.commit()
+                return {'message': f'Patient #{id} has been deleted'}, 200
+            except Exception as e:
+                db.session.rollback()
+                return {'error': str(e)}, 400
+        return {'error': 'Could not find patient'}, 404
+    
+
+api.add_resource(Patients, "/patients")
+api.add_resource(PatientById, "/patient/<int:id>")
+
+if __name__ == "__main__":
+    app.run(port=5555, debug=True)
