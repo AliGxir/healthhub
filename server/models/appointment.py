@@ -70,6 +70,10 @@ class Appointment(db.Model, SerializerMixin):
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
+        # try:
+        #     patient = ma.session.query(Patient).filter_by(id=value).one()
+        # except NoResultFound:
+        #     raise ValidationError("No patient found with the given id.")
         return patient_id
 
     @validates("doctor_id")
