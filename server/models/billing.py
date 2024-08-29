@@ -64,8 +64,4 @@ class Billing(db.Model, SerializerMixin):
     def validate_billing_date(self, _, billing_date):
         if not isinstance(billing_date, date):
             raise TypeError("Billing date date must be of type date")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", billing_date
-        ):
-            raise ValueError("Billing date must be in the format MM/DD/YYYY")
         return billing_date

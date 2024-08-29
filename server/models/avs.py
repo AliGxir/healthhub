@@ -45,10 +45,6 @@ class AVS(db.Model, SerializerMixin):
     def validate_record_date(self, _, record_date):
         if not isinstance(record_date, date):
             raise TypeError("Record date must be of type date")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", record_date
-        ):
-            raise ValueError("Record date must be in the format MM/DD/YYYY")
         return record_date
 
     @validates("notes")

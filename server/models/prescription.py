@@ -52,7 +52,7 @@ class Prescription(db.Model, SerializerMixin):
     def validate_dosage(Self, _, dosage):
         if not isinstance(dosage, str):
             raise TypeError("Dosage must be of type string")
-        if len(dosage) < 5:
+        if len(dosage) < 1:
             raise ValueError("Dosage must be greater than 5 characters")
         return dosage
     
@@ -60,18 +60,12 @@ class Prescription(db.Model, SerializerMixin):
     def validate_start_date(self, _, start_date):
         if not isinstance(start_date, date):
             raise TypeError("Start date must be of type date")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", start_date):
-            raise ValueError("Start date must be in the format MM/DD/YYYY")
         return start_date 
     
     @validates("end_date")
     def validate_end_date(self, _, end_date):
         if not isinstance(end_date, date):
             raise TypeError("End date date must be of type date")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", end_date):
-            raise ValueError("End date must be in the format MM/DD/YYYY")
         return end_date 
         
     @validates("instructions")

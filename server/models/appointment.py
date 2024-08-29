@@ -46,10 +46,6 @@ class Appointment(db.Model, SerializerMixin):
     def validate_date(self, _, date):
         if not isinstance(date, datetime):
             raise TypeError("Date must be of type Datetime")
-        elif not re.match(
-            r"([0][1-9]|[1][0-2])\/([0][1-9]|[12][0-9]|[3][01])\/\d{4}", date
-        ):
-            raise ValueError("Date must be in the format MM/DD/YYYY")
         return date
 
     @validates("reason")
