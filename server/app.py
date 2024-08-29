@@ -20,19 +20,25 @@ from models.avs import AVS
 from schemas.patient_schema import PatientSchema
 from schemas.doctor_schema import DoctorSchema
 from schemas.appointment_schema import AppointmentSchema
+from schemas.billing_schema import BillingSchema
+from schemas.prescription_schema import PrescriptionSchema
 
 patients_schema = PatientSchema(many=True, session=db.session)
-patient_schema = PatientSchema(many=True, session=db.session)
+patient_schema = PatientSchema(session=db.session)
 doctors_schema = DoctorSchema(many=True, session=db.session)
-doctor_schema = DoctorSchema(many=True, session=db.session)
+doctor_schema = DoctorSchema(session=db.session)
 appointments_schema = AppointmentSchema(many=True, session=db.session)
-appointment_schema = AppointmentSchema(many=True, session=db.session)
+appointment_schema = AppointmentSchema(session=db.session)
+billings_schema = BillingSchema(many=True, session=db.session)
+billing_schema = BillingSchema(session=db.session)
+prescriptions_schema = PrescriptionSchema(many=True, session=db.session)
+prescription_schema = PrescriptionSchema(session=db.session)
 
 class Patients(Resource):
     def get(self):
         patients = patients_schema.dump(Patient.query)
         return patients, 200
-    
+
 class PatientById(Resource):
     def get(self, id):
         if patient := db.session.get(Patient, id):
@@ -129,15 +135,42 @@ class AVSById(Resource):
             return avs_schema.dump(avs), 200
         return {"error": "Could not find that avs"}, 404
     
+class Billings(Resource):
+    def get(self):
+        billings = billings_schema.dump(Billing.query)
+        return billings, 200
+    
+class BillingById(Resource):
+    def get(self, id):
+        if billing := db.session.get(Billing, id):
+            billing_schema = BillingSchema()
+            return billing_schema.dump(billing), 200
+        return {"error": "Could not find that billing"}, 404
+
+class Prescriptions(Resource):
+    def get(self):
+        prescriptions = prescriptions_schema.dump(Prescription.query)
+        return prescriptions, 200
+    
+class PrescriptionById(Resource):
+    def get(self, id):
+        if prescription := db.session.get(Prescription, id):
+            prescription_schema = PrescriptionSchema()
+            return prescription_schema.dump(prescription), 200
+        return {"error": "Could not find that prescription"}, 404
 
 api.add_resource(Patients, "/patients")
-api.add_resource(PatientById, "/patient/<int:id>")
+api.add_resource(PatientById, "/patients/<int:id>")
 api.add_resource(Doctors, "/doctors")
-api.add_resource(DoctorById, "/doctor/<int:id>")
+api.add_resource(DoctorById, "/doctors/<int:id>")
 api.add_resource(Appointments, "/appointments")
-api.add_resource(AppointmentById, "/appointment/<int:id>")
+api.add_resource(AppointmentById, "/appointments/<int:id>")
 api.add_resource(AVSs, "/avss")
-api.add_resource(AVSById, "/avs/<int:id>")
+api.add_resource(AVSById, "/avss/<int:id>")
+api.add_resource(Billings, "/billings")
+api.add_resource(BillingById, "/billings/<int:id>")
+api.add_resource(Prescriptions, "/prescriptions")
+api.add_resource(PrescriptionById, "/prescriptions/<int:id>")
 
 
 if __name__ == "__main__":

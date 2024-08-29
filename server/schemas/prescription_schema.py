@@ -1,14 +1,16 @@
 from marshmallow import fields, validate
-from models.billing import Billing
+from models.prescription import Prescription
 from config import ma
 
-class AppointmentSchema(ma.SQLAlchemySchema):
+class PrescriptionSchema(ma.SQLAlchemySchema):
     class Meta():
-        model = Billing
+        model = Prescription
         load_instance = True
-        fields = ["id", "appointment_id", "amount_due", "payment_status", "billing_date"]
+        fields = ["id", "medication_name", "dosage", "start_date", "end_date", "instructions", "patient_id", "doctor_id"]
         
-    appointment_id = fields.Integer(require=True)
-    amount_due = fields.Float(required=True)
-    payment_status = fields.String(validate=validate.OneOf(["unpaid", "paid", "pending"]))
-    billing_date = fields.Date(required=True)
+    medication_name = fields.String(validate=validate.Length(min=5, max=20))
+    dosage = fields.String(required=True, validate=validate.Length(min=1, max=50))
+    start_date = fields.Date(required=True)
+    end_date = fields.Date(required=True)
+    patient_id = fields.Integer(require=True)
+    doctor_id = fields.Integer(require=True)

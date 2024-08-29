@@ -2,7 +2,7 @@ from marshmallow import fields, validate
 from models.billing import Billing
 from config import ma
 
-class AppointmentSchema(ma.SQLAlchemySchema):
+class BillingSchema(ma.SQLAlchemySchema):
     class Meta():
         model = Billing
         load_instance = True
