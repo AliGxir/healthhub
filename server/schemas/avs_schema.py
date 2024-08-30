@@ -2,7 +2,7 @@ from marshmallow import fields, validate
 from models.avs import AVS
 from config import ma
 
-class AppointmentSchema(ma.SQLAlchemySchema):
+class AVSSchema(ma.SQLAlchemySchema):
     class Meta():
         model = AVS
         load_instance = True

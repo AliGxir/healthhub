@@ -1,12 +1,12 @@
-# class Patients(Resource):
-#     def get(self):
-#         try:
-#             serialized_patients = [
-#                 patient.to_dict(
-#                     rules=("-_password_hash", "-appointments", "-prescriptions")
-#                 )
-#                 for patient in Patient.query
-#             ]
-#             return make_response(serialized_patients, 200)
-#         except Exception as e:
-#             return make_response({"error": str(e)}, 400)
+from flask_restful import Resource
+from models.patient import Patient
+from schemas.patient_schema import PatientSchema
+from config import db
+
+patients_schema = PatientSchema(many=True, session=db.session)
+
+
+class Patients(Resource):
+    def get(self):
+        patients = patients_schema.dump(Patient.query)
+        return patients, 200
