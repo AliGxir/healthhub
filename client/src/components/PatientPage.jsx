@@ -17,7 +17,7 @@ const PatientPage = () => {
                         });
                     } else {
                         return resp.json().then(() => {
-                            resp.json().then((errobObj) => toast.error(errobObj.error));
+                            resp.json().then((errorObj) => toast.error(errorObj.error));
                         });
                     }
                 }))
