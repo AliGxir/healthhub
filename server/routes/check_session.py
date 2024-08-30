@@ -1,4 +1,4 @@
-from flask import session, make_response
+from flask import session
 from flask_restful import Resource
 from models.patient import Patient
 from models.doctor import Doctor

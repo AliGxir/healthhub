@@ -19,6 +19,9 @@ from routes.billing_by_id import BillingById
 from routes.avss import AVSs
 from routes.avs_by_id import AVSById
 from routes.check_session import CheckSession
+from routes.login import Login
+from routes.signup import Signup
+from routes.logout import Logout
 
 
 # Resources
@@ -35,6 +38,9 @@ api.add_resource(BillingById, "/billings/<int:id>")
 api.add_resource(Prescriptions, "/prescriptions")
 api.add_resource(PrescriptionById, "/prescriptions/<int:id>")
 api.add_resource(CheckSession, "/check-session")
+api.add_resource(Login, "/login")
+api.add_resource(Signup, "/signup")
+api.add_resource(Logout, "/logout")
 
 
 if __name__ == "__main__":
