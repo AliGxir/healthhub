@@ -1,11 +1,4 @@
-from models.__init__ import (
-    db,
-    association_proxy,
-    validates,
-    datetime,
-    date,
-    re,
-)
+from models.__init__ import db, validates, association_proxy, date
 
 
 class AVS(db.Model):
@@ -13,7 +6,7 @@ class AVS(db.Model):
     __tablename__ = "avss"
 
     id = db.Column(db.Integer, primary_key=True)
-    record_date = db.Column(db.DateTime, nullable=False)
+    record_date = db.Column(db.Date, nullable=False)
     notes = db.Column(db.Text)
     diagnosis = db.Column(db.String)
     treatment = db.Column(db.String)

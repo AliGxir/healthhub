@@ -105,7 +105,7 @@ def seed_data():
         for _ in range(5):
             appointment = Appointment(
                 date=faker.date_time_this_year(),
-                reason=faker.sentence(10),
+                reason=faker.sentence(5),
                 status=random.choice(statuses),
                 patient_id=random.choice(patients).id,
                 doctor_id=random.choice(doctors).id,

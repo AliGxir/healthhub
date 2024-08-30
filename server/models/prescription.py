@@ -1,15 +1,10 @@
-from models.__init__ import (
-    db,
-    validates,
-    date,
-    re,
-)
+from models.__init__ import db, validates, date
 
 
 class Prescription(db.Model):
 
     __tablename__ = "prescriptions"
-    
+
     id = db.Column(db.Integer, primary_key=True)
     medication_name = db.Column(db.String, nullable=False)
     dosage = db.Column(db.String, nullable=False)
@@ -20,12 +15,12 @@ class Prescription(db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey("doctors.id"), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
+
     patient = db.relationship("Patient", back_populates="prescriptions")
-    doctor = db.relationship("Doctor", back_populates="prescriptions")  
-    
+    doctor = db.relationship("Doctor", back_populates="prescriptions")
+
     serialized_rules = ("-patient", "-doctor")
-    
+
     def __repr__(self):
         return f"""
             <Prescription #{self.id}:
@@ -38,7 +33,7 @@ class Prescription(db.Model):
                 Doctor: {self.doctor}
             >
         """
-    
+
     @validates("medication_name")
     def validate_medication_name(self, _, medication_name):
         if not isinstance(medication_name, str):
@@ -46,7 +41,7 @@ class Prescription(db.Model):
         elif len(medication_name) < 5:
             raise ValueError("Medication name must be greater than 5 characters")
         return medication_name
-    
+
     @validates("dosage")
     def validate_dosage(Self, _, dosage):
         if not isinstance(dosage, str):
@@ -54,19 +49,19 @@ class Prescription(db.Model):
         if len(dosage) < 1:
             raise ValueError("Dosage must be greater than 5 characters")
         return dosage
-    
+
     @validates("start_date")
     def validate_start_date(self, _, start_date):
         if not isinstance(start_date, date):
             raise TypeError("Start date must be of type date")
-        return start_date 
-    
+        return start_date
+
     @validates("end_date")
     def validate_end_date(self, _, end_date):
         if not isinstance(end_date, date):
             raise TypeError("End date date must be of type date")
-        return end_date 
-        
+        return end_date
+
     @validates("instructions")
     def validate_instructions(self, _, instructions):
         if not isinstance(instructions, str):
@@ -74,7 +69,7 @@ class Prescription(db.Model):
         if len(instructions) < 5:
             raise ValueError("Instructions must be greater than 5 characters")
         return instructions
-        
+
     @validates("patient_id")
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):

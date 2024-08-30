@@ -1,5 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import Registration from "../components/Registration";
+import PatientPage from "../components/PatientPage";
+import DoctorsList from "../components/DoctorsList";
+import Billings from "../components/Billings";
+import AVSs from "../components/AVSs";
+import Prescriptions from "../components/Prescriptions";
+import Appointments from "../components/Appointments";
+import DoctorPage from "../components/DoctorPage";
+import PatientsList from "../components/PatientsList";
+
 
 export const router = createBrowserRouter([
   {
@@ -8,23 +18,15 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Patients />,
+        element: <Registration />,
       },
       {
         path: "/patients/:patientId",
-        element: <PatientDetails />,
+        element: <PatientPage />,
       },
       {
         path: "/doctors",
-        element: <Doctors />,
-      },
-      {
-        path: "doctors/:doctorId",
-        element: <DoctorDetails />,
-      },
-      {
-        path: "/appointments",
-        element: <Appointments />,
+        element: <DoctorsList />,
       },
       {
         path: "/billings",
@@ -39,13 +41,17 @@ export const router = createBrowserRouter([
         element: <Prescriptions />,
       },
       {
-        path: "/signup",
-        element: <Signup />,
+        path: "/appointments",
+        element: <Appointments />,
       },
       {
-        path: "/login",
-        element: <Login />,
+        path: "doctors/:doctorId",
+        element: <DoctorPage />,
       },
+      {
+        path: "/patients/",
+        element: <PatientsList />
+      }
     ],
   },
 ]);

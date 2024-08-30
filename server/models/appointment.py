@@ -1,9 +1,4 @@
-from models.__init__ import (
-    db,
-    validates,
-    datetime,
-    re,
-)
+from models.__init__ import db, validates, datetime
 
 
 class Appointment(db.Model):
@@ -49,8 +44,8 @@ class Appointment(db.Model):
     def validate_reason(Self, _, reason):
         if not isinstance(reason, str):
             raise TypeError("Reason must be a string")
-        elif not 6 < len(reason) < 20:
-            raise ValueError("Reason must be 6-20 characters long")
+        elif not 6 < len(reason) < 50:
+            raise ValueError("Reason must be 6-50 characters long")
         return reason
 
     @validates("status")
