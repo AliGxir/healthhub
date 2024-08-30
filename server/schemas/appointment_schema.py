@@ -8,7 +8,7 @@ class AppointmentSchema(ma.SQLAlchemySchema):
         load_instance = True
         fields = ["id", "date", "reason", "status", "patient_id", "doctor_id", "billing_id", "avs_id"]
         
-    date = fields.Date(required=True)
+    date = fields.DateTime(required=True)
     reason = fields.String(validate=validate.Length(min=6, max=20))
     status = fields.String(validate=validate.OneOf(["scheduled", "completed", "canceled"]))
     patient_id = fields.Integer(require=True)

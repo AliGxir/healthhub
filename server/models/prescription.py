@@ -1,13 +1,12 @@
 from models.__init__ import (
     db,
-    SerializerMixin,
     validates,
     date,
     re,
 )
 
 
-class Prescription(db.Model, SerializerMixin):
+class Prescription(db.Model):
 
     __tablename__ = "prescriptions"
     

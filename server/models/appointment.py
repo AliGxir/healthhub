@@ -1,13 +1,12 @@
 from models.__init__ import (
     db,
-    SerializerMixin,
     validates,
     datetime,
     re,
 )
 
 
-class Appointment(db.Model, SerializerMixin):
+class Appointment(db.Model):
 
     __tablename__ = "appointments"
 
@@ -27,18 +26,16 @@ class Appointment(db.Model, SerializerMixin):
     billing = db.relationship("Billing", back_populates="appointments")
     avs = db.relationship("AVS", back_populates="appointments")
 
-    serialized_rules = ("-billing", "-avs")
-
     def __repr__(self):
         return f"""
             <Appointment #{self.id}:
                 Date: {self.date}
                 Reason: {self.reason}
                 Status: {self.status}
-                Patient: {self.patient}
-                Doctor: {self.doctor}
-                Billing: {self.billing}
-                AVS: {self.avs}
+                Patient: {self.patient.id}
+                Doctor: {self.doctor.id}
+                Billing: {self.billing.id}
+                AVS: {self.avs.id}
             >
         """
 
@@ -52,7 +49,7 @@ class Appointment(db.Model, SerializerMixin):
     def validate_reason(Self, _, reason):
         if not isinstance(reason, str):
             raise TypeError("Reason must be a string")
-        elif 6 < len(reason) < 20:
+        elif not 6 < len(reason) < 20:
             raise ValueError("Reason must be 6-20 characters long")
         return reason
 
@@ -70,10 +67,6 @@ class Appointment(db.Model, SerializerMixin):
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
-        # try:
-        #     patient = ma.session.query(Patient).filter_by(id=value).one()
-        # except NoResultFound:
-        #     raise ValidationError("No patient found with the given id.")
         return patient_id
 
     @validates("doctor_id")

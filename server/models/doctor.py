@@ -1,6 +1,5 @@
 from models.__init__ import (
     db,
-    SerializerMixin,
     hybrid_property,
     association_proxy,
     flask_bcrypt,
@@ -10,7 +9,7 @@ from models.__init__ import (
 )
 
 
-class Doctor(db.Model, SerializerMixin):
+class Doctor(db.Model):
 
     __tablename__ = "doctors"
 
@@ -32,7 +31,7 @@ class Doctor(db.Model, SerializerMixin):
     )
     avss = association_proxy("appointments", "avs")
 
-    serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
+    # serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
 
     def __repr__(self):
         return f"""

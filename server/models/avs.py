@@ -1,6 +1,5 @@
 from models.__init__ import (
     db,
-    SerializerMixin,
     association_proxy,
     validates,
     datetime,
@@ -9,7 +8,7 @@ from models.__init__ import (
 )
 
 
-class AVS(db.Model, SerializerMixin):
+class AVS(db.Model):
 
     __tablename__ = "avss"
 
@@ -27,7 +26,7 @@ class AVS(db.Model, SerializerMixin):
     patient = association_proxy("appointments", "avs")
     doctor = association_proxy("appointments", "avs")
 
-    serialize_rules = ("-appointments",)
+    # serialize_rules = ("-appointments",)
 
     def __repr__(self):
         return f"""

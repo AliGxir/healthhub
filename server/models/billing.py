@@ -1,6 +1,5 @@
 from models.__init__ import (
     db,
-    SerializerMixin,
     validates,
     datetime,
     date,
@@ -8,7 +7,7 @@ from models.__init__ import (
 )
 
 
-class Billing(db.Model, SerializerMixin):
+class Billing(db.Model):
 
     __tablename__ = "billings"
 
@@ -24,7 +23,7 @@ class Billing(db.Model, SerializerMixin):
         "Appointment", back_populates="billing", cascade="all, delete-orphan"
     )
 
-    serialized_rules = ("-appointments",)
+    # serialized_rules = ("-appointments",)
 
     def __repr__(self):
         return f"""

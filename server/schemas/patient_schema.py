@@ -1,6 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields, validate
 from models.patient import Patient
+from schemas.appointment_schema import AppointmentSchema
 from config import ma
 
 
@@ -12,12 +13,14 @@ class PatientSchema(ma.SQLAlchemySchema):
             "id",
             "first_name",
             "last_name",
+            "password_hash",
             "date_of_birth",
             "gender",
             "address",
             "phone_number",
             "email",
             "insurance_id",
+            "appointments"
         ]
 
     first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
@@ -53,3 +56,5 @@ class PatientSchema(ma.SQLAlchemySchema):
         )
     )
     insurance_id = fields.String(validate=validate.Length(max=12))
+    
+    appointments = fields.List(fields.Nested("AppointmentSchema"))

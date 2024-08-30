@@ -89,7 +89,7 @@ def seed_data():
                 specialty = random.choice(specialties),
                 phone_number = faker.numerify(text="(###) ###-####"),
                 email = faker.email(),
-                password_hash="password",  # You can also hash this if needed
+                password_hash="password", 
                 created_at = faker.date_time_this_decade()
             )
             doctors.append(doctor)

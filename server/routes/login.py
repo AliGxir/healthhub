@@ -28,6 +28,7 @@ class Login(Resource):
             
             if doctor and doctor.authenticate(data.get("password_hash")):
                 session["doctor_id"] = doctor.id
+                return doctor_schema.dump(doctor), 200
             return {'error': 'Invalid Credentials'}, 403
         except Exception as e:
             return {'error': "Invalid Credentials"}, 403
