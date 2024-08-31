@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/v1': 'http://localhost:5555', // This routes requests from /api to your Flask backend
-    }
-  }
+      '/api/v1': {
+        target: 'http://localhost:5555',
+        changeOrigin: true, // Ensures the origin of the host header is changed to target URL
+        rewrite: (path) => path.replace(/^\/api\/v1/, '/api/v1') // Optional if paths are not rewriting correctly
+      },
+    },
+  },
 })

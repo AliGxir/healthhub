@@ -104,7 +104,8 @@ def seed_data():
         appointments = []
         for _ in range(5):
             appointment = Appointment(
-                date=faker.date_time_this_year(),
+                date=datetime.fromisoformat("2024-12-16 23:27:51.881689"),
+                # date=faker.date_time_this_year(),
                 reason=faker.sentence(5),
                 status=random.choice(statuses),
                 patient_id=random.choice(patients).id,
