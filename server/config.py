@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 from flask_session import Session
+from flask_cors import CORS
 from os import environ
 
 
@@ -43,4 +44,6 @@ flask_bcrypt = Bcrypt(app)
 
 # flask-session configuration
 Session(app)
+
+CORS(app)
 
