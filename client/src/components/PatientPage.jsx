@@ -3,27 +3,10 @@ import { Container, Grid } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import NavBar from "./NavBar";
 import { useParams } from "react-router-dom";
-// import { useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 const PatientPage = () => {
-    // const { user } = useOutletContext();
-    const [appointments, setAppointments] = useState([]);
-    const { patientId } = useParams();
 
-    useEffect(() => {
-        fetch(`http://localhost:5555/api/v1/patients/${patientId}`)
-            .then((resp) => {
-                if (resp.ok) {
-                    return resp.json().then((data) => {
-                        console.log(data); // getting back a list of dictionaries, need to figure out how to display info onto page
-                        setAppointments(data);
-                    });
-                } else {
-                        resp.json().then((errorObj) => toast.error(errorObj.error));
-                    }
-                })
-            .catch((errorObj) => toast.error(errorObj.error));
-    }, [patientId]);
 
     // const upcomingAppointments = appointments.filter((appointment) => {
     //     const appointmentDate = new Date(appointment.date);
@@ -35,15 +18,16 @@ const PatientPage = () => {
     //     return <h3>No upcoming appointments</h3>;
     // }
 
-    const { date, reason, status, doctor } = appointments;
+    // const { date, reason, status, doctor } = appointments;
 
+    
 
     return (
         <div className="card" data-testid="appointment-item">
-            <p>Date: {date}</p>
-            <p>Reason: {reason}</p>
-            <p>Status: {status}</p>
-            <p>Doctor: {doctor}</p>
+            <p>Date: {appointments.date}</p>
+            <p>Reason: {appointments.reason}</p>
+            <p>Status: {appointments.status}</p>
+            <p>Doctor: {appointments.doctor_id}</p>
         </div>
     );
 };

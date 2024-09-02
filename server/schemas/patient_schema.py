@@ -45,7 +45,7 @@ class PatientSchema(ma.SQLAlchemySchema):
                 "agender",
                 "unsure",
                 "not listed",
-                "prefer not to answer",
+                "prefer not to answer"
             ]
         )
     )
