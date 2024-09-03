@@ -74,8 +74,8 @@ class Patient(db.Model):
     def validate_name(self, _, name):
         if not isinstance(name, str):
             raise TypeError("Names must be strings")
-        elif len(name) > 50:
-            raise ValueError("Names must be less than 50 characters long")
+        elif len(name) < 3 or len(name) > 20:
+            raise ValueError("Names must be between 3 and 20 characters long")
         return name
 
     @validates("email")
@@ -84,6 +84,8 @@ class Patient(db.Model):
             raise TypeError("Email must be a string")
         elif not re.match(r"^[\w\.-]+@([\w]+\.)+[\w-]{2,}$", email):
             raise ValueError("Email must be in a proper format")
+        elif len(email) < 2 or len(email) > 256:
+            raise ValueError("Email must be between 2 and 256 characters")
         return email
 
     @validates("date_of_birth")
@@ -96,36 +98,31 @@ class Patient(db.Model):
 
     @validates("gender")
     def validate_gender(self, _, gender):
+        valid_genders = [
+            "female", "male", "cisgender", "transgender", 
+            "non-binary", "agender", "unsure", 
+            "not listed", "prefer not to answer"
+        ]
         if not isinstance(gender, str):
             raise TypeError("Gender must be a string")
-        elif not [
-            "female",
-            "male",
-            "cisgender",
-            "transgender",
-            "non-binary",
-            "agender",
-            "unsure",
-            "not listed",
-            "prefer not to answer"
-        ]:
-            raise ValueError("please select from one of the options")
+        elif gender not in valid_genders:
+            raise ValueError("Gender must be one of the specified options")
         return gender
 
     @validates("address")
     def validate_address(self, _, address):
         if not isinstance(address, str):
             raise TypeError("Address must be a string")
-        elif len(address) > 255:
-            raise ValueError("Address must be under 255 characters")
+        elif len(address) > 256:
+            raise ValueError("Address must be under 256 characters")
         return address
 
     @validates("phone_number")
     def validate_phone_number(self, _, phone_number):
         if not isinstance(phone_number, str):
             raise TypeError("Phone number must be a string")
-        elif not re.match(r"^\(\d{3}\) \d{3}-\d{4}$", phone_number):
-            raise ValueError("Phone number must be in a proper format")
+        elif not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number): 
+            raise ValueError("Phone number must be in the format XXX-XXX-XXXX")
         return phone_number
 
     @validates("insurance_id")

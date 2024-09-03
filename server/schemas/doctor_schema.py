@@ -45,4 +45,8 @@ class DoctorSchema(ma.SQLAlchemySchema):
             "radiology",
             "intensive care medicine"
     ]))
-    phone_number = fields.String(validate=validate.Regexp(r"^\(\d{3}\) \d{3}-\d{4}$", error="Invalid phone number format"))
+    phone_number = fields.String(
+        validate=validate.Regexp(
+            r"^\d{3}-\d{3}-\d{4}$", error="Invalid phone number format"
+        )
+    )

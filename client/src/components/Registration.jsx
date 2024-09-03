@@ -42,8 +42,8 @@ const signupSchema = yup.object().shape({
     ]),
   address: yup.string("Address has to be a string").max(256),
   phone_number: yup
-    .string()
-    .matches("^(d{3}) d{3}-d{4}$", "Invalid phone number"),
+  .string("Phone number has to be a string")
+  .matches(/^\d{3}-\d{3}-\d{4}$/, "Invalid phone number format"), 
   insurance_id: yup.string().max(12),
   email: yup
     .string("Email has to be a string")
@@ -118,13 +118,14 @@ const Registration = () => {
         validationSchema={isLogin ? loginSchema : signupSchema}
         initialValues={initialValues}
         onSubmit={(formData, { setSubmitting }) => {
-          const finalUrl = isLogin ? "/api/v1/login" : "/api/v1/signup";
+          const { confirmPassword, ...submitData } = formData;
+          const finalUrl = isLogin ? "http://localhost:5173/api/v1/login" : "/api/v1/signup";
           fetch(finalUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(submitData),
           })
             .then((resp) => {
               if (resp.ok) {
@@ -143,211 +144,166 @@ const Registration = () => {
         {({ isSubmitting }) => (
           <Form className="ui form">
             {!isLogin && (
-              <>
-                <Segment>
-                  <Field name="first_name">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        label="First Name"
-                        placeholder="Enter first name"
-                        error={Boolean(field.error)}
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="first_name"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+              <Segment>
+                <Field name="first_name">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      label="First Name"
+                      placeholder="Enter first name"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="last_name">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        label="Last Name"
-                        placeholder="Enter last name"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="last_name"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="last_name">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      label="Last Name"
+                      placeholder="Enter last name"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="date_of_birth">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        type="date"
-                        label="Date of Birth"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="date_of_birth"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="date_of_birth">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      type="date"
+                      label="Date of Birth"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="gender" as="select">
-                    {({ field }) => (
-                      <SemanticForm.Field>
-                        <label>Gender</label>
-                        <select {...field}>
-                          <option value="">Select Gender</option>
-                          <option value="female">Female</option>
-                          <option value="male">Male</option>
-                          <option value="cisgender">Cisgender</option>
-                          <option value="transgender">Transgender</option>
-                          <option value="non-binary">Non-Binary</option>
-                          <option value="agender">Agender</option>
-                          <option value="unsure">Unsure</option>
-                          <option value="not listed">Not Listed</option>
-                          <option value="prefer not to answer">
-                            Prefer not to answer
-                          </option>
-                        </select>
-                      </SemanticForm.Field>
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="gender"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="gender">
+                  {({ field, meta }) => (
+                    <SemanticForm.Field>
+                      <label>Gender</label>
+                      <select {...field}>
+                        <option value="">Select Gender</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="cisgender">Cisgender</option>
+                        <option value="transgender">Transgender</option>
+                        <option value="non-binary">Non-Binary</option>
+                        <option value="agender">Agender</option>
+                        <option value="unsure">Unsure</option>
+                        <option value="not listed">Not Listed</option>
+                        <option value="prefer not to answer">
+                          Prefer not to answer
+                        </option>
+                      </select>
+                      {meta.touched && meta.error ? (
+                        <div className="ui pointing red basic label">
+                          {meta.error}
+                        </div>
+                      ) : null}
+                    </SemanticForm.Field>
+                  )}
+                </Field>
 
-                  <Field name="address">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        label="Address"
-                        placeholder="Enter address"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="address"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="address">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      label="Address"
+                      placeholder="Enter address"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="phone_number">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        label="Phone Number"
-                        placeholder="123-456-7890"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="phone_number"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="phone_number">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      label="Phone Number"
+                      placeholder="123-456-7890"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="insurance_id">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        label="Insurance ID"
-                        placeholder="Enter insurance ID"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="insurance_id"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
+                <Field name="insurance_id">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      label="Insurance ID"
+                      placeholder="Enter insurance ID"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
 
-                  <Field name="email">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        type="email"
-                        label="Email"
-                        placeholder="Enter email"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-
-                  <Field name="password_hash">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        type="password"
-                        label="Password"
-                        placeholder="Enter password"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="password_hash"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-
-                  <Field name="confirmPassword">
-                    {({ field }) => (
-                      <SemanticForm.Input
-                        {...field}
-                        type="password"
-                        label="Confirm Password"
-                        placeholder="Confirm password"
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="confirmPassword"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-                </Segment>
-              </>
-            )}
-            {isLogin && (
-              <>
                 <Field name="email">
-                  {({ field }) => (
+                  {({ field, meta }) => (
                     <SemanticForm.Input
                       {...field}
                       type="email"
                       label="Email"
                       placeholder="Enter email"
+                      error={meta.touched && meta.error ? meta.error : null}
                     />
                   )}
                 </Field>
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="ui pointing red basic label"
-                />
 
                 <Field name="password_hash">
-                  {({ field }) => (
+                  {({ field, meta }) => (
                     <SemanticForm.Input
                       {...field}
                       type="password"
                       label="Password"
                       placeholder="Enter password"
+                      error={meta.touched && meta.error ? meta.error : null}
                     />
                   )}
                 </Field>
-                <ErrorMessage
-                  name="password_hash"
-                  component="div"
-                  className="ui pointing red basic label"
-                />
+
+                <Field name="confirmPassword">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      type="password"
+                      label="Confirm Password"
+                      placeholder="Confirm password"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
+              </Segment>
+            )}
+
+            {isLogin && (
+              <>
+                <Field name="email">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      type="email"
+                      label="Email"
+                      placeholder="Enter email"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
+
+                <Field name="password_hash">
+                  {({ field, meta }) => (
+                    <SemanticForm.Input
+                      {...field}
+                      type="password"
+                      label="Password"
+                      placeholder="Enter password"
+                      error={meta.touched && meta.error ? meta.error : null}
+                    />
+                  )}
+                </Field>
               </>
             )}
+
             <Button type="submit" color="blue" disabled={isSubmitting}>
               {isLogin ? "Login" : "Create Account"}
             </Button>

@@ -25,7 +25,7 @@ class PatientSchema(ma.SQLAlchemySchema):
 
     first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
     last_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
-    password_hash = fields.String(validate=validate.Length(min=8, max=50))
+    password_hash = fields.String(required=True, validate=validate.Length(min=8, max=50))
     email = fields.String(
         required=True,
         validate=[
@@ -52,7 +52,7 @@ class PatientSchema(ma.SQLAlchemySchema):
     address = fields.String(validate=validate.Length(max=256))
     phone_number = fields.String(
         validate=validate.Regexp(
-            r"^\(\d{3}\) \d{3}-\d{4}$", error="Invalid phone number format"
+            r"^\d{3}-\d{3}-\d{4}$", error="Invalid phone number format"
         )
     )
     insurance_id = fields.String(validate=validate.Length(max=12))

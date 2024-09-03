@@ -119,6 +119,6 @@ class Doctor(db.Model):
     def validate_phone_number(self, _, phone_number):
         if not isinstance(phone_number, str):
             raise TypeError("Phone number must be a string")
-        elif not re.match(r"^\(\d{3}\) \d{3}-\d{4}$", phone_number):
-            raise ValueError("Phone number must be in a proper format")
+        elif not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number): 
+            raise ValueError("Phone number must be in the format XXX-XXX-XXXX")
         return phone_number
