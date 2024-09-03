@@ -119,7 +119,7 @@ const Registration = () => {
         initialValues={initialValues}
         onSubmit={(formData, { setSubmitting }) => {
           const { confirmPassword, ...submitData } = formData;
-          const finalUrl = isLogin ? "http://localhost:5173/api/v1/login" : "/api/v1/signup";
+          const finalUrl = isLogin ? "/api/v1/login" : "/api/v1/signup";
           fetch(finalUrl, {
             method: "POST",
             headers: {
