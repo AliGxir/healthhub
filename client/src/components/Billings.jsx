@@ -1,30 +1,31 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Header } from "semantic-ui-react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Billings = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext(); 
+  const { user } = useOutletContext();
+  const { appointmentId } = useParams(); // Get appointmentId from URL
   const [bills, setBills] = useState([]);
 
-    useEffect(() => {
-        if (!user) {
-          navigate("/");
-          return;
-        }
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
 
-    
-
+    // Fetch bills for the given appointmentId
     const fetchBills = async () => {
       try {
-        const resp = await fetch("/api/v1/billings");
-        if (resp.ok) {
-          const data = await resp.json();
+        const response = await fetch(`/api/v1/billings?appointment_id=${appointmentId}`);
+        if (response.ok) {
+          const data = await response.json();
+          // Filter bills to include only those for the current patient
           const patientBills = data.filter((bill) => bill.patient_id === user.id);
           setBills(patientBills);
         } else {
-          const errorObj = await resp.json();
+          const errorObj = await response.json();
           toast.error(errorObj.error);
         }
       } catch (error) {
@@ -33,8 +34,48 @@ const Billings = () => {
     };
 
     fetchBills();
-  }, [user, navigate]);
-    return <></>
-}
+  }, [user, appointmentId, navigate]);
+
+  return (
+    <Container>
+      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+        Billing Information for Appointment ID: {appointmentId}
+      </Header>
+
+      <div style={{ marginBottom: "20px" }}>
+        <Button color="blue" onClick={() => navigate("/patients")}>
+          Back to Homepage
+        </Button>
+      </div>
+
+      <Grid>
+        <Grid.Row>
+          {bills.length > 0 ? (
+            bills.map((bill) => (
+              <Grid.Column key={bill.id} computer={4}>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>Billing ID: {bill.id}</Card.Header>
+                    <Card.Meta>
+                      Billing Date: {new Date(bill.billing_date).toLocaleDateString()}
+                    </Card.Meta>
+                    <Card.Description>
+                      <p>Amount Due: ${bill.amount_due.toFixed(2)}</p>
+                      <p>Payment Status: {bill.payment_status}</p>
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+            ))
+          ) : (
+            <Grid.Column>
+              <p>No bills found for this appointment.</p>
+            </Grid.Column>
+          )}
+        </Grid.Row>
+      </Grid>
+    </Container>
+  );
+};
 
 export default Billings;

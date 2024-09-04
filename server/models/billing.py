@@ -1,4 +1,4 @@
-from models.__init__ import db, validates, date
+from models.__init__ import db, validates, date, association_proxy
 
 
 class Billing(db.Model):
@@ -17,7 +17,7 @@ class Billing(db.Model):
         "Appointment", back_populates="billing", cascade="all, delete-orphan"
     )
 
-    # serialized_rules = ("-appointments",)
+    patient = association_proxy("appointment", "patient")
 
     def __repr__(self):
         return f"""

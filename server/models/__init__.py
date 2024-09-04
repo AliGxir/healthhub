@@ -6,3 +6,4 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime, date, timedelta
 import re
 from config import db, flask_bcrypt
+from sqlalchemy.ext.associationproxy import association_proxy

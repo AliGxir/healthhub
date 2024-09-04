@@ -25,7 +25,7 @@ def seed_data():
         Prescription.query.delete()
         
         patients = []
-        for _ in range(5):
+        for _ in range(10):
             patient = Patient(
                 first_name = faker.first_name(),
                 last_name = faker.last_name(),
@@ -42,7 +42,7 @@ def seed_data():
                     "prefer not to answer"
                 ]),
                 address = faker.address(),
-                phone_number = faker.numerify(text="(###) ###-####"),
+                phone_number = faker.numerify(text="###-###-####"),
                 email = faker.email(),
                 password_hash="password",
                 insurance_id = faker.bothify(text='???-########'),
@@ -82,12 +82,12 @@ def seed_data():
         ]
         
         doctors = []
-        for _ in range(5):
+        for _ in range(10):
             doctor = Doctor(
                 first_name = faker.first_name(),
                 last_name = faker.last_name(),
                 specialty = random.choice(specialties),
-                phone_number = faker.numerify(text="(###) ###-####"),
+                phone_number = faker.numerify(text="###-###-####"),
                 email = faker.email(),
                 password_hash="password", 
                 created_at = faker.date_time_this_decade()
@@ -102,7 +102,7 @@ def seed_data():
         statuses = ["scheduled", "completed", "canceled"]
                 
         appointments = []
-        for _ in range(5):
+        for _ in range(10):
             appointment = Appointment(
                 date=datetime.fromisoformat("2024-12-16 23:27:51.881689"),
                 # date=faker.date_time_this_year(),
@@ -110,10 +110,8 @@ def seed_data():
                 status=random.choice(statuses),
                 patient_id=random.choice(patients).id,
                 doctor_id=random.choice(doctors).id,
-                billing_id=1,
-                avs_id=1,
-                # billing_id=random.choice(billing).id, 
-                # avs_id=1,
+                billing_id=random.randint(1,5), 
+                avs_id=random.randint(1,5),
                 created_at=faker.date_time_this_decade()
             )
             appointments.append(appointment)
@@ -122,10 +120,9 @@ def seed_data():
         
 
         billings = []
-        for _ in range(5):
+        for _ in range(10):
             billing = Billing(
-                # appointment_id=random.choice(appointment).id,
-                appointment_id=1,
+                appointment_id=random.choice(appointments).id,
                 amount_due=round(faker.pyfloat(left_digits=3, right_digits=2, positive=True), 2),
                 payment_status=random.choice(["unpaid", "paid", "pending"]),
                 billing_date=faker.date_time_this_year(),
@@ -137,7 +134,7 @@ def seed_data():
         
         
         avs_records = []
-        for _ in range(5):
+        for _ in range(10):
             avs = AVS(
                 record_date=faker.date_time_this_year(),
                 notes=faker.sentence(10),
@@ -151,7 +148,7 @@ def seed_data():
         
 
         prescriptions = []
-        for _ in range(5):
+        for _ in range(10):
             prescription = Prescription(
                 medication_name=faker.word() + " " + faker.word(),
                 dosage=f"{random.randint(1, 10)} mg",
