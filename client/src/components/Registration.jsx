@@ -94,7 +94,7 @@ const Registration = () => {
 
   useEffect(() => {
     if (currentUser) {
-      navigate("/appointments");
+      navigate("/patients");
     }
   }, [currentUser, navigate]);
 
@@ -131,7 +131,7 @@ const Registration = () => {
               if (resp.ok) {
                 resp.json().then((user) => {
                   updateUser(user);
-                  navigate("/appointments");
+                  navigate("/patients");
                 });
               } else {
                 resp.json().then((errorObj) => toast.error(errorObj.error));

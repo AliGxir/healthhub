@@ -15,11 +15,10 @@ const PatientPage = () => {
       return;
     }
 
-    fetch(`http://localhost:5555/api/v1/appointments`)
+    fetch(`/api/v1/appointments`)
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
-            // Filter for user-specific and upcoming appointments
             const now = new Date();
             const userAppointments = data
               .filter((appointment) => appointment.patient_id === user.id)
