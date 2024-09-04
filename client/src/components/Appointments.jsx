@@ -1,9 +1,62 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Button } from "semantic-ui-react";
-import { useNavigate } from "react-router-dom";
+import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
+import toast from "react-hot-toast";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const Appointments = () => {
   const navigate = useNavigate();
+  const { user } = useOutletContext(); // Retrieve the user from context
+  const [appointments, setAppointments] = useState([]);
+  const [filter, setFilter] = useState("all"); // 'all', 'past', or 'future'
+
+  // Redirect to home if the user is not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
+
+    const fetchAppointments = () => {
+      fetch("/api/v1/appointments")
+        .then((resp) => {
+          if (resp.ok) {
+            return resp.json().then((data) => {
+              const now = new Date();
+              let filteredAppointments = data;
+
+              if (filter === "past") {
+                filteredAppointments = data.filter(
+                  (appointment) => new Date(appointment.date) < now
+                );
+              } else if (filter === "future") {
+                filteredAppointments = data.filter(
+                  (appointment) => new Date(appointment.date) >= now
+                );
+              }
+
+              setAppointments(filteredAppointments);
+            });
+          } else {
+            resp.json().then((errorObj) => toast.error(errorObj.error));
+          }
+        })
+        .catch((errorObj) => toast.error(errorObj.message));
+    };
+
+    fetchAppointments();
+  }, [user, filter, navigate]);
+
+  // Determine the header based on the current filter
+  const getHeader = () => {
+    switch (filter) {
+      case "past":
+        return "Past Appointments";
+      case "future":
+        return "Future Appointments";
+      default:
+        return "All Appointments";
+    }
+  };
 
   return (
     <Container>
@@ -11,19 +64,48 @@ const Appointments = () => {
         <Button color="blue" onClick={() => navigate("/appointments/new")}>
           Schedule an Appointment
         </Button>
-        {/* <Button color="purple" onClick={() => navigate("/appointments/update")}>
-          Update an Appointment</Button> */}
-        <Button color="red" onClick={() => navigate("/past-appointments")}>
+        <Button color="red" onClick={() => setFilter("past")}>
           Past Appointments
         </Button>
-        <Button color="green" onClick={() => navigate("/future-appointments")}>
+        <Button color="green" onClick={() => setFilter("future")}>
           Future Appointments
+        </Button>
+        <Button color="grey" onClick={() => setFilter("all")}>
+          All Appointments
         </Button>
       </div>
 
-      {/* Main Appointments Content (can be expanded as needed) */}
+      {/* Display the header based on the filter */}
+      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+        {getHeader()}
+      </Header>
+
       <Grid>
-        {/* Additional content can be rendered here */}
+        <Grid.Row>
+          {appointments.length > 0 ? (
+            appointments.map((appointment) => (
+              <Grid.Column key={appointment.id} mobile={16} tablet={8} computer={4}>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>Appointment ID: {appointment.id}</Card.Header>
+                    <Card.Meta>
+                      Date: {new Date(appointment.date).toLocaleDateString()}
+                    </Card.Meta>
+                    <Card.Description>
+                      <p>Reason: {appointment.reason}</p>
+                      <p>Status: {appointment.status}</p>
+                      <p>Doctor: {appointment.doctor_id}</p>
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+            ))
+          ) : (
+            <Grid.Column>
+              <p>No {filter} appointments found.</p>
+            </Grid.Column>
+          )}
+        </Grid.Row>
       </Grid>
     </Container>
   );
