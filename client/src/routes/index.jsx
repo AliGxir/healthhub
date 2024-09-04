@@ -46,12 +46,12 @@ export const router = createBrowserRouter([
         element: <Appointments />,
       },
       {
-        path: "/appointments/form",
-        element: <AppointmentForm />,
+        path: "/appointments/new",
+        element: <AppointmentForm/>,
       },
       {
-        path: "/appointments/update",
-        element: <UpdateAppointment />,
+        path: "/appointments/update/:appointmentId",
+        element: <AppointmentForm/>,
       },
       {
         path: "doctors/:doctorId",

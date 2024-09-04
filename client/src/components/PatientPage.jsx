@@ -31,9 +31,13 @@ const PatientPage = () => {
       .catch((errorObj) => toast.error(errorObj.message));
   }, [user, navigate]);
 
+    // Function to handle update button click
+    const handleUpdateClick = (appointmentId) => {
+        navigate(`/appointments/update/${appointmentId}`);
+      };
+
   return (
     <Container>
-      {/* Navigation Buttons */}
       <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={() => navigate("/appointments")}>
           Appointments
@@ -57,8 +61,8 @@ const PatientPage = () => {
             appointments.map((appointment) => (
               <Grid.Column
                 key={appointment.id}
-                mobile={16}
-                tablet={8}
+                // mobile={16}
+                // tablet={8}
                 computer={4}
               >
                 <Card>
@@ -72,6 +76,14 @@ const PatientPage = () => {
                       <p>Status: {appointment.status}</p>
                       <p>Doctor: {appointment.doctor_id}</p>
                     </Card.Description>
+                  </Card.Content >
+                  <Card.Content extra>
+                    <Button
+                      primary
+                      onClick={() => handleUpdateClick(appointment.id)}
+                    >
+                      Update
+                    </Button>
                   </Card.Content>
                 </Card>
               </Grid.Column>

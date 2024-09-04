@@ -11,8 +11,8 @@ const Appointments = () => {
         <Button color="blue" onClick={() => navigate("/appointments/new")}>
           Schedule an Appointment
         </Button>
-        <Button color="purple" onClick={() => navigate("/appointments/update")}>
-          Update an Appointment</Button>
+        {/* <Button color="purple" onClick={() => navigate("/appointments/update")}>
+          Update an Appointment</Button> */}
         <Button color="red" onClick={() => navigate("/past-appointments")}>
           Past Appointments
         </Button>
