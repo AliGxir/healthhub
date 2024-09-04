@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const Billings = () => {
   const navigate = useNavigate();
   const { user } = useOutletContext();
-  const { appointmentId } = useParams(); // Get appointmentId from URL
+  const { appointmentId } = useParams(); 
   const [bills, setBills] = useState([]);
 
   useEffect(() => {
@@ -15,14 +15,14 @@ const Billings = () => {
       return;
     }
 
-    // Fetch bills for the given appointmentId
     const fetchBills = async () => {
       try {
         const response = await fetch(`/api/v1/billings?appointment_id=${appointmentId}`);
         if (response.ok) {
           const data = await response.json();
           // Filter bills to include only those for the current patient
-          const patientBills = data.filter((bill) => bill.patient_id === user.id);
+          // How to filter via billings.patient association_proxy or via billings.appointments??
+          const patientBills = data.filter((bill) => bill.patient === user);
           setBills(patientBills);
         } else {
           const errorObj = await response.json();
