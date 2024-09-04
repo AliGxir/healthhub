@@ -51,8 +51,6 @@ const PatientPage = () => {
           Doctors
         </Button>
       </div>
-
-      {/* Upcoming Appointments Display */}
       <Grid>
         <Grid.Row>
           {appointments.length > 0 ? (

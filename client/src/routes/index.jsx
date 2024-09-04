@@ -7,7 +7,7 @@ import Billings from "../components/Billings";
 import AVSs from "../components/AVSs";
 import Prescriptions from "../components/Prescriptions";
 import Appointments from "../components/Appointments";
-import AppointmentsPage from "../components/AppointmentsPage";
+import AppointmentForm from "../components/AppointmentForm";
 import DoctorPage from "../components/DoctorPage";
 import PatientsList from "../components/PatientsList";
 
@@ -46,8 +46,12 @@ export const router = createBrowserRouter([
         element: <Appointments />,
       },
       {
-        path: "/appointments/:appointmentId",
-        element: <AppointmentsPage />,
+        path: "/appointments/form",
+        element: <AppointmentForm />,
+      },
+      {
+        path: "/appointments/update",
+        element: <UpdateAppointment />,
       },
       {
         path: "doctors/:doctorId",

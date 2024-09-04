@@ -1,6 +1,5 @@
 from models.__init__ import db, validates, datetime
 
-
 class Appointment(db.Model):
 
     __tablename__ = "appointments"
@@ -41,10 +40,10 @@ class Appointment(db.Model):
         return date
 
     @validates("reason")
-    def validate_reason(Self, _, reason):
+    def validate_reason(self, _, reason):
         if not isinstance(reason, str):
             raise TypeError("Reason must be a string")
-        elif not 6 < len(reason) < 50:
+        elif not 6 <= len(reason) <= 50:
             raise ValueError("Reason must be 6-50 characters long")
         return reason
 
@@ -54,7 +53,7 @@ class Appointment(db.Model):
             raise TypeError("Status must be a string")
         elif status not in ["scheduled", "completed", "canceled"]:
             raise ValueError(
-                "Status must be one of the option: scheduled, completed, or canceled"
+                "Status must be one of the options: scheduled, completed, or canceled"
             )
         return status
 
