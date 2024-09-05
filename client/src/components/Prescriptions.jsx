@@ -14,21 +14,19 @@ const Prescriptions = () => {
       return;
     }
 
-    const fetchPrescriptions = () => {
-      fetch("/api/v1/prescriptions")
-        .then((resp) => {
-          if (resp.ok) {
-            return resp.json().then((data) => {
-              const userPrescriptions = data.filter(
-                (prescription) => prescription.patient_id === user.id
-              );
-              setPrescriptions(userPrescriptions);
-            });
-          } else {
-            resp.json().then((errorObj) => toast.error(errorObj.error));
-          }
-        })
-        .catch((error) => toast.error("Failed to fetch prescriptions."));
+    const fetchPrescriptions = async () => {
+      try {
+        const response = await fetch(`/api/v1/prescriptions`);
+        if (response.ok) {
+          const data = await response.json();
+          setPrescriptions(data);
+        } else {
+          const errorObj = await response.json();
+          toast.error(errorObj.error);
+        }
+      } catch (error) {
+        toast.error("Failed to fetch prescriptions.");
+      }
     };
 
     fetchPrescriptions();
@@ -37,7 +35,7 @@ const Prescriptions = () => {
   return (
     <Container>
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
-        Prescription
+        Prescriptions
       </Header>
 
       <Grid>
@@ -61,7 +59,7 @@ const Prescriptions = () => {
             ))
           ) : (
             <Grid.Column>
-              <p>No prescriptions found for this patient.</p>
+              <p>No prescriptions found.</p>
             </Grid.Column>
           )}
         </Grid.Row>
