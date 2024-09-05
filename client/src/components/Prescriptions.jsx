@@ -8,7 +8,6 @@ const Prescriptions = () => {
   const { user } = useOutletContext(); 
   const [prescriptions, setPrescriptions] = useState([]);
 
-  // Redirect to home if the user is not logged in
   useEffect(() => {
     if (!user) {
       navigate("/");
@@ -20,7 +19,6 @@ const Prescriptions = () => {
         .then((resp) => {
           if (resp.ok) {
             return resp.json().then((data) => {
-              // Filter prescriptions for the logged-in user
               const userPrescriptions = data.filter(
                 (prescription) => prescription.patient_id === user.id
               );

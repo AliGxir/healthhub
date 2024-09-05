@@ -17,7 +17,7 @@ class Billing(db.Model):
         "Appointment", back_populates="billing", cascade="all, delete-orphan"
     )
 
-    patient = association_proxy("appointment", "patient")
+    patient_id = association_proxy("appointments", "patient_id")
 
     def __repr__(self):
         return f"""
