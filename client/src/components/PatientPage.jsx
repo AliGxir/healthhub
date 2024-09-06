@@ -18,10 +18,6 @@ const PatientPage = () => {
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
-            const now = new Date();
-            const userAppointments = data
-              .filter((appointment) => appointment.patient_id === user.id)
-              .filter((appointment) => new Date(appointment.date) >= now);
             setAppointments(userAppointments);
           });
         } else {

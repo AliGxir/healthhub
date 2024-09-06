@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Button } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
@@ -18,11 +18,7 @@ const DoctorPage = () => {
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
-            const now = new Date();
-            const userAppointments = data
-              .filter((appointment) => appointment.doctor_id === user.id)
-              .filter((appointment) => new Date(appointment.date) >= now);
-            setAppointments(userAppointments);
+            setAppointments(data); 
           });
         } else {
           resp.json().then((errorObj) => toast.error(errorObj.error));
@@ -31,12 +27,10 @@ const DoctorPage = () => {
       .catch((errorObj) => toast.error(errorObj.message));
   }, [user, navigate]);
 
-  // Function to handle update button click
   const handleUpdateClick = (appointmentId) => {
     navigate(`/appointments/update/${appointmentId}`);
   };
 
-  // Function to handle delete button click
   const handleDeleteClick = (appointmentId) => {
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       fetch(`/api/v1/appointments/${appointmentId}`, {
@@ -65,10 +59,18 @@ const DoctorPage = () => {
         <Button color="purple" onClick={() => navigate("/prescriptions")}>
           Prescriptions
         </Button>
-        <Button color="teal" onClick={() => navigate("/patients")}>
+        <Button color="teal" onClick={() => navigate("/avss")}>
+          AVS
+        </Button>
+        <Button color="pink" onClick={() => navigate("/patients-list")}>
           Patient List
         </Button>
       </div>
+
+      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+        Upcoming Appointments
+      </Header>
+
       <Grid>
         <Grid.Row>
           {appointments.length > 0 ? (

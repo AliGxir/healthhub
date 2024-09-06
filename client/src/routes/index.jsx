@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
         element: <DoctorPage />,
       },
       {
-        path: "/patients/patientId",
+        path: "/patients-list",
         element: <PatientsList />
       }
     ],

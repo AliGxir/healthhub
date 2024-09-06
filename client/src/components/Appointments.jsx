@@ -16,7 +16,7 @@ const Appointments = () => {
     }
 
     const fetchAppointments = () => {
-      fetch(`/api/v1/appointments?filter=${filter}`) // filter as a query parameter for backend logic
+      fetch(`/api/v1/appointments?filter=${filter}`)
         .then((resp) => {
           if (resp.ok) {
             return resp.json().then((data) => setAppointments(data));
@@ -30,7 +30,6 @@ const Appointments = () => {
     fetchAppointments();
   }, [user, filter, navigate]);
 
-  // Determine the header based on the current filter
   const getHeader = () => {
     switch (filter) {
       case "past":
@@ -44,7 +43,7 @@ const Appointments = () => {
 
   // Handler to update an appointment
   const handleUpdate = (appointmentId) => {
-    navigate(`/appointments/update/${appointmentId}`); // Navigate to update page for appointment
+    navigate(`/appointments/update/${appointmentId}`);
   };
 
   // Handler to delete an appointment
@@ -69,15 +68,19 @@ const Appointments = () => {
 
   return (
     <Container>
-        <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={() => navigate("/patients")}>
           Back to Homepage
         </Button>
       </div>
+
       <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={() => navigate("/appointments/new")}>
-          Schedule an Appointment
-        </Button>
+        {/* Conditionally render "Schedule an Appointment" button based on user type */}
+        {user.role !== 'doctor' && (
+          <Button color="blue" onClick={() => navigate("/appointments/new")}>
+            Schedule an Appointment
+          </Button>
+        )}
         <Button color="red" onClick={() => setFilter("past")}>
           Past Appointments
         </Button>
@@ -86,7 +89,6 @@ const Appointments = () => {
         </Button>
       </div>
 
-      {/* Display the header based on the filter */}
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         {getHeader()}
       </Header>
