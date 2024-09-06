@@ -9,9 +9,7 @@ from flask_restful import Resource
 
 class Logout(Resource):
     def delete(self):
-        #if there is a patient/doctor in session
         if session.get("patient_id"):
-            #remove user in session
             del session["patient_id"]
             return {}, 204
         elif session.get("doctor_id"):

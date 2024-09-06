@@ -14,7 +14,7 @@ const DoctorsList = () => {
     }
 
     const fetchDoctors = () => {
-      fetch(`/api/v1/doctors?patient_id=${user.id}`) 
+      fetch("/api/v1/doctors")
         .then((resp) => {
           if (resp.ok) {
             return resp.json().then((data) => setDoctors(data));
