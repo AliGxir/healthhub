@@ -75,8 +75,7 @@ const Appointments = () => {
       </div>
 
       <div style={{ marginBottom: "20px" }}>
-        {/* Conditionally render "Schedule an Appointment" button based on user type */}
-        {user.role !== 'doctor' && (
+        {user.patient_id && (
           <Button color="blue" onClick={() => navigate("/appointments/new")}>
             Schedule an Appointment
           </Button>
