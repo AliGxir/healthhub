@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
-// import NavBar from "../components/NavBar";
+import UserContext from "./contexts/UserContext"; 
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -23,23 +23,20 @@ const App = () => {
       });
   }, []);
 
-
-    const updateUser = (value) => {
-      setUser(value);
-    };
-  
+  const updateUser = (value) => {
+    setUser(value);
+  };
 
   return (
-    <div className="app">
-      <Toaster />
-      {/* <header>
-      <NavBar user={ user } updateUser={ updateUser } />
-      </header> */}
-      <div className="content">
-        <Outlet  context={{ user, updateUser }} />
+    <UserContext.Provider value={{ user, updateUser }}>
+      <div className="app">
+        <Toaster />
+        <div className="content">
+          <Outlet />
+        </div>
       </div>
-    </div>
-  )
+    </UserContext.Provider>
+  );
 }
 
 export default App;
