@@ -94,7 +94,11 @@ const Registration = () => {
 
   useEffect(() => {
     if (currentUser) {
-      navigate("/patients");
+      if (currentUser.patient_id) {
+        navigate("/patients");
+      } else if (currentUser.doctor_id) {
+        navigate("/doctors");
+      }
     }
   }, [currentUser, navigate]);
 
@@ -130,8 +134,13 @@ const Registration = () => {
             .then((resp) => {
               if (resp.ok) {
                 resp.json().then((user) => {
+                  console.log(user)
                   updateUser(user);
-                  navigate("/patients");
+                  if (user.patient_id) {
+                    navigate("/patients");
+                  } else if (user.doctor_id) {
+                    navigate("/doctors");
+                  }  
                 });
               } else {
                 resp.json().then((errorObj) => toast.error(errorObj.error));

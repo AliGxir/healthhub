@@ -27,6 +27,7 @@ const App = () => {
     const updateUser = (value) => {
       setUser(value);
     };
+  
 
   return (
     <div className="app">

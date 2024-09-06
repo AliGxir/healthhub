@@ -20,7 +20,8 @@ class PatientSchema(ma.SQLAlchemySchema):
             "phone_number",
             "email",
             "insurance_id",
-            "appointments"
+            "appointments",
+            "patient_id"
         ]
 
     first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))

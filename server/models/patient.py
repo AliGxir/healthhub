@@ -69,6 +69,10 @@ class Patient(db.Model):
 
     def authenticate(self, pw_to_check):
         return flask_bcrypt.check_password_hash(self._password_hash, pw_to_check)
+    
+    @property
+    def patient_id(self):
+        return True
 
     @validates("first_name", "last_name")
     def validate_name(self, _, name):

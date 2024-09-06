@@ -6,7 +6,7 @@ class DoctorSchema(ma.SQLAlchemySchema):
     class Meta():
         model = Doctor
         load_instance = True
-        fields = ["id", "first_name", "last_name", "specialty", "phone_number", "email"]
+        fields = ["id", "first_name", "last_name", "specialty", "phone_number", "email", "doctor_id"]
         
     first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
     last_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
