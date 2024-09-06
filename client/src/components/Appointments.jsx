@@ -5,11 +5,10 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext(); // Retrieve the user from context
+  const { user } = useOutletContext(); 
   const [appointments, setAppointments] = useState([]);
-  const [filter, setFilter] = useState("all"); // 'all', 'past', or 'future'
+  const [filter, setFilter] = useState("all"); 
 
-  // Redirect to home if the user is not logged in
   useEffect(() => {
     if (!user) {
       navigate("/");
@@ -70,9 +69,7 @@ const Appointments = () => {
         <Button color="green" onClick={() => setFilter("future")}>
           Future Appointments
         </Button>
-        <Button color="grey" onClick={() => setFilter("all")}>
-          All Appointments
-        </Button>
+
       </div>
 
       {/* Display the header based on the filter */}

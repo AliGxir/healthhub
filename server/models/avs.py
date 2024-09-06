@@ -16,10 +16,8 @@ class AVS(db.Model):
     appointments = db.relationship(
         "Appointment", back_populates="avs", cascade="all, delete-orphan"
     )
-    patient = association_proxy("appointments", "avs")
-    doctor = association_proxy("appointments", "avs")
-
-    # serialize_rules = ("-appointments",)
+    patient_id = association_proxy("appointments", "patient_id")
+    doctor_id = association_proxy("appointments", "doctor_id")
 
     def __repr__(self):
         return f"""

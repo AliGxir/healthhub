@@ -19,7 +19,6 @@ class AppointmentById(Resource):
         if appointment := db.session.get(Appointment, id):
             try:
                 data = request.json
-                # Validate data
                 appointment_schema.validate(data)
                 # Deserialize data and allow for partial updates
                 updated_appointment = appointment_schema.load(
