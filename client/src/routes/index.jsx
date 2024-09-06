@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Registration from "../components/Registration";
+import Registration from "../components/forms/Registration";
 import PatientPage from "../components/PatientPage";
 import DoctorsList from "../components/DoctorsList";
 import Billings from "../components/Billings";
 import AVSs from "../components/AVSs";
 import Prescriptions from "../components/Prescriptions";
 import Appointments from "../components/Appointments";
-import AppointmentForm from "../components/AppointmentForm";
+import AppointmentForm from "../components/forms/AppointmentForm";
 import DoctorPage from "../components/DoctorPage";
 import PatientsList from "../components/PatientsList";
 
