@@ -16,32 +16,17 @@ const Appointments = () => {
     }
 
     const fetchAppointments = () => {
-      fetch("/api/v1/appointments")
+      fetch(`/api/v1/appointments?filter=${filter}`) // filter as a query parameter for backend logic
         .then((resp) => {
           if (resp.ok) {
-            return resp.json().then((data) => {
-              const now = new Date();
-              let filteredAppointments = data;
-
-              if (filter === "past") {
-                filteredAppointments = data.filter(
-                  (appointment) => new Date(appointment.date) < now
-                );
-              } else if (filter === "future") {
-                filteredAppointments = data.filter(
-                  (appointment) => new Date(appointment.date) >= now
-                );
-              }
-
-              setAppointments(filteredAppointments);
-            });
+            return resp.json().then((data) => setAppointments(data));
           } else {
             resp.json().then((errorObj) => toast.error(errorObj.error));
           }
         })
         .catch((errorObj) => toast.error(errorObj.message));
     };
-
+  
     fetchAppointments();
   }, [user, filter, navigate]);
 
@@ -57,8 +42,38 @@ const Appointments = () => {
     }
   };
 
+  // Handler to update an appointment
+  const handleUpdate = (appointmentId) => {
+    navigate(`/appointments/update/${appointmentId}`); // Navigate to update page for appointment
+  };
+
+  // Handler to delete an appointment
+  const handleDelete = (appointmentId) => {
+    if (window.confirm("Are you sure you want to delete this appointment?")) {
+      fetch(`/api/v1/appointments/${appointmentId}`, {
+        method: "DELETE",
+      })
+        .then((resp) => {
+          if (resp.ok) {
+            setAppointments((prev) =>
+              prev.filter((appointment) => appointment.id !== appointmentId)
+            );
+            toast.success("Appointment deleted successfully.");
+          } else {
+            resp.json().then((errorObj) => toast.error(errorObj.error));
+          }
+        })
+        .catch((errorObj) => toast.error(errorObj.message));
+    }
+  };
+
   return (
     <Container>
+        <div style={{ marginBottom: "20px" }}>
+        <Button color="blue" onClick={() => navigate("/patients")}>
+          Back to Homepage
+        </Button>
+      </div>
       <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={() => navigate("/appointments/new")}>
           Schedule an Appointment
@@ -69,7 +84,6 @@ const Appointments = () => {
         <Button color="green" onClick={() => setFilter("future")}>
           Future Appointments
         </Button>
-
       </div>
 
       {/* Display the header based on the filter */}
@@ -93,6 +107,20 @@ const Appointments = () => {
                       <p>Status: {appointment.status}</p>
                       <p>Doctor: {appointment.doctor_id}</p>
                     </Card.Description>
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Button 
+                      color="yellow" 
+                      onClick={() => handleUpdate(appointment.id)}
+                    >
+                      Update
+                    </Button>
+                    <Button 
+                      color="red" 
+                      onClick={() => handleDelete(appointment.id)}
+                    >
+                      Delete
+                    </Button>
                   </Card.Content>
                 </Card>
               </Grid.Column>

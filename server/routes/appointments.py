@@ -10,8 +10,32 @@ appointment_schema = AppointmentSchema(session=db.session)
 
 class Appointments(Resource):
     def get(self):
-        appointments = appointments_schema.dump(Appointment.query)
-        return appointments, 200
+        patient_id = session.get("patient_id")
+        doctor_id = session.get("doctor_id")
+        
+        if not patient_id and not doctor_id:
+            return {"error": "User not authenticated"}, 401
+
+
+        filter_type = request.args.get('filter', 'all')
+        now = db.func.now()  
+
+        query = Appointment.query
+        
+        if patient_id:
+            query = query.filter(Appointment.patient_id == patient_id)
+        elif doctor_id:
+            query = query.filter(Appointment.doctor_id == doctor_id)
+
+        if filter_type == 'past':
+            query = query.filter(Appointment.date < now)
+        elif filter_type == 'future':
+            query = query.filter(Appointment.date >= now)
+
+        appointments = query.all()
+        serialized_appointments = appointments_schema.dump(appointments)
+        return serialized_appointments, 200
+
     
     def post(self):
         try: 
