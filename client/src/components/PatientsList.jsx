@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 const PatientsList = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext(); 
+  const { user } = useContext(UserContext);
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {

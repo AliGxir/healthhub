@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 const Prescriptions = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext(); 
+  const { user } = useContext(UserContext);
   const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {

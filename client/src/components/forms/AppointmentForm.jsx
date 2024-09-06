@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Container, Form, Button } from "semantic-ui-react";
-import { useOutletContext, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 import toast from "react-hot-toast";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -25,7 +26,7 @@ const appointmentSchema = yup.object().shape({
 });
 
 const CreateOrUpdateAppointment = () => {
-  const { user } = useOutletContext();
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const { appointmentId } = useParams();
 

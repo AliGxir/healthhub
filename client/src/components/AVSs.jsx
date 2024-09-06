@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
 import toast from "react-hot-toast";
+import { useContext } from "react";
 
 const AVSs = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext();
+  const { user } = useContext(UserContext);
   const [avss, setavss] = useState([]);
 
   useEffect(() => {

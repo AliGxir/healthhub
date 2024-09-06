@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 const DoctorPage = () => {
-  const { user, updateUser } = useOutletContext();
+  const { user, updateUser } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 

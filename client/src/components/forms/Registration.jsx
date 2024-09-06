@@ -1,6 +1,6 @@
 import * as yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Formik, Field, Form } from "formik";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Form as SemanticForm,
@@ -8,10 +8,10 @@ import {
   Header,
   Message,
   Container,
-  Image,
 } from "semantic-ui-react";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const signupSchema = yup.object().shape({
   first_name: yup
@@ -89,7 +89,7 @@ const initialValues = {
 
 const Registration = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const { updateUser, currentUser } = useOutletContext();
+  const { updateUser, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
