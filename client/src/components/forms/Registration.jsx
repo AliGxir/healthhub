@@ -134,7 +134,6 @@ const Registration = () => {
             .then((resp) => {
               if (resp.ok) {
                 resp.json().then((user) => {
-                  console.log(user)
                   updateUser(user);
                   if (user.patient_id) {
                     navigate("/patients");

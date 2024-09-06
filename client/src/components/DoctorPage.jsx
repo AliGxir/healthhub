@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
 const DoctorPage = () => {
-  const { user } = useOutletContext();
+  const { user, updateUser } = useOutletContext();
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -50,6 +50,19 @@ const DoctorPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    fetch("/api/v1/logout", {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status === 204) {
+        updateUser(null);
+        navigate("/");
+      } else {
+        toast.error("Failed to log out.");
+      }
+    });
+  };
+
   return (
     <Container>
       <div style={{ marginBottom: "20px" }}>
@@ -65,8 +78,12 @@ const DoctorPage = () => {
         <Button color="pink" onClick={() => navigate("/patients-list")}>
           Patient List
         </Button>
+        <Button color="red" onClick={handleLogout} style={{ marginLeft: '20px' }}>
+          Logout
+        </Button>
       </div>
 
+      {/* Header for Upcoming Appointments */}
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Upcoming Appointments
       </Header>

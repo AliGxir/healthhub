@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext(); 
+  const { user, updateUser } = useOutletContext();
   const [appointments, setAppointments] = useState([]);
-  const [filter, setFilter] = useState("all"); 
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (!user) {
@@ -26,7 +26,7 @@ const Appointments = () => {
         })
         .catch((errorObj) => toast.error(errorObj.message));
     };
-  
+
     fetchAppointments();
   }, [user, filter, navigate]);
 
@@ -41,12 +41,10 @@ const Appointments = () => {
     }
   };
 
-  // Handler to update an appointment
   const handleUpdate = (appointmentId) => {
     navigate(`/appointments/update/${appointmentId}`);
   };
 
-  // Handler to delete an appointment
   const handleDelete = (appointmentId) => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       fetch(`/api/v1/appointments/${appointmentId}`, {
@@ -65,7 +63,7 @@ const Appointments = () => {
         .catch((errorObj) => toast.error(errorObj.message));
     }
   };
-  
+
   const handleBackClick = () => {
     if (user.patient_id) {
       navigate("/patients");
@@ -76,27 +74,56 @@ const Appointments = () => {
     }
   };
 
+  const handleLogout = () => {
+    fetch("/logout", {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status === 204) {
+        updateUser(null);
+        navigate("/");
+      }
+    });
+  };
+
   return (
     <Container>
+      <Menu pointing secondary>
+        <Menu.Item
+          name="Appointments"
+          onClick={() => navigate("/appointments")}
+        />
+        {user.patient_id && (
+          <Menu.Item
+            name="Schedule Appointment"
+            onClick={() => navigate("/appointments/new")}
+          />
+        )}
+        <Menu.Item name="Past Appointments" onClick={() => setFilter("past")} />
+        <Menu.Item name="Future Appointments" onClick={() => setFilter("future")} />
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button color="red" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
+
+      {/* Adding the Back button with handleBackClick */}
       <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        {user.patient_id && (
+      {/* Adding the Schedule Appointment button */}
+      {user.patient_id && (
+        <div style={{ marginBottom: "20px" }}>
           <Button color="blue" onClick={() => navigate("/appointments/new")}>
             Schedule an Appointment
           </Button>
-        )}
-        <Button color="red" onClick={() => setFilter("past")}>
-          Past Appointments
-        </Button>
-        <Button color="green" onClick={() => setFilter("future")}>
-          Future Appointments
-        </Button>
-      </div>
+        </div>
+      )}
 
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         {getHeader()}
@@ -120,14 +147,14 @@ const Appointments = () => {
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
-                    <Button 
-                      color="yellow" 
+                    <Button
+                      color="yellow"
                       onClick={() => handleUpdate(appointment.id)}
                     >
                       Update
                     </Button>
-                    <Button 
-                      color="red" 
+                    <Button
+                      color="red"
                       onClick={() => handleDelete(appointment.id)}
                     >
                       Delete

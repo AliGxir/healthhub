@@ -51,7 +51,7 @@ const PatientPage = () => {
   };
 
   const handleLogout = () => {
-    fetch("/logout", {
+    fetch("/api/v1/logout", {
       method: "DELETE",
     }).then((res) => {
       if (res.status === 204) {
