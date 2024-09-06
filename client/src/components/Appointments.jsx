@@ -65,11 +65,21 @@ const Appointments = () => {
         .catch((errorObj) => toast.error(errorObj.message));
     }
   };
+  
+  const handleBackClick = () => {
+    if (user.patient_id) {
+      navigate("/patients");
+    } else if (user.doctor_id) {
+      navigate("/doctors");
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <Container>
       <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={() => navigate("/patients")}>
+        <Button color="blue" onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>
