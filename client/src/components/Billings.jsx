@@ -34,15 +34,16 @@ const Billings = () => {
 
   return (
     <Container>
-      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
-        Billing Information 
-      </Header>
-
       <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={() => navigate("/patients")}>
           Back to Homepage
         </Button>
       </div>
+      
+      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+        Billing Information 
+      </Header>
+
 
       <Grid>
         <Grid.Row>

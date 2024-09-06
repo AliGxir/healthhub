@@ -34,6 +34,11 @@ const Prescriptions = () => {
 
   return (
     <Container>
+      <div style={{ marginBottom: "20px" }}>
+        <Button color="blue" onClick={() => navigate("/patients")}>
+          Back to Homepage
+        </Button>
+      </div>
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Prescriptions
       </Header>

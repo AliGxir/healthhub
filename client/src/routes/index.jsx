@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
         element: <PatientPage />,
       },
       {
-        path: "/doctors",
+        path: "/doctors-list",
         element: <DoctorsList />,
       },
       {
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
         element: <AppointmentForm/>,
       },
       {
-        path: "doctors/:doctorId",
+        path: "/doctors",
         element: <DoctorPage />,
       },
       {

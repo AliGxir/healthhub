@@ -31,12 +31,11 @@ const PatientPage = () => {
       .catch((errorObj) => toast.error(errorObj.message));
   }, [user, navigate]);
 
-  // Function to handle update button click
   const handleUpdateClick = (appointmentId) => {
     navigate(`/appointments/update/${appointmentId}`);
   };
 
-  // Function to handle delete button click
+
   const handleDeleteClick = (appointmentId) => {
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       fetch(`/api/v1/appointments/${appointmentId}`, {
@@ -71,8 +70,8 @@ const PatientPage = () => {
         <Button color="orange" onClick={() => navigate("/avss")}>
           AVSS
         </Button>
-        <Button color="teal" onClick={() => navigate("/doctors")}>
-          Doctors
+        <Button color="teal" onClick={() => navigate("/doctors-list")}>
+          Doctors List
         </Button>
       </div>
       <Grid>
