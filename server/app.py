@@ -22,6 +22,7 @@ from routes.check_session import CheckSession
 from routes.login import Login
 from routes.signup import Signup
 from routes.logout import Logout
+from routes.all_doctors import AllDoctors
 
 
 # Resources
@@ -29,6 +30,7 @@ api.add_resource(Patients, "/patients")
 api.add_resource(PatientById, "/patients/<int:id>")
 api.add_resource(Doctors, "/doctors")
 api.add_resource(DoctorById, "/doctors/<int:id>")
+api.add_resource(AllDoctors, "/all-doctors")
 api.add_resource(Appointments, "/appointments")
 api.add_resource(AppointmentById, "/appointments/<int:id>")
 api.add_resource(AVSs, "/avss")

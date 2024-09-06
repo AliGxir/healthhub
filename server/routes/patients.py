@@ -15,7 +15,7 @@ class Patients(Resource):
         if not doctor_id:
             return {"error": "User not authenticated"}, 401
         
-        patients = Patient.query.join(Appointment).filter(Appointment.doctor_id == doctor_id).all()
+        patients = Patient.query.join(Appointment).filter(Appointment.doctor_id == doctor_id).distinct().all()
 
         if not patients:
             return {"message": "No patients associated with this doctor."}, 404
