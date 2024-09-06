@@ -26,7 +26,7 @@ const appointmentSchema = yup.object().shape({
 const CreateOrUpdateAppointment = () => {
   const { user } = useOutletContext();
   const navigate = useNavigate();
-  const { appointmentId } = useParams(); // Get appointmentId from URL if present
+  const { appointmentId } = useParams();
 
   const [formData, setFormData] = useState({
     date: "",
@@ -39,7 +39,6 @@ const CreateOrUpdateAppointment = () => {
 
   useEffect(() => {
     if (appointmentId) {
-      // Fetch the existing appointment details for updating
       fetch(`/api/v1/appointments/${appointmentId}`)
         .then((resp) => {
           if (resp.ok) {
@@ -57,11 +56,9 @@ const CreateOrUpdateAppointment = () => {
     }
   }, [appointmentId]);
 
-  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Convert numerical values to integers
     const newValue =
       name === "doctor_id" || name === "billing_id" || name === "avs_id"
         ? value === "" ? "" : parseInt(value)
@@ -79,36 +76,27 @@ const CreateOrUpdateAppointment = () => {
     return `${datePart} ${timePart}:00`; // Adding seconds as `:00`
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Convert the date to the required format
     const formattedData = {
       ...formData,
       date: formatDateTime(formData.date),
     };
 
-    console.log("Formatted data before validation:", formattedData);
-
-    // Validate the formatted data with yup
     try {
       await appointmentSchema.validate(formattedData, { abortEarly: true });
 
-      console.log("Form data after validation:", formattedData);
-
       // Prepare data for PATCH request, removing fields that are empty
       const dataToSend = Object.fromEntries(
-        Object.entries(formattedData).filter(([_, v]) => v !== "" && v !== null)
+        Object.entries(formattedData).filter(([_, value]) => value !== "" && value !== null)
       );
 
-      // Determine the method and URL for the API request
       const method = appointmentId ? "PATCH" : "POST";
       const url = appointmentId
         ? `/api/v1/appointments/${appointmentId}`
         : "/api/v1/appointments";
 
-      // Make API request if validation passes
       fetch(url, {
         method: method,
         headers: {
@@ -154,6 +142,12 @@ const CreateOrUpdateAppointment = () => {
 
   return (
     <Container>
+        <div style={{ marginBottom: "20px" }}>
+        <Button color="blue" onClick={() => navigate("/patients")}>
+          Back to Homepage
+        </Button>
+
+      </div>
       <h2>{appointmentId ? "Update Appointment" : "Schedule a New Appointment"}</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Input
