@@ -92,7 +92,7 @@ const CreateOrUpdateAppointment = () => {
         },
         body: JSON.stringify({
           ...formattedData,
-          ...(appointmentId ? {} : { patient_id: user.id }), // Add patient_id only when creating
+          ...(appointmentId ? {} : { patient_id: user.id, billing_id: user.billing_id, avs_id: user.avs_id }), // Add patient_id only when creating
         }),
       });
 

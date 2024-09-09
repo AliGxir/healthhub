@@ -64,7 +64,7 @@ const Billings = () => {
               <Grid.Column key={bill.id} computer={4}>
                 <Card>
                   <Card.Content>
-                    <Card.Header>Billing ID: {bill.id}</Card.Header>
+                    <Card.Header>Billing</Card.Header>
                     <Card.Meta>
                       Billing Date: {new Date(bill.billing_date).toLocaleDateString()}
                     </Card.Meta>
