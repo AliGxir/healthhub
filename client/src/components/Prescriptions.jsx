@@ -68,7 +68,7 @@ const Prescriptions = () => {
                       <p>Start Date: {new Date(prescription.start_date).toLocaleDateString()}</p>
                       <p>End Date: {new Date(prescription.end_date).toLocaleDateString()}</p>
                       <p>Instructions: {prescription.instructions}</p>
-                      <p>Doctor: {prescription.doctor_id}</p>
+                      <p>Doctor: {prescription.doctor}</p>
                     </Card.Description>
                   </Card.Content>
                 </Card>

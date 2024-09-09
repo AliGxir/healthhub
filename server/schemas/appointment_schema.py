@@ -13,5 +13,5 @@ class AppointmentSchema(ma.SQLAlchemySchema):
     status = fields.String(validate=validate.OneOf(["scheduled", "completed", "canceled"]))
     patient_id = fields.Integer(required=True)
     doctor_id = fields.Integer(required=True)
-    billing_id = fields.Integer(required=True)
-    avs_id = fields.Integer(required=True)
+    billing_id = fields.Integer(allow_none=True)
+    avs_id = fields.Integer(allow_none=True)

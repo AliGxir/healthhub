@@ -24,8 +24,8 @@ const appointmentSchema = yup.object().shape({
     .oneOf(["scheduled", "completed", "canceled"], "Invalid status")
     .required("Status is required"),
   doctor_id: yup.number().integer().required("Doctor is required"),
-  billing_id: yup.number().integer(),
-  avs_id: yup.number().integer(),
+  billing_id: yup.number().integer().nullable(),
+  avs_id: yup.number().integer().nullable(),
 });
 
 const CreateOrUpdateAppointment = () => {
@@ -41,7 +41,7 @@ const CreateOrUpdateAppointment = () => {
         setDoctors(
           data.map((doctor) => ({
             key: doctor.id,
-            text: doctor.name,
+            text: `Dr. ${doctor.first_name} ${doctor.last_name}`,
             value: doctor.id,
           }))
         )
@@ -50,7 +50,6 @@ const CreateOrUpdateAppointment = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch appointment data if updating
     if (appointmentId) {
       fetch(`/api/v1/appointments/${appointmentId}`)
         .then((resp) => resp.json())
@@ -92,7 +91,7 @@ const CreateOrUpdateAppointment = () => {
         },
         body: JSON.stringify({
           ...formattedData,
-          ...(appointmentId ? {} : { patient_id: user.id, billing_id: user.billing_id, avs_id: user.avs_id }), // Add patient_id only when creating
+          ...(appointmentId ? {} : { patient_id: user.id }), // Add patient_id only when creating
         }),
       });
 

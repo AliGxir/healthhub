@@ -10,8 +10,8 @@ class Appointment(db.Model):
     status = db.Column(db.String, nullable=False)
     patient_id = db.Column(db.Integer, db.ForeignKey("patients.id"), nullable=False)
     doctor_id = db.Column(db.Integer, db.ForeignKey("doctors.id"), nullable=False)
-    billing_id = db.Column(db.Integer, db.ForeignKey("billings.id"), nullable=False)
-    avs_id = db.Column(db.Integer, db.ForeignKey("avss.id"), nullable=False)
+    billing_id = db.Column(db.Integer, db.ForeignKey("billings.id"))
+    avs_id = db.Column(db.Integer, db.ForeignKey("avss.id"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 

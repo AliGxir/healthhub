@@ -111,14 +111,12 @@ const Appointments = () => {
         </Menu.Menu>
       </Menu>
 
-      {/* Adding the Back button with handleBackClick */}
       <div style={{ marginBottom: "20px" }}>
         <Button color="blue" onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>
 
-      {/* Adding the Schedule Appointment button */}
       {user.patient_id && (
         <div style={{ marginBottom: "20px" }}>
           <Button color="blue" onClick={() => navigate("/appointments/new")}>
@@ -135,10 +133,10 @@ const Appointments = () => {
         <Grid.Row>
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
-              <Grid.Column key={appointment.id} mobile={16} tablet={8} computer={4}>
+              <Grid.Column key={appointment.id} computer={4}>
                 <Card>
                   <Card.Content>
-                    <Card.Header>Appointment ID: {appointment.id}</Card.Header>
+                    <Card.Header>Appointment</Card.Header>
                     <Card.Meta>
                       Date: {new Date(appointment.date).toLocaleDateString()}
                     </Card.Meta>

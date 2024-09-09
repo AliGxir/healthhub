@@ -105,7 +105,7 @@ const PatientPage = () => {
               >
                 <Card>
                   <Card.Content>
-                    <Card.Header>Appointment ID: {appointment.id}</Card.Header>
+                    <Card.Header>Appointment</Card.Header>
                     <Card.Meta>
                       Date: {new Date(appointment.date).toLocaleDateString()}
                     </Card.Meta>
