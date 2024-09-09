@@ -46,8 +46,8 @@ const Prescriptions = () => {
 
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={handleBackClick}>
+      <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "20px" }}>
+        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>

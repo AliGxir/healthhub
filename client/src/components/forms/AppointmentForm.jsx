@@ -124,7 +124,7 @@ const CreateOrUpdateAppointment = () => {
   return (
     <Container>
       <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={handleBackClick}>
+        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>
@@ -216,7 +216,7 @@ const CreateOrUpdateAppointment = () => {
               </>
             )}
 
-            <Button type="submit" primary>
+            <Button type="submit" >
               {appointmentId ? "Update Appointment" : "Create Appointment"}
             </Button>
           </FormikForm>

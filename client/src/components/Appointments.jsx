@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 
-
 const Appointments = () => {
   const navigate = useNavigate();
   const { user, updateUser } = useContext(UserContext);
@@ -90,10 +89,7 @@ const Appointments = () => {
   return (
     <Container>
       <Menu pointing secondary>
-        <Menu.Item
-          name="Appointments"
-          onClick={() => navigate("/appointments")}
-        />
+        <Menu.Item name="Appointments" onClick={() => navigate("/appointments")} />
         {user.patient_id && (
           <Menu.Item
             name="Schedule Appointment"
@@ -104,26 +100,23 @@ const Appointments = () => {
         <Menu.Item name="Future Appointments" onClick={() => setFilter("future")} />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button color="red" onClick={handleLogout}>
+            <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
               Logout
             </Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
 
-      <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={handleBackClick}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
           Back to Homepage
         </Button>
-      </div>
-
-      {user.patient_id && (
-        <div style={{ marginBottom: "20px" }}>
-          <Button color="blue" onClick={() => navigate("/appointments/new")}>
+        {user.patient_id && (
+          <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={() => navigate("/appointments/new")}>
             Schedule an Appointment
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         {getHeader()}
@@ -148,13 +141,13 @@ const Appointments = () => {
                   </Card.Content>
                   <Card.Content extra>
                     <Button
-                      color="yellow"
+                      style={{ backgroundColor: "#F26DAB", color: "#fff" }}
                       onClick={() => handleUpdate(appointment.id)}
                     >
                       Update
                     </Button>
                     <Button
-                      color="red"
+                      style={{ backgroundColor: "#528DD9", color: "#fff" }}
                       onClick={() => handleDelete(appointment.id)}
                     >
                       Delete

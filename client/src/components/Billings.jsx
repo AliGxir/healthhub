@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const Billings = () => {
@@ -34,28 +33,27 @@ const Billings = () => {
     fetchBills();
   }, [user, navigate]);
 
-    const handleBackClick = () => {
-      if (user.patient_id) {
-        navigate("/patients");
-      } else if (user.doctor_id) {
-        navigate("/doctors");
-      } else {
-        navigate("/");
-      }
-    };
+  const handleBackClick = () => {
+    if (user.patient_id) {
+      navigate("/patients");
+    } else if (user.doctor_id) {
+      navigate("/doctors");
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={handleBackClick}>
+      <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "20px" }}>
+        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
           Back to Homepage
         </Button>
       </div>
-      
-      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
-        Billing Information 
-      </Header>
 
+      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+        Billing Information
+      </Header>
 
       <Grid>
         <Grid.Row>
