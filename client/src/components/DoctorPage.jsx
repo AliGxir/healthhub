@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
+import { useEffect, useState, useContext } from "react";
+import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const DoctorPage = () => {
@@ -20,7 +19,7 @@ const DoctorPage = () => {
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
-            setAppointments(data); 
+            setAppointments(data);
           });
         } else {
           resp.json().then((errorObj) => toast.error(errorObj.error));
@@ -67,25 +66,36 @@ const DoctorPage = () => {
 
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={() => navigate("/appointments")}>
-          Appointments
-        </Button>
-        <Button color="purple" onClick={() => navigate("/prescriptions")}>
-          Prescriptions
-        </Button>
-        <Button color="teal" onClick={() => navigate("/avss")}>
-          AVS
-        </Button>
-        <Button color="pink" onClick={() => navigate("/patients-list")}>
-          Patient List
-        </Button>
-        <Button color="red" onClick={handleLogout} style={{ marginLeft: '20px' }}>
-          Logout
-        </Button>
-      </div>
+      <Menu pointing secondary>
+        <Menu.Item
+          name="Appointments"
+          onClick={() => navigate("/appointments")}
+        />
+        <Menu.Item
+          name="Billings"
+          onClick={() => navigate("/billings")}
+        />
+        <Menu.Item
+          name="Prescriptions"
+          onClick={() => navigate("/prescriptions")}
+        />
+        <Menu.Item
+          name="AVS"
+          onClick={() => navigate("/avss")}
+        />
+        <Menu.Item
+          name="Patient List"
+          onClick={() => navigate("/patients-list")}
+        />
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button color="red" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
 
-      {/* Header for Upcoming Appointments */}
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Upcoming Appointments
       </Header>

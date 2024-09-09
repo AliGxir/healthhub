@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
+import { useEffect, useState, useContext } from "react";
+import { Container, Grid, Card, Header, Button, Menu } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const DoctorsList = () => {
@@ -30,13 +29,45 @@ const DoctorsList = () => {
     fetchDoctors();
   }, [user, navigate]);
 
+  const handleLogout = () => {
+    fetch("/api/v1/logout", {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status === 204) {
+        updateUser(null);
+        navigate("/"); 
+      }
+    });
+  };
+
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button  style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={() => navigate("/patients")}>
-          Back to Homepage
-        </Button>
-      </div>
+      {/* Nav Menu similar to PatientPage */}
+      <Menu pointing secondary>
+        <Menu.Item
+          name="Back to Homepage"
+          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
+          onClick={() => navigate("/patients")}
+        />
+        <Menu.Item
+          name="Billings"
+          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
+          onClick={() => navigate("/billings")}
+        />
+        <Menu.Item
+          name="Prescriptions"
+          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
+          onClick={() => navigate("/prescriptions")}
+        />
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button color="red" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
+
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Your Doctors
       </Header>
