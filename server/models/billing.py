@@ -52,9 +52,3 @@ class Billing(db.Model):
                 "Status must be one of the option: unpaid, paid, or pending"
             )
         return payment_status
-
-    # @validates("billing_date")
-    # def validate_billing_date(self, _, billing_date):
-    #     if not isinstance(billing_date, datetime):
-    #         raise TypeError("Billing date date must be of type date")
-    #     return billing_date
