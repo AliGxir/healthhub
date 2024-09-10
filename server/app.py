@@ -24,8 +24,6 @@ from routes.signup import Signup
 from routes.logout import Logout
 from routes.all_doctors import AllDoctors
 
-
-# Resources
 api.add_resource(Patients, "/patients")
 api.add_resource(PatientById, "/patients/<int:id>")
 api.add_resource(Doctors, "/doctors")

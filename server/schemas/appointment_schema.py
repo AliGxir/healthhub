@@ -6,7 +6,7 @@ class AppointmentSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Appointment
         load_instance = True
-        fields = ["id", "date", "reason", "status", "patient_id", "doctor_id", "billing_id", "avs_id", "doctor"]
+        fields = ["id", "date", "reason", "status", "patient_id", "doctor_id", "billing_id", "avs_id", "doctor", "patient"]
     
     date = fields.DateTime(required=True)
     reason = fields.String(validate=validate.Length(min=6, max=50))
@@ -15,3 +15,4 @@ class AppointmentSchema(ma.SQLAlchemySchema):
     doctor_id = fields.Integer(required=True)
     
     doctor = fields.Nested("DoctorSchema", only=("first_name", "last_name", "id"))
+    patient = fields.Nested("PatientSchema", only=("first_name", "last_name", "id"))

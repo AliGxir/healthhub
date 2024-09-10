@@ -6,7 +6,7 @@ import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const PatientPage = () => {
-  const { user, updateUser, doctors } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -61,11 +61,6 @@ const PatientPage = () => {
         navigate("/"); 
       }
     });
-  };
-
-  const getDoctorName = (doctorId) => {
-    const doctor = doctors.find((doc) => doc.id === doctorId);
-    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
   };
 
   const firstName = user ? user.first_name : "User";
@@ -127,7 +122,7 @@ const PatientPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Doctor: {getDoctorName(appointment.doctor_id)}</p>
+                      <p>Doctor: {appointment.doctor.first_name} {appointment.doctor.last_name}</p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
