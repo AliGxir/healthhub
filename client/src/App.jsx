@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [doctors, setDoctors] = useState([]);
-  const [patients, setPatients] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,40 +15,12 @@ const App = () => {
         if (resp.status === 200) {
           return resp.json().then(user => {
             setUser(user);
-            navigate(user.patient_id ? "/patient" : "/doctor")
+            navigate(user.patient_id ? "/patient-page" : "/doctor-page")
           })
         } else {
           return resp.json().then((errorObj) => {
             toast.error(errorObj.error);
           });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-
-    fetch("/api/v1/doctors")
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json().then((data) => {
-            setDoctors(data);
-          });
-        } else {
-          resp.json().then((errorObj) => toast.error(errorObj.error));
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-
-    fetch("/api/v1/patients")
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json().then((data) => {
-            setPatients(data);
-          });
-        } else {
-          resp.json().then((errorObj) => toast.error(errorObj.error));
         }
       })
       .catch((error) => {
@@ -63,7 +33,7 @@ const App = () => {
   };
 
   return (
-    <UserContext.Provider value={{ user, doctors, patients, updateUser }}>
+    <UserContext.Provider value={{ user, updateUser }}>
       <div className="app">
         <Toaster />
         <div className="content">
