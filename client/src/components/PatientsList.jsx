@@ -32,8 +32,8 @@ const PatientsList = () => {
 
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button color="blue" onClick={() => navigate("/doctors")}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={() => navigate("/doctors")}>
           Back to Homepage
         </Button>
       </div>

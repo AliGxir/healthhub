@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 
 const DoctorPage = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, patients } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -64,16 +64,23 @@ const DoctorPage = () => {
     });
   };
 
+
+  const lastName = user ? user.last_name : "User";
+
+  const getPatientName = (patientId) => {
+    const patient = patients.find((pat) => pat.id === patientId);
+    return patient ? `${patient.first_name} ${patient.last_name}` : "Unknown";
+  };
+
   return (
     <Container>
+      <Header as="h1" textAlign="center" style={{ margin: "20px 0" }}>
+        Welcome Dr. {lastName} to your Homepage!
+      </Header>
       <Menu pointing secondary>
         <Menu.Item
           name="Appointments"
           onClick={() => navigate("/appointments")}
-        />
-        <Menu.Item
-          name="Billings"
-          onClick={() => navigate("/billings")}
         />
         <Menu.Item
           name="Prescriptions"
@@ -89,14 +96,14 @@ const DoctorPage = () => {
         />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button color="red" onClick={handleLogout}>
+          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
               Logout
             </Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
 
-      <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
+      <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
         Upcoming Appointments
       </Header>
 
@@ -114,18 +121,18 @@ const DoctorPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Patient: {appointment.patient_id}</p>
+                      <p>Patient: {getPatientName(appointment.patient_id)}</p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <Button
-                      primary
+                      style={{ backgroundColor: "#F26DAB", color: "#fff" }}
                       onClick={() => handleUpdateClick(appointment.id)}
                     >
                       Update
                     </Button>
                     <Button
-                      negative
+                      style={{ backgroundColor: "#528DD9", color: "#fff" }}
                       onClick={() => handleDeleteClick(appointment.id)}
                     >
                       Cancel

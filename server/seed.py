@@ -8,6 +8,7 @@ from models.avs import AVS
 from models.prescription import Prescription
 from datetime import datetime, timedelta
 import random
+from random import sample
 from werkzeug.security import generate_password_hash
 
 # Initialize Faker
@@ -110,8 +111,6 @@ def seed_data():
                 status=random.choice(statuses),
                 patient_id=random.choice(patients).id,
                 doctor_id=random.choice(doctors).id,
-                billing_id=random.randint(1,5), 
-                avs_id=random.randint(1,5),
                 created_at=faker.date_time_this_decade()
             )
             appointments.append(appointment)
@@ -122,10 +121,10 @@ def seed_data():
         billings = []
         for _ in range(20):
             billing = Billing(
-                appointment_id=random.choice(appointments).id,
                 amount_due=round(faker.pyfloat(left_digits=3, right_digits=2, positive=True), 2),
                 payment_status=random.choice(["unpaid", "paid", "pending"]),
                 billing_date=faker.date_time_this_year(),
+                appointment_id=sample(appointments, 1)[0].id,
                 created_at=faker.date_time_this_decade()
             )
             billings.append(billing)
@@ -140,6 +139,7 @@ def seed_data():
                 notes=faker.sentence(10),
                 diagnosis=faker.sentence(10),
                 treatment=faker.sentence(10),
+                appointment_id=sample(appointments, 1)[0].id,
                 created_at=faker.date_time_this_decade()
             )
             avs_records.append(avs)

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Button, Menu } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const PatientPage = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, doctors } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -63,8 +63,19 @@ const PatientPage = () => {
     });
   };
 
+  const getDoctorName = (doctorId) => {
+    const doctor = doctors.find((doc) => doc.id === doctorId);
+    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
+  };
+
+  const firstName = user ? user.first_name : "User";
+
   return (
     <Container>
+      <Header as="h1" textAlign="center" style={{ margin: "20px 0" }}>
+        Welcome {firstName} to your Homepage!
+      </Header>
+
       <Menu pointing secondary>
         <Menu.Item
           name="Appointments"
@@ -88,12 +99,16 @@ const PatientPage = () => {
         />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button color="red" onClick={handleLogout}>
+          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
               Logout
             </Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
+
+      <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
+          Upcoming Appointments
+      </Header>
 
       <Grid>
         <Grid.Row>
@@ -112,18 +127,18 @@ const PatientPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Doctor: {appointment.doctor_id}</p>
+                      <p>Doctor: {getDoctorName(appointment.doctor_id)}</p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <Button
-                      primary
+                      style={{ backgroundColor: "#F26DAB", color: "#fff" }}
                       onClick={() => handleUpdateClick(appointment.id)}
                     >
                       Update
                     </Button>
                     <Button
-                      negative
+                      style={{ backgroundColor: "#528DD9", color: "#fff" }}
                       onClick={() => handleDeleteClick(appointment.id)}
                     >
                       Cancel

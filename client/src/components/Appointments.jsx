@@ -6,7 +6,7 @@ import UserContext from "../contexts/UserContext";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, doctors, patients } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const [filter, setFilter] = useState("all");
 
@@ -76,7 +76,7 @@ const Appointments = () => {
   };
 
   const handleLogout = () => {
-    fetch("/logout", {
+    fetch("api/v1/logout", {
       method: "DELETE",
     }).then((res) => {
       if (res.status === 204) {
@@ -86,11 +86,21 @@ const Appointments = () => {
     });
   };
 
+  const getDoctorName = (doctorId) => {
+    const doctor = doctors.find((doc) => doc.id === doctorId);
+    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
+  };
+
+  const getPatientName = (patientId) => {
+    const patient = patients.find((pat) => pat.id === patientId);
+    return patient ? `${patient.first_name} ${patient.last_name}` : "Unknown";
+  };
+
   return (
     <Container>
       <Menu pointing secondary>
         <Menu.Item name="Appointments" onClick={() => navigate("/appointments")} />
-        {user.patient_id && (
+        {user?.patient_id && (
           <Menu.Item
             name="Schedule Appointment"
             onClick={() => navigate("/appointments/new")}
@@ -111,7 +121,7 @@ const Appointments = () => {
         <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
           Back to Homepage
         </Button>
-        {user.patient_id && (
+        {user && user.patient_id && (
           <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={() => navigate("/appointments/new")}>
             Schedule an Appointment
           </Button>
@@ -136,7 +146,11 @@ const Appointments = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Doctor: {appointment.doctor_id}</p>
+                      {user && user.patient_id ? (
+                        <p>Doctor: Dr. {getDoctorName(appointment.doctor_id)}</p>
+                      ) : user && user.doctor_id ? (
+                        <p>Patient: {getPatientName(appointment.patient_id)}</p>
+                      ) : null}
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>

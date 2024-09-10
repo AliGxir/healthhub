@@ -6,16 +6,14 @@ class Billing(db.Model):
     __tablename__ = "billings"
 
     id = db.Column(db.Integer, primary_key=True)
-    appointment_id = db.Column(db.Integer)
+    appointment_id = db.Column(db.Integer, db.ForeignKey("appointments.id"))
     amount_due = db.Column(db.Float, nullable=False)
     payment_status = db.Column(db.String, nullable=False)
     billing_date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    appointments = db.relationship(
-        "Appointment", back_populates="billing", cascade="all, delete-orphan"
-    )
+    appointment = db.relationship("Appointment", back_populates="billing")
 
     patient_id = association_proxy("appointments", "patient_id")
 
@@ -39,7 +37,7 @@ class Billing(db.Model):
     def validate_amount_due(Self, _, amount_due):
         if not isinstance(amount_due, float):
             raise TypeError("Amount due must be of type float")
-        elif amount_due <= 0:
+        elif amount_due < 0:
             raise ValueError("Amount due must be greater than zero")
         elif round(amount_due, 2) != amount_due:
             raise ValueError("Amount due must not have more than two decimal places.")
@@ -55,8 +53,8 @@ class Billing(db.Model):
             )
         return payment_status
 
-    @validates("billing_date")
-    def validate_billing_date(self, _, billing_date):
-        if not isinstance(billing_date, date):
-            raise TypeError("Billing date date must be of type date")
-        return billing_date
+    # @validates("billing_date")
+    # def validate_billing_date(self, _, billing_date):
+    #     if not isinstance(billing_date, datetime):
+    #         raise TypeError("Billing date date must be of type date")
+    #     return billing_date

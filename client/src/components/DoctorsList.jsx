@@ -42,26 +42,15 @@ const DoctorsList = () => {
 
   return (
     <Container>
-      {/* Nav Menu similar to PatientPage */}
       <Menu pointing secondary>
         <Menu.Item
           name="Back to Homepage"
           style={{ backgroundColor: "#F26DAB", color: "#fff" }}
           onClick={() => navigate("/patients")}
         />
-        <Menu.Item
-          name="Billings"
-          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-          onClick={() => navigate("/billings")}
-        />
-        <Menu.Item
-          name="Prescriptions"
-          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-          onClick={() => navigate("/prescriptions")}
-        />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button color="red" onClick={handleLogout}>
+          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
               Logout
             </Button>
           </Menu.Item>

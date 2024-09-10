@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const Prescriptions = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, doctors } = useContext(UserContext);
   const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {
@@ -33,6 +32,11 @@ const Prescriptions = () => {
 
     fetchPrescriptions();
   }, [user, navigate]);
+
+  const getDoctorName = (doctorId) => {
+    const doctor = doctors.find((doc) => doc.id === doctorId);
+    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
+  };
 
   const handleBackClick = () => {
     if (user.patient_id) {
@@ -67,8 +71,7 @@ const Prescriptions = () => {
                       <p>Dosage: {prescription.dosage}</p>
                       <p>Start Date: {new Date(prescription.start_date).toLocaleDateString()}</p>
                       <p>End Date: {new Date(prescription.end_date).toLocaleDateString()}</p>
-                      <p>Instructions: {prescription.instructions}</p>
-                      <p>Doctor: {prescription.doctor}</p>
+                      <p>Doctor: {getDoctorName(prescription.doctor_id)}</p>
                     </Card.Description>
                   </Card.Content>
                 </Card>
