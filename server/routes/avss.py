@@ -20,7 +20,8 @@ class AVSs(Resource):
         if patient_id:
             avss = AVS.query.filter_by(patient_id=patient_id).options(joinedload(AVS.appointments)).all()
         elif doctor_id:
-            avss = AVS.query.filter_by(doctor_id=doctor_id).options(joinedload(AVS.appointments)).all()
+            avss = AVS.query.filter_by(doctor_id=patient_id).options(joinedload(AVS.appointments)).all()
+
         
         results = avs_schema.dump(avss)
         return results, 200

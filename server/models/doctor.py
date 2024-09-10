@@ -30,8 +30,6 @@ class Doctor(db.Model):
     )
     avss = association_proxy("appointments", "avs")
 
-    # serialize_rules = ("-_password_hash", "-appointments", "-prescriptions")
-
     def __repr__(self):
         return f"""
             <Patient #{self.id}:
