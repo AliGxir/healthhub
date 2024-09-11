@@ -18,9 +18,13 @@ class AVSs(Resource):
             return {"error": "User not authenticated"}, 401
         
         if patient_id:
-            avss = AVS.query.filter_by(patient_id=patient_id).options(joinedload(AVS.appointments)).all()
+            avss = AVS.query.options(joinedload(AVS.appointment)).filter(
+                AVS.appointment.has(patient_id=patient_id)
+            ).all()
         elif doctor_id:
-            avss = AVS.query.filter_by(doctor_id=patient_id).options(joinedload(AVS.appointments)).all()
+            avss = AVS.query.options(joinedload(AVS.appointment)).filter(
+                AVS.appointment.has(doctor_id=doctor_id)
+            ).all()
 
         
         results = avs_schema.dump(avss)

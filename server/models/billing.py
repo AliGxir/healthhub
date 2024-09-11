@@ -15,7 +15,7 @@ class Billing(db.Model):
 
     appointment = db.relationship("Appointment", back_populates="billing")
 
-    patient_id = association_proxy("appointments", "patient_id")
+    patient_id = association_proxy("appointment", "patient_id")
 
     def __repr__(self):
         return f"""

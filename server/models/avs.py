@@ -17,8 +17,8 @@ class AVS(db.Model):
     appointment = db.relationship(
         "Appointment", back_populates="avs"
     )
-    patient_id = association_proxy("appointments", "patient_id")
-    doctor_id = association_proxy("appointments", "doctor_id")
+    patient_id = association_proxy("appointment", "patient_id")
+    doctor_id = association_proxy("appointment", "doctor_id")
 
     def __repr__(self):
         return f"""

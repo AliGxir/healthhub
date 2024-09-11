@@ -10,12 +10,12 @@ billings_schema = BillingSchema(many=True, session=db.session)
 
 class Billings(Resource):
     def get(self):
-        current_patient_id = session.get("patient_id")
+        patient_id = session.get("patient_id")
         
-        if not current_patient_id:
+        if not patient_id:
             return {"error": "User not authenticated"}, 401
         
-        billings = Billing.query.options(joinedload(Billing.appointments)).filter(Billing.patient_id == current_patient_id).all()
-        
+        billings = Billing.query.options(joinedload(Billing.appointment)).filter(Billing.appointment.has(patient_id=patient_id)).all()
+
         results = billings_schema.dump(billings)
         return results, 200
