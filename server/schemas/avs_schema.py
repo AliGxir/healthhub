@@ -6,12 +6,11 @@ class AVSSchema(ma.SQLAlchemySchema):
     class Meta():
         model = AVS
         load_instance = True
-        fields = ["id", "record_date", "notes", "diagnosis", "treatment", "doctor", "patient"]
+        fields = ["id", "record_date", "notes", "diagnosis", "treatment", "appointment"]
         
     record_date = fields.Date(required=True)
     notes = fields.String(validate=validate.Length(max=256))
     diagnosis = fields.String(validate=validate.Length(max=256))
     treatment = fields.String(validate=validate.Length(max=256))
     
-    doctor = fields.Nested("DoctorSchema", only=("first_name", "last_name", "id"))
-    patient = fields.Nested("PatientSchema", only=("first_name", "last_name", "id"))
+    appointment = fields.Nested("AppointmentSchema", only=("doctor",))

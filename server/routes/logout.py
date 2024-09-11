@@ -1,11 +1,5 @@
-from flask import session
+from flask import session, request
 from flask_restful import Resource
-# from models.patient import Patient
-# from models.doctor import Doctor
-# from schemas.patient_schema import PatientSchema
-# from schemas.doctor_schema import DoctorSchema
-
-# from config import db, api 
 
 class Logout(Resource):
     def delete(self):

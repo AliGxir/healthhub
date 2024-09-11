@@ -34,7 +34,6 @@ const AVSs = () => {
     fetchavss();
   }, [user, navigate]);
 
-  console.log(avss)
 
   const handleBackClick = () => {
     if (user.patient_id) {
@@ -74,8 +73,8 @@ const AVSs = () => {
                       <p>Notes: {avs.notes}</p>
                       <p>Diagnosis: {avs.payment_diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
-                      <p>Doctor: {avs.doctor}</p>
-                    </Card.Description>
+                      <p>Doctor: {`${avs.appointment?.doctor?.first_name || ""} ${avs.appointment?.doctor?.last_name || "N/A"}`.trim()}</p>
+                      </Card.Description>
                   </Card.Content>
                 </Card>
               </Grid.Column>
