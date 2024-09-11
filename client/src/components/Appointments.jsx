@@ -69,7 +69,7 @@ const Appointments = () => {
     if (user.patient_id) {
       navigate("/patient-page");
     } else if (user.doctor_id) {
-      navigate("/doctors");
+      navigate("/doctor-page");
     } else {
       navigate("/");
     }
