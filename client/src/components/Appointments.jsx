@@ -6,7 +6,7 @@ import UserContext from "../contexts/UserContext";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { user, updateUser, doctors, patients } = useContext(UserContext);
+  const { user, updateUser} = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const [filter, setFilter] = useState("all");
 
@@ -67,7 +67,7 @@ const Appointments = () => {
 
   const handleBackClick = () => {
     if (user.patient_id) {
-      navigate("/patients");
+      navigate("/patient-page");
     } else if (user.doctor_id) {
       navigate("/doctors");
     } else {
@@ -84,16 +84,6 @@ const Appointments = () => {
         navigate("/");
       }
     });
-  };
-
-  const getDoctorName = (doctorId) => {
-    const doctor = doctors.find((doc) => doc.id === doctorId);
-    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
-  };
-
-  const getPatientName = (patientId) => {
-    const patient = patients.find((pat) => pat.id === patientId);
-    return patient ? `${patient.first_name} ${patient.last_name}` : "Unknown";
   };
 
   return (
@@ -147,9 +137,9 @@ const Appointments = () => {
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
                       {user && user.patient_id ? (
-                        <p>Doctor: Dr. {getDoctorName(appointment.doctor_id)}</p>
+                        <p>Doctor: Dr.{appointment.doctor.first_name}{appointment.doctor.last_name}</p>
                       ) : user && user.doctor_id ? (
-                        <p>Patient: {getPatientName(appointment.patient_id)}</p>
+                        <p>Patient: {appointment.patient.first_name}{appointment.patient.last_name}</p>
                       ) : null}
                     </Card.Description>
                   </Card.Content>

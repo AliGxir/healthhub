@@ -6,7 +6,7 @@ import UserContext from "../contexts/UserContext";
 
 const Prescriptions = () => {
   const navigate = useNavigate();
-  const { user, doctors } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Prescriptions = () => {
 
     const fetchPrescriptions = async () => {
       try {
-        const response = await fetch(`/api/v1/prescriptions`);
+        const response = await fetch("/api/v1/prescriptions");
         if (response.ok) {
           const data = await response.json();
           setPrescriptions(data);
@@ -33,16 +33,11 @@ const Prescriptions = () => {
     fetchPrescriptions();
   }, [user, navigate]);
 
-  const getDoctorName = (doctorId) => {
-    const doctor = doctors.find((doc) => doc.id === doctorId);
-    return doctor ? `${doctor.first_name} ${doctor.last_name}` : "Unknown";
-  };
-
   const handleBackClick = () => {
     if (user.patient_id) {
-      navigate("/patients");
+      navigate("/patient-page");
     } else if (user.doctor_id) {
-      navigate("/doctors");
+      navigate("/doctor-page");
     } else {
       navigate("/");
     }
@@ -71,7 +66,7 @@ const Prescriptions = () => {
                       <p>Dosage: {prescription.dosage}</p>
                       <p>Start Date: {new Date(prescription.start_date).toLocaleDateString()}</p>
                       <p>End Date: {new Date(prescription.end_date).toLocaleDateString()}</p>
-                      <p>Doctor: {getDoctorName(prescription.doctor_id)}</p>
+                      <p>Doctor: {prescription.doctor.first_name} {prescription.doctor.last_name}</p>
                     </Card.Description>
                   </Card.Content>
                 </Card>

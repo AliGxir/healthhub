@@ -95,9 +95,9 @@ const Registration = () => {
   useEffect(() => {
     if (currentUser) {
       if (currentUser.patient_id) {
-        navigate("/patients");
+        navigate("/patient-page");
       } else if (currentUser.doctor_id) {
-        navigate("/doctors");
+        navigate("/doctor-page");
       }
     }
   }, [currentUser, navigate]);
@@ -136,9 +136,9 @@ const Registration = () => {
                 resp.json().then((user) => {
                   updateUser(user);
                   if (user.patient_id) {
-                    navigate("/patients");
+                    navigate("/patient-page");
                   } else if (user.doctor_id) {
-                    navigate("/doctors");
+                    navigate("/doctor-page");
                   }  
                 });
               } else {

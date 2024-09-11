@@ -12,3 +12,7 @@ class AVSSchema(ma.SQLAlchemySchema):
     notes = fields.String(validate=validate.Length(max=256))
     diagnosis = fields.String(validate=validate.Length(max=256))
     treatment = fields.String(validate=validate.Length(max=256))
+
+    
+    doctor = fields.Nested("DoctorSchema", only=("first_name", "last_name", "id"))
+    patient = fields.Nested("PatientSchema", only=("first_name", "last_name", "id"))

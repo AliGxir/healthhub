@@ -35,9 +35,9 @@ const Billings = () => {
 
   const handleBackClick = () => {
     if (user.patient_id) {
-      navigate("/patients");
+      navigate("/patient-page");
     } else if (user.doctor_id) {
-      navigate("/doctors");
+      navigate("/doctor-page");
     } else {
       navigate("/");
     }

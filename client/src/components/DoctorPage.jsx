@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 
 const DoctorPage = () => {
-  const { user, updateUser, patients } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -67,11 +67,6 @@ const DoctorPage = () => {
 
   const lastName = user ? user.last_name : "User";
 
-  const getPatientName = (patientId) => {
-    const patient = patients.find((pat) => pat.id === patientId);
-    return patient ? `${patient.first_name} ${patient.last_name}` : "Unknown";
-  };
-
   return (
     <Container>
       <Header as="h1" textAlign="center" style={{ margin: "20px 0" }}>
@@ -121,7 +116,7 @@ const DoctorPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Patient: {getPatientName(appointment.patient_id)}</p>
+                      <p>Patient: {appointment.patient.first_name} {appointment.patient.last_name}</p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>

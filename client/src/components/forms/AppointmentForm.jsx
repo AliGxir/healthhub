@@ -33,6 +33,14 @@ const CreateOrUpdateAppointment = () => {
   const navigate = useNavigate();
   const { appointmentId } = useParams();
   const [doctors, setDoctors] = useState([]);
+  const [initialValues, setInitialValues] = useState({
+    date: "",
+    reason: "",
+    status: "scheduled",
+    doctor_id: "",
+    billing_id: "",
+    avs_id: "",
+  });
 
   useEffect(() => {
     fetch("/api/v1/all-doctors")
@@ -63,14 +71,6 @@ const CreateOrUpdateAppointment = () => {
     }
   }, [appointmentId]);
 
-  const initialValues = {
-    date: "",
-    reason: "",
-    status: "scheduled",
-    doctor_id: "",
-    billing_id: "",
-    avs_id: "",
-  };
 
   const handleSubmit = async (values) => {
     const formattedData = {
@@ -113,9 +113,9 @@ const CreateOrUpdateAppointment = () => {
 
   const handleBackClick = () => {
     if (user.patient_id) {
-      navigate("/patients");
+      navigate("/patient-page");
     } else if (user.doctor_id) {
-      navigate("/doctors");
+      navigate("/doctor-page");
     } else {
       navigate("/");
     }
@@ -165,16 +165,6 @@ const CreateOrUpdateAppointment = () => {
             </Form.Field>
 
             <Form.Field>
-              <label>Status</label>
-              <Field as={Form.Input} type="text" name="status" />
-              <ErrorMessage
-                name="status"
-                component="div"
-                className="ui pointing red basic label"
-              />
-            </Form.Field>
-
-            <Form.Field>
               <label>Doctor</label>
               <Dropdown
                 fluid
@@ -194,6 +184,16 @@ const CreateOrUpdateAppointment = () => {
 
             {appointmentId && (
               <>
+                <Form.Field>
+                  <label>Status</label>
+                  <Field as={Form.Input} type="text" name="status" />
+                  <ErrorMessage
+                    name="status"
+                    component="div"
+                    className="ui pointing red basic label"
+                  />
+                </Form.Field>
+
                 <Form.Field>
                   <label>Billing ID</label>
                   <Field as={Form.Input} type="number" name="billing_id" />

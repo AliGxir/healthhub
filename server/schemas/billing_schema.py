@@ -12,3 +12,4 @@ class BillingSchema(ma.SQLAlchemySchema):
     amount_due = fields.Float(required=True)
     payment_status = fields.String(validate=validate.OneOf(["unpaid", "paid", "pending"]))
     billing_date = fields.Date(required=True)
+    
