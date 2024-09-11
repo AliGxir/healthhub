@@ -106,6 +106,10 @@ const Registration = () => {
 
   return (
     <Container>
+      <Header as="h1" textAlign="center" style={{ marginBottom: "20px" }}>
+        Welcome to HealthHub Portal!
+      </Header>
+
       <Header as="h2" textAlign="center">
         {isLogin ? "Please Log in" : "Sign Up"}
       </Header>
