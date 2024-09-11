@@ -73,7 +73,12 @@ const AVSs = () => {
                       <p>Notes: {avs.notes}</p>
                       <p>Diagnosis: {avs.payment_diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
-                      <p>Doctor: {`${avs.appointment?.doctor?.first_name || ""} ${avs.appointment?.doctor?.last_name || "N/A"}`.trim()}</p>
+                      {user.patient_id && (
+                          <p>Doctor: {`${avs.appointment?.doctor?.first_name || ""} ${avs.appointment?.doctor?.last_name || "N/A"}`.trim()}</p>
+                        )}
+                        {user.doctor_id && (
+                          <p>Patient: {`${avs.appointment?.patient?.first_name || ""} ${avs.appointment?.patient?.last_name || "N/A"}`.trim()}</p>
+                        )}
                       </Card.Description>
                   </Card.Content>
                 </Card>

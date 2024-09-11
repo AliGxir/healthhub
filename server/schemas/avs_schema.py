@@ -13,4 +13,4 @@ class AVSSchema(ma.SQLAlchemySchema):
     diagnosis = fields.String(validate=validate.Length(max=256))
     treatment = fields.String(validate=validate.Length(max=256))
     
-    appointment = fields.Nested("AppointmentSchema", only=("doctor",))
+    appointment = fields.Nested("AppointmentSchema", only=("doctor", "patient"))
