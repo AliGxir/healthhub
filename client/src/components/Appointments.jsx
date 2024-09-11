@@ -137,9 +137,9 @@ const Appointments = () => {
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
                       {user && user.patient_id ? (
-                        <p>Doctor: Dr.{appointment.doctor.first_name}{appointment.doctor.last_name}</p>
+                        <p>Doctor: {appointment.doctor.first_name} {appointment.doctor.last_name}</p>
                       ) : user && user.doctor_id ? (
-                        <p>Patient: {appointment.patient.first_name}{appointment.patient.last_name}</p>
+                        <p>Patient: {appointment.patient.first_name} {appointment.patient.last_name}</p>
                       ) : null}
                     </Card.Description>
                   </Card.Content>

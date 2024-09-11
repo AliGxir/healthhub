@@ -8,7 +8,7 @@ import { useContext } from "react";
 const AVSs = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [avss, setavss] = useState([]);
+  const [avss, setAvss] = useState([]);
 
   useEffect(() => {
     if (!user) {
@@ -21,7 +21,7 @@ const AVSs = () => {
         const response = await fetch("/api/v1/avss");
         if (response.ok) {
           const data = await response.json();
-          setavss(data);
+          setAvss(data);
         } else {
           const errorObj = await response.json();
           toast.error(errorObj.error);
@@ -33,6 +33,8 @@ const AVSs = () => {
 
     fetchavss();
   }, [user, navigate]);
+
+  console.log(avss)
 
   const handleBackClick = () => {
     if (user.patient_id) {
@@ -72,7 +74,7 @@ const AVSs = () => {
                       <p>Notes: {avs.notes}</p>
                       <p>Diagnosis: {avs.payment_diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
-                      <p>Doctor: </p>
+                      <p>Doctor: {avs.doctor}</p>
                     </Card.Description>
                   </Card.Content>
                 </Card>

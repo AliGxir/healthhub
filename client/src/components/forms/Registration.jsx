@@ -18,12 +18,14 @@ const signupSchema = yup.object().shape({
     .string("First name has to be a string")
     .required("First name is required")
     .min(3)
-    .max(20),
+    .max(20)
+    .matches(/^[A-Za-z]+$/, "First name must only contain letters"),
   last_name: yup
     .string("Last name has to be a string")
     .required("Last name is required")
     .min(3)
-    .max(20),
+    .max(20)
+    .matches(/^[A-Za-z]+$/, "First name must only contain letters"),
   date_of_birth: yup
     .date("Date of birth has to be a string")
     .required("Date of birth is required"),
