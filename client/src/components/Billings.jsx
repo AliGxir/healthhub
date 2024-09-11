@@ -17,7 +17,7 @@ const Billings = () => {
 
     const fetchBills = async () => {
       try {
-        const response = await fetch("/api/v1/billings");
+        const response = await fetch("api/v1/billings");
         if (response.ok) {
           const data = await response.json();
           setBills(data);

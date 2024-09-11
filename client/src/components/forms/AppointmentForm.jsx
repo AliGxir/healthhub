@@ -24,8 +24,8 @@ const appointmentSchema = yup.object().shape({
     .oneOf(["scheduled", "completed", "canceled"], "Invalid status")
     .required("Status is required"),
   doctor_id: yup.number().integer().required("Doctor is required"),
-  billing_id: yup.number().integer().nullable(),
-  avs_id: yup.number().integer().nullable(),
+  billing_id: yup.number().integer().nullable().moreThan(0, "Billing ID must be greater than 0"),
+  avs_id: yup.number().integer().nullable().moreThan(0, "Billing ID must be greater than 0"),
 });
 
 const CreateOrUpdateAppointment = () => {

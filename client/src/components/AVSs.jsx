@@ -72,7 +72,7 @@ const AVSs = () => {
                       <p>Notes: {avs.notes}</p>
                       <p>Diagnosis: {avs.payment_diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
-                      <p>Doctor: {avs.doctor}</p>
+                      <p>Doctor: </p>
                     </Card.Description>
                   </Card.Content>
                 </Card>

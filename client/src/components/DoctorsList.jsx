@@ -46,7 +46,7 @@ const DoctorsList = () => {
         <Menu.Item
           name="Back to Homepage"
           style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-          onClick={() => navigate("/patients")}
+          onClick={() => navigate("/patient-page")}
         />
         <Menu.Menu position="right">
           <Menu.Item>
