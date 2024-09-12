@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import { FilterProvider } from "./contexts/FilterContext";
 import DocNavBar from "./components/DocNavBar";
+import PatNavBar from "./components/PatNavBar";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
@@ -17,8 +18,8 @@ const App = () => {
         if (resp.status === 200) {
           return resp.json().then(user => {
             setUser(user);
-            navigate(user.patient_id ? "/patient-page" : "/doctor-page")
-          })
+            navigate(user.patient_id ? "/patient-page" : "/doctor-page");
+          });
         } else {
           return resp.json().then((errorObj) => {
             toast.error(errorObj.error);
@@ -28,7 +29,7 @@ const App = () => {
       .catch((error) => {
         toast.error(error.message);
       });
-  }, []);
+  }, [navigate]);
 
   const updateUser = (value) => {
     setUser(value);
@@ -36,17 +37,17 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ user, updateUser }}>
-      <FilterProvider> 
+      <FilterProvider>
         <div className="app">
           <Toaster />
-          <DocNavBar /> 
+          {user?.patient_id ? <PatNavBar /> : user?.doctor_id ? <DocNavBar /> : null}
           <div className="content">
-            <Outlet /> 
+            <Outlet />
           </div>
         </div>
       </FilterProvider>
     </UserContext.Provider>
   );
-}
+};
 
 export default App;

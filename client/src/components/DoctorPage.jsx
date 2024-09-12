@@ -3,7 +3,6 @@ import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import DocNavBar from "./DocNavBar"; 
 
 const DoctorPage = () => {
   const { user } = useContext(UserContext);

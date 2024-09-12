@@ -71,36 +71,6 @@ const PatientPage = () => {
         Welcome {firstName} to your Homepage!
       </Header>
 
-      <Menu pointing secondary>
-        <Menu.Item
-          name="Appointments"
-          onClick={() => navigate("/appointments")}
-        />
-        <Menu.Item
-          name="Billings"
-          onClick={() => navigate("/billings")}
-        />
-        <Menu.Item
-          name="Prescriptions"
-          onClick={() => navigate("/prescriptions")}
-        />
-        <Menu.Item
-          name="AVSS"
-          onClick={() => navigate("/avss")}
-        />
-        <Menu.Item
-          name="Doctors List"
-          onClick={() => navigate("/doctors-list")}
-        />
-        <Menu.Menu position="right">
-          <Menu.Item>
-          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
-              Logout
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-
       <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
           Upcoming Appointments
       </Header>
