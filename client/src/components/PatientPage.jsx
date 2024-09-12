@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -50,17 +50,6 @@ const PatientPage = () => {
         })
         .catch(() => toast.error("Network error."));
     }
-  };
-
-  const handleLogout = () => {
-    fetch("/api/v1/logout", {
-      method: "DELETE",
-    }).then((res) => {
-      if (res.status === 204) {
-        updateUser(null);
-        navigate("/"); 
-      }
-    });
   };
 
   const firstName = user ? user.first_name : "User";

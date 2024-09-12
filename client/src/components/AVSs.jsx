@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Card, Header, Button } from "semantic-ui-react";
+import { Container, Grid, Card, Header } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import toast from "react-hot-toast";
@@ -35,28 +35,11 @@ const AVSs = () => {
   }, [user, navigate]);
 
 
-  const handleBackClick = () => {
-    if (user.patient_id) {
-      navigate("/patient-page");
-    } else if (user.doctor_id) {
-      navigate("/doctor-page");
-    } else {
-      navigate("/");
-    }
-  };
-
   return (
     <Container>
-      <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "20px" }}>
-        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
-          Back to Homepage
-        </Button>
-      </div>
-      
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         After Visit Summaries
       </Header>
-
 
       <Grid>
         <Grid.Row>

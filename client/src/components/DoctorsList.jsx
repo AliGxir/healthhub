@@ -29,34 +29,8 @@ const DoctorsList = () => {
     fetchDoctors();
   }, [user, navigate]);
 
-  const handleLogout = () => {
-    fetch("/api/v1/logout", {
-      method: "DELETE",
-    }).then((res) => {
-      if (res.status === 204) {
-        updateUser(null);
-        navigate("/"); 
-      }
-    });
-  };
-
   return (
     <Container>
-      <Menu pointing secondary>
-        <Menu.Item
-          name="Back to Homepage"
-          style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-          onClick={() => navigate("/patient-page")}
-        />
-        <Menu.Menu position="right">
-          <Menu.Item>
-          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
-              Logout
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Your Doctors
       </Header>

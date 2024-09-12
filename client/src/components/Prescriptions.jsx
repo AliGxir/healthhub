@@ -33,23 +33,8 @@ const Prescriptions = () => {
     fetchPrescriptions();
   }, [user, navigate]);
 
-  const handleBackClick = () => {
-    if (user.patient_id) {
-      navigate("/patient-page");
-    } else if (user.doctor_id) {
-      navigate("/doctor-page");
-    } else {
-      navigate("/");
-    }
-  };
-
   return (
     <Container>
-      <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "20px" }}>
-        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
-          Back to Homepage
-        </Button>
-      </div>
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         Prescriptions
       </Header>
