@@ -8,7 +8,7 @@ import FilterContext from "../contexts/FilterContext";
 const Appointments = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const { filter } = useContext(FilterContext);
+  const { filter } = useContext(FilterContext); 
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
@@ -17,16 +17,19 @@ const Appointments = () => {
       return;
     }
 
-    const fetchAppointments = () => {
-      fetch(`/api/v1/appointments?filter=${filter}`)
-        .then((resp) => {
-          if (resp.ok) {
-            return resp.json().then((data) => setAppointments(data));
-          } else {
-            resp.json().then((errorObj) => toast.error(errorObj.error));
-          }
-        })
-        .catch((errorObj) => toast.error(errorObj.message));
+    const fetchAppointments = async () => {
+      try {
+        const response = await fetch(`/api/v1/appointments?filter=${filter}`);
+        if (response.ok) {
+          const data = await response.json();
+          setAppointments(data);
+        } else {
+          const errorObj = await response.json();
+          toast.error(errorObj.error);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
 
     fetchAppointments();
