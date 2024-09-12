@@ -18,7 +18,6 @@ class PatientById(Resource):
         if patient := db.session.get(Patient, id):
             try:
                 data = request.json
-                # Validate data
                 patient_schema.validate(data)
                 # Deserialize data and allow for partial updates
                 updated_patient = patient_schema.load(

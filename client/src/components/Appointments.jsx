@@ -1,14 +1,15 @@
 import { useEffect, useState, useContext } from "react";
-import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import FilterContext from "../contexts/FilterContext";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { user, updateUser} = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const { filter } = useContext(FilterContext);
   const [appointments, setAppointments] = useState([]);
-  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (!user) {
@@ -42,81 +43,18 @@ const Appointments = () => {
     }
   };
 
-  const handleUpdate = (appointmentId) => {
-    navigate(`/appointments/update/${appointmentId}`);
-  };
-
-  const handleDelete = (appointmentId) => {
-    if (window.confirm("Are you sure you want to delete this appointment?")) {
-      fetch(`/api/v1/appointments/${appointmentId}`, {
-        method: "DELETE",
-      })
-        .then((resp) => {
-          if (resp.ok) {
-            setAppointments((prev) =>
-              prev.filter((appointment) => appointment.id !== appointmentId)
-            );
-            toast.success("Appointment deleted successfully.");
-          } else {
-            resp.json().then((errorObj) => toast.error(errorObj.error));
-          }
-        })
-        .catch((errorObj) => toast.error(errorObj.message));
-    }
-  };
-
-  const handleBackClick = () => {
-    if (user.patient_id) {
-      navigate("/patient-page");
-    } else if (user.doctor_id) {
-      navigate("/doctor-page");
-    } else {
-      navigate("/");
-    }
-  };
-
-  const handleLogout = () => {
-    fetch("api/v1/logout", {
-      method: "DELETE",
-    }).then((res) => {
-      if (res.status === 204) {
-        updateUser(null);
-        navigate("/");
-      }
-    });
-  };
-
   return (
     <Container>
-      <Menu pointing secondary>
-        <Menu.Item name="Appointments" onClick={() => navigate("/appointments")} />
-        {user?.patient_id && (
-          <Menu.Item
-            name="Schedule Appointment"
+      {user && user.patient_id && (
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
+          <Button
+            style={{ backgroundColor: "#F26DAB", color: "#fff" }}
             onClick={() => navigate("/appointments/new")}
-          />
-        )}
-        <Menu.Item name="Past Appointments" onClick={() => setFilter("past")} />
-        <Menu.Item name="Future Appointments" onClick={() => setFilter("future")} />
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
-              Logout
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
-          Back to Homepage
-        </Button>
-        {user && user.patient_id && (
-          <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={() => navigate("/appointments/new")}>
+          >
             Schedule an Appointment
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         {getHeader()}
@@ -146,13 +84,13 @@ const Appointments = () => {
                   <Card.Content extra>
                     <Button
                       style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-                      onClick={() => handleUpdate(appointment.id)}
+                      onClick={() => navigate(`/appointments/update/${appointment.id}`)}
                     >
                       Update
                     </Button>
                     <Button
                       style={{ backgroundColor: "#528DD9", color: "#fff" }}
-                      onClick={() => handleDelete(appointment.id)}
+                      onClick={() => navigate(`/appointments/delete/${appointment.id}`)}
                     >
                       Delete
                     </Button>

@@ -1,11 +1,12 @@
 import { useEffect, useState, useContext } from "react";
-import { Container, Grid, Card, Button, Menu, Header } from "semantic-ui-react";
+import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import DocNavBar from "./DocNavBar"; 
 
 const DoctorPage = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const DoctorPage = () => {
       return;
     }
 
-    fetch(`/api/v1/appointments`)
+    fetch("/api/v1/appointments")
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
@@ -51,20 +52,6 @@ const DoctorPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    fetch("/api/v1/logout", {
-      method: "DELETE",
-    }).then((res) => {
-      if (res.status === 204) {
-        updateUser(null);
-        navigate("/");
-      } else {
-        toast.error("Failed to log out.");
-      }
-    });
-  };
-
-
   const lastName = user ? user.last_name : "User";
 
   return (
@@ -72,31 +59,6 @@ const DoctorPage = () => {
       <Header as="h1" textAlign="center" style={{ margin: "20px 0" }}>
         Welcome Dr. {lastName} to your Homepage!
       </Header>
-      <Menu pointing secondary>
-        <Menu.Item
-          name="Appointments"
-          onClick={() => navigate("/appointments")}
-        />
-        <Menu.Item
-          name="Prescriptions"
-          onClick={() => navigate("/prescriptions")}
-        />
-        <Menu.Item
-          name="AVS"
-          onClick={() => navigate("/avss")}
-        />
-        <Menu.Item
-          name="Patient List"
-          onClick={() => navigate("/patients-list")}
-        />
-        <Menu.Menu position="right">
-          <Menu.Item>
-          <Button style={{ backgroundColor: "#3079D9", color: "#fff" }} onClick={handleLogout}>
-              Logout
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
 
       <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
         Upcoming Appointments

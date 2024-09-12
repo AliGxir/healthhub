@@ -3,6 +3,8 @@ import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
+import { FilterProvider } from "./contexts/FilterContext";
+import DocNavBar from "./components/DocNavBar";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
@@ -34,12 +36,15 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ user, updateUser }}>
-      <div className="app">
-        <Toaster />
-        <div className="content">
-          <Outlet />
+      <FilterProvider> 
+        <div className="app">
+          <Toaster />
+          <DocNavBar /> 
+          <div className="content">
+            <Outlet /> 
+          </div>
         </div>
-      </div>
+      </FilterProvider>
     </UserContext.Provider>
   );
 }
