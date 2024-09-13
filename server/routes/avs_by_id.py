@@ -15,4 +15,4 @@ class AVSById(Resource):
             return {"error": "Could not find that avs"}, 404
         except Exception as e:
             db.session.rollback()
-            return {"error": str(e)}, 400        
+            return {"error": str(e)}, 400

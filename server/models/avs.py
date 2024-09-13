@@ -15,9 +15,7 @@ class AVS(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    appointment = db.relationship(
-        "Appointment", back_populates="avs"
-    )
+    appointment = db.relationship("Appointment", back_populates="avs")
     patient_id = association_proxy("appointment", "patient_id")
     doctor_id = association_proxy("appointment", "doctor_id")
 
@@ -62,11 +60,13 @@ class AVS(db.Model):
         if len(treatment) < 5:
             raise ValueError("Treatment must be greater than 5 characters")
         return treatment
-    
+
     @validates("appointment_id")
     def validate_appointment_id(self, _, appointment_id):
         if not isinstance(appointment_id, int):
             raise TypeError("Appointment_id must be of type integer")
-        if not db.session.query(Appointment.query.filter_by(id=appointment_id).exists()).scalar():
+        if not db.session.query(
+            Appointment.query.filter_by(id=appointment_id).exists()
+        ).scalar():
             raise ValueError("Appointment_id does not exist")
         return appointment_id

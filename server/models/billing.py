@@ -31,7 +31,9 @@ class Billing(db.Model):
     def validate_appointment_id(self, _, appointment_id):
         if not isinstance(appointment_id, int):
             raise TypeError("Appointment_id must be of type integer")
-        if not db.session.query(Appointment.query.filter_by(id=appointment_id).exists()).scalar():
+        if not db.session.query(
+            Appointment.query.filter_by(id=appointment_id).exists()
+        ).scalar():
             raise ValueError("Appointment_id does not exist")
         return appointment_id
 

@@ -7,15 +7,21 @@ from flask import session
 
 doctors_schema = DoctorSchema(many=True, session=db.session)
 
+
 class Doctors(Resource):
     def get(self):
         try:
             patient_id = session.get("patient_id")
-            
+
             if not patient_id:
                 return {"error": "User not authenticated"}, 401
-            
-            doctors = Doctor.query.join(Appointment).filter(Appointment.patient_id == patient_id).distinct().all()
+
+            doctors = (
+                Doctor.query.join(Appointment)
+                .filter(Appointment.patient_id == patient_id)
+                .distinct()
+                .all()
+            )
 
             if not doctors:
                 return {"message": "No doctors associated with this patient."}, 404

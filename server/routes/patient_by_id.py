@@ -23,12 +23,10 @@ class PatientById(Resource):
             try:
                 data = request.json
                 patient_schema.validate(data)
-                # Deserialize data and allow for partial updates
                 updated_patient = patient_schema.load(
                     data, instance=patient, partial=True
                 )
                 db.session.commit()
-                # Serialize the data and package your JSON response
                 return patient_schema.dump(updated_patient), 200
             except Exception as e:
                 db.session.rollback()

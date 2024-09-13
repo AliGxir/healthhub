@@ -10,6 +10,7 @@ from config import db
 patient_schema = PatientSchema(session=db.session)
 doctor_schema = DoctorSchema(session=db.session)
 
+
 class Login(Resource):
     def post(self):
         try:
@@ -17,15 +18,15 @@ class Login(Resource):
             patient = Patient.query.filter_by(email=data.get("email")).first()
             if not patient:
                 doctor = Doctor.query.filter_by(email=data.get("email")).first()
-                
+
             if patient and patient.authenticate(data.get("password_hash")):
-                session["patient_id"] = patient.id 
+                session["patient_id"] = patient.id
                 return patient_schema.dump(patient), 200
-            
+
             if doctor and doctor.authenticate(data.get("password_hash")):
                 session["doctor_id"] = doctor.id
                 return doctor_schema.dump(doctor), 200
-            
-            return {'error': 'Invalid Credentials'}, 403
+
+            return {"error": "Invalid Credentials"}, 403
         except Exception as e:
-            return {'error': "Invalid Credentials"}, 403
+            return {"error": "Invalid Credentials"}, 403

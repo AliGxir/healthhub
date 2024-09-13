@@ -6,15 +6,16 @@ from flask import session
 
 doctors_schema = DoctorSchema(many=True, session=db.session)
 
+
 class AllDoctors(Resource):
     def get(self):
         try:
             patient_id = session.get("patient_id")
             doctor_id = session.get("doctor_id")
-            
+
             if not patient_id and not doctor_id:
                 return {"error": "User not authenticated"}, 401
-            
+
             doctors = Doctor.query.all()
 
             if not doctors:

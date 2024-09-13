@@ -69,7 +69,7 @@ class Patient(db.Model):
 
     def authenticate(self, pw_to_check):
         return flask_bcrypt.check_password_hash(self._password_hash, pw_to_check)
-    
+
     @property
     def patient_id(self):
         return True
@@ -103,9 +103,15 @@ class Patient(db.Model):
     @validates("gender")
     def validate_gender(self, _, gender):
         valid_genders = [
-            "female", "male", "cisgender", "transgender", 
-            "non-binary", "agender", "unsure", 
-            "not listed", "prefer not to answer"
+            "female",
+            "male",
+            "cisgender",
+            "transgender",
+            "non-binary",
+            "agender",
+            "unsure",
+            "not listed",
+            "prefer not to answer",
         ]
         if not isinstance(gender, str):
             raise TypeError("Gender must be a string")
@@ -126,7 +132,7 @@ class Patient(db.Model):
         if not isinstance(phone_number, str):
             raise TypeError("Phone number must be a string")
         phone_number = phone_number.strip()
-        if not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number): 
+        if not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number):
             raise ValueError("Phone number must be in the format XXX-XXX-XXXX")
         return phone_number
 

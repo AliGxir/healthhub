@@ -9,11 +9,12 @@ from config import db
 patient_schema = PatientSchema(session=db.session)
 doctor_schema = DoctorSchema(session=db.session)
 
+
 class CheckSession(Resource):
     def get(self):
-        try: 
+        try:
             if "patient_id" not in session and "doctor_id" not in session:
-                return{"error": "Unauthorized"}, 403
+                return {"error": "Unauthorized"}, 403
             user = None
             if "patient_id" in session:
                 user = db.session.get(Patient, session["patient_id"])

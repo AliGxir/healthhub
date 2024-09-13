@@ -61,7 +61,7 @@ class Doctor(db.Model):
 
     def authenticate(self, pw_to_check):
         return flask_bcrypt.check_password_hash(self._password_hash, pw_to_check)
-    
+
     @property
     def doctor_id(self):
         return True
@@ -109,7 +109,7 @@ class Doctor(db.Model):
             "endocrinology",
             "ophthalmology",
             "radiology",
-            "intensive care medicine"
+            "intensive care medicine",
         ]
         if specialty not in specialties_list:
             raise ValueError("Specialty must be one of the specialty in list")
@@ -122,6 +122,6 @@ class Doctor(db.Model):
         if not isinstance(phone_number, str):
             raise TypeError("Phone number must be a string")
         phone_number = phone_number.strip()
-        if not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number): 
+        if not re.match(r"^\d{3}-\d{3}-\d{4}$", phone_number):
             raise ValueError("Phone number must be in the format XXX-XXX-XXXX")
         return phone_number

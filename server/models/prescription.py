@@ -72,12 +72,13 @@ class Prescription(db.Model):
             raise ValueError("Instructions must be greater than 5 characters")
         return instructions
 
-
     @validates("patient_id")
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
-        if not db.session.query(Patient.query.filter_by(id=patient_id).exists()).scalar():
+        if not db.session.query(
+            Patient.query.filter_by(id=patient_id).exists()
+        ).scalar():
             raise ValueError("Patient_id does not exist")
         return patient_id
 

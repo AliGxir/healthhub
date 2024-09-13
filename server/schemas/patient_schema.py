@@ -21,12 +21,14 @@ class PatientSchema(ma.SQLAlchemySchema):
             "email",
             "insurance_id",
             "appointments",
-            "patient_id"
+            "patient_id",
         ]
 
     first_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
     last_name = fields.String(required=True, validate=validate.Length(min=3, max=20))
-    password_hash = fields.String(required=True, validate=validate.Length(min=8, max=50))
+    password_hash = fields.String(
+        required=True, validate=validate.Length(min=8, max=50)
+    )
     email = fields.String(
         required=True,
         validate=[
@@ -46,7 +48,7 @@ class PatientSchema(ma.SQLAlchemySchema):
                 "agender",
                 "unsure",
                 "not listed",
-                "prefer not to answer"
+                "prefer not to answer",
             ]
         )
     )
@@ -57,5 +59,5 @@ class PatientSchema(ma.SQLAlchemySchema):
         )
     )
     insurance_id = fields.String(validate=validate.Length(max=12))
-    
+
     appointments = fields.List(fields.Nested("AppointmentSchema"))

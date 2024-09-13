@@ -2,6 +2,7 @@ from models.__init__ import db, validates, datetime
 from models.patient import Patient
 from models.doctor import Doctor
 
+
 class Appointment(db.Model):
 
     __tablename__ = "appointments"
@@ -17,8 +18,12 @@ class Appointment(db.Model):
 
     patient = db.relationship("Patient", back_populates="appointments")
     doctor = db.relationship("Doctor", back_populates="appointments")
-    billing = db.relationship("Billing", back_populates="appointment", cascade="all, delete-orphan")
-    avs = db.relationship("AVS", back_populates="appointment", cascade="all, delete-orphan")
+    billing = db.relationship(
+        "Billing", back_populates="appointment", cascade="all, delete-orphan"
+    )
+    avs = db.relationship(
+        "AVS", back_populates="appointment", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"""
@@ -61,7 +66,9 @@ class Appointment(db.Model):
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
-        if not db.session.query(Patient.query.filter_by(id=patient_id).exists()).scalar():
+        if not db.session.query(
+            Patient.query.filter_by(id=patient_id).exists()
+        ).scalar():
             raise ValueError("Patient_id does not exist")
         return patient_id
 
