@@ -1,4 +1,6 @@
 from models.__init__ import db, validates, datetime
+from models.patient import Patient
+from models.doctor import Doctor
 
 class Appointment(db.Model):
 
@@ -59,22 +61,14 @@ class Appointment(db.Model):
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
+        if not db.session.query(Patient.query.filter_by(id=patient_id).exists()).scalar():
+            raise ValueError("Patient_id does not exist")
         return patient_id
 
     @validates("doctor_id")
     def validate_doctor_id(self, _, doctor_id):
         if not isinstance(doctor_id, int):
             raise TypeError("Doctor_id must be of type integer")
+        if not db.session.query(Doctor.query.filter_by(id=doctor_id).exists()).scalar():
+            raise ValueError("Doctor_id does not exist")
         return doctor_id
-
-    @validates("billing_id")
-    def validate_billing_id(self, _, billing_id):
-        if not isinstance(billing_id, int):
-            raise TypeError("Billing_id must be of type integer")
-        return billing_id
-
-    @validates("avs_id")
-    def validate_avs_id(self, _, avs_id):
-        if not isinstance(avs_id, int):
-            raise TypeError("Avs_id must be of type integer")
-        return avs_id

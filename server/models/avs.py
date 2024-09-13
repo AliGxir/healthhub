@@ -1,4 +1,5 @@
 from models.__init__ import db, validates, association_proxy, date
+from models.appointment import Appointment
 
 
 class AVS(db.Model):
@@ -61,3 +62,11 @@ class AVS(db.Model):
         if len(treatment) < 5:
             raise ValueError("Treatment must be greater than 5 characters")
         return treatment
+    
+    @validates("appointment_id")
+    def validate_appointment_id(self, _, appointment_id):
+        if not isinstance(appointment_id, int):
+            raise TypeError("Appointment_id must be of type integer")
+        if not db.session.query(Appointment.query.filter_by(id=appointment_id).exists()).scalar():
+            raise ValueError("Appointment_id does not exist")
+        return appointment_id

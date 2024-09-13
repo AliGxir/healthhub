@@ -1,4 +1,5 @@
-from models.__init__ import db, validates, date, association_proxy
+from models.__init__ import db, validates, association_proxy
+from models.appointment import Appointment
 
 
 class Billing(db.Model):
@@ -14,7 +15,6 @@ class Billing(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     appointment = db.relationship("Appointment", back_populates="billing")
-
     patient_id = association_proxy("appointment", "patient_id")
 
     def __repr__(self):
@@ -31,6 +31,8 @@ class Billing(db.Model):
     def validate_appointment_id(self, _, appointment_id):
         if not isinstance(appointment_id, int):
             raise TypeError("Appointment_id must be of type integer")
+        if not db.session.query(Appointment.query.filter_by(id=appointment_id).exists()).scalar():
+            raise ValueError("Appointment_id does not exist")
         return appointment_id
 
     @validates("amount_due")

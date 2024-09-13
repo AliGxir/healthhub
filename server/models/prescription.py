@@ -1,4 +1,6 @@
 from models.__init__ import db, validates, date
+from models.patient import Patient
+from models.doctor import Doctor
 
 
 class Prescription(db.Model):
@@ -70,14 +72,19 @@ class Prescription(db.Model):
             raise ValueError("Instructions must be greater than 5 characters")
         return instructions
 
+
     @validates("patient_id")
     def validate_patient_id(self, _, patient_id):
         if not isinstance(patient_id, int):
             raise TypeError("Patient_id must be of type integer")
+        if not db.session.query(Patient.query.filter_by(id=patient_id).exists()).scalar():
+            raise ValueError("Patient_id does not exist")
         return patient_id
 
     @validates("doctor_id")
     def validate_doctor_id(self, _, doctor_id):
         if not isinstance(doctor_id, int):
             raise TypeError("Doctor_id must be of type integer")
+        if not db.session.query(Doctor.query.filter_by(id=doctor_id).exists()).scalar():
+            raise ValueError("Doctor_id does not exist")
         return doctor_id
