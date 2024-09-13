@@ -43,6 +43,11 @@ const CreateOrUpdateAppointment = () => {
   });
 
   useEffect(() => {
+    if (!user) {
+      navigate("/"); 
+      return;
+    }
+
     fetch("/api/v1/all-doctors")
       .then((resp) => resp.json())
       .then((data) =>
@@ -55,7 +60,7 @@ const CreateOrUpdateAppointment = () => {
         )
       )
       .catch(() => toast.error("Failed to fetch doctors list."));
-  }, []);
+  }, [user, navigate]);
 
   useEffect(() => {
     if (appointmentId) {
@@ -64,7 +69,7 @@ const CreateOrUpdateAppointment = () => {
         .then((data) => {
           setInitialValues({
             ...data,
-            date: data.date.replace(" ", "T").slice(0, 16), // Convert date to datetime-local format
+            date: data.date.replace(" ", "T").slice(0, 16),
           });
         })
         .catch(() => toast.error("Failed to fetch appointment details."));
@@ -75,7 +80,7 @@ const CreateOrUpdateAppointment = () => {
   const handleSubmit = async (values) => {
     const formattedData = {
       ...values,
-      date: `${values.date}:00`, // Adding seconds to the time format
+      date: `${values.date}:00`, 
     };
 
     try {
@@ -91,7 +96,7 @@ const CreateOrUpdateAppointment = () => {
         },
         body: JSON.stringify({
           ...formattedData,
-          ...(appointmentId ? {} : { patient_id: user.id }), // Add patient_id only when creating
+          ...(appointmentId ? {} : { patient_id: user.id }), 
         }),
       });
 
@@ -120,7 +125,7 @@ const CreateOrUpdateAppointment = () => {
         initialValues={initialValues}
         validationSchema={appointmentSchema}
         onSubmit={handleSubmit}
-        enableReinitialize={true} // Ensures form is reset when initialValues change
+        enableReinitialize={true} 
       >
         {({ values, setFieldValue }) => (
           <FormikForm>
