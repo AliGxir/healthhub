@@ -30,7 +30,7 @@ const PatientPage = () => {
   }, [user, navigate]);
 
   const handleUpdateClick = (appointmentId) => {
-    navigate(`/appointments/update/${appointmentId}`);
+    navigate(`/appointments/${appointmentId}/edit`);
   };
 
   const handleDeleteClick = (appointmentId) => {

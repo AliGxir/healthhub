@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
 
     const updateUser = (value) => {
         setUser(value);
-      };
+    };
     
     return (
         <UserContext.Provider value={{ user, setUser, updateUser }}>
