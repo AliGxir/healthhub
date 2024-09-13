@@ -54,7 +54,7 @@ const AVSs = () => {
                     </Card.Meta>
                     <Card.Description>
                       <p>Notes: {avs.notes}</p>
-                      <p>Diagnosis: {avs.payment_diagnosis}</p>
+                      <p>Diagnosis: {avs.diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
                       {user.patient_id && (
                           <p>Doctor: {`${avs.appointment?.doctor?.first_name || ""} ${avs.appointment?.doctor?.last_name || "N/A"}`.trim()}</p>

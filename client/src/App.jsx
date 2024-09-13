@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
-import UserContext from "./contexts/UserContext";
+import { UserProvider } from "./contexts/UserContext";
 import { FilterProvider } from "./contexts/FilterContext";
 import DocNavBar from "./components/DocNavBar";
 import PatNavBar from "./components/PatNavBar";
-import { useNavigate } from "react-router-dom";
+import { TailSpin } from 'react-loader-spinner';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
+  const location = useLocation(); 
 
   useEffect(() => {
     fetch("/api/v1/check-session")
       .then((resp) => {
         if (resp.status === 200) {
-          return resp.json().then(user => {
+          return resp.json().then((user) => {
             setUser(user);
             navigate(user.patient_id ? "/patient-page" : "/doctor-page");
           });
@@ -28,6 +31,9 @@ const App = () => {
       })
       .catch((error) => {
         toast.error(error.message);
+      })
+      .finally(() => {
+        setLoading(false); 
       });
   }, [navigate]);
 
@@ -35,18 +41,33 @@ const App = () => {
     setUser(value);
   };
 
+  const showNavBar = !(location.pathname === "/" || location.pathname === "/registration");
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <TailSpin
+          height="100"
+          width="100"
+          color="#3079D9"
+          ariaLabel="loading"
+        />
+      </div>
+    );
+  }
+
   return (
-    <UserContext.Provider value={{ user, updateUser }}>
+    <UserProvider value={{ user, updateUser }}>
       <FilterProvider>
         <div className="app">
           <Toaster />
-          {user?.patient_id ? <PatNavBar /> : user?.doctor_id ? <DocNavBar /> : null}
+          {showNavBar && (user?.patient_id ? <PatNavBar /> : user?.doctor_id ? <DocNavBar /> : null)}
           <div className="content">
             <Outlet />
           </div>
         </div>
       </FilterProvider>
-    </UserContext.Provider>
+    </UserProvider>
   );
 };
 

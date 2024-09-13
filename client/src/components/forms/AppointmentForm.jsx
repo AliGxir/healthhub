@@ -111,23 +111,8 @@ const CreateOrUpdateAppointment = () => {
     }
   };
 
-  const handleBackClick = () => {
-    if (user.patient_id) {
-      navigate("/patient-page");
-    } else if (user.doctor_id) {
-      navigate("/doctor-page");
-    } else {
-      navigate("/");
-    }
-  };
-
   return (
     <Container>
-      <div style={{ marginBottom: "20px" }}>
-        <Button style={{ backgroundColor: "#F26DAB", color: "#fff" }} onClick={handleBackClick}>
-          Back to Homepage
-        </Button>
-      </div>
       <h2>
         {appointmentId ? "Update Appointment" : "Schedule a New Appointment"}
       </h2>

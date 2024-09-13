@@ -48,7 +48,7 @@ const Appointments = () => {
 
   return (
     <Container>
-      {user && user.patient_id && (
+      {/* {user && user.patient_id && (
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
           <Button
             style={{ backgroundColor: "#F26DAB", color: "#fff" }}
@@ -57,7 +57,7 @@ const Appointments = () => {
             Schedule an Appointment
           </Button>
         </div>
-      )}
+      )} */}
 
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
         {getHeader()}
@@ -87,13 +87,13 @@ const Appointments = () => {
                   <Card.Content extra>
                     <Button
                       style={{ backgroundColor: "#F26DAB", color: "#fff" }}
-                      onClick={() => navigate(`/appointments/update/${appointment.id}`)}
+                      onClick={() => navigate(`/appointments/${appointment.id}/edit`)}
                     >
                       Update
                     </Button>
                     <Button
                       style={{ backgroundColor: "#528DD9", color: "#fff" }}
-                      onClick={() => navigate(`/appointments/delete/${appointment.id}`)}
+                      onClick={() => navigate(`/appointments/${appointment.id}/delete`)}
                     >
                       Delete
                     </Button>
