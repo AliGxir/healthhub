@@ -83,7 +83,7 @@ def seed_data():
         ]
         
         doctors = []
-        for _ in range(20):
+        for _ in range(200):
             doctor = Doctor(
                 first_name = faker.first_name(),
                 last_name = faker.last_name(),
@@ -103,7 +103,7 @@ def seed_data():
         statuses = ["scheduled", "completed", "canceled"]
                 
         appointments = []
-        for _ in range(20):
+        for _ in range(200):
             appointment = Appointment(
                 date=datetime.fromisoformat("2024-12-16 23:27:51.881689"),
                 # date=faker.date_time_this_year(),
@@ -119,7 +119,7 @@ def seed_data():
         
 
         billings = []
-        for _ in range(20):
+        for _ in range(200):
             billing = Billing(
                 amount_due=round(faker.pyfloat(left_digits=3, right_digits=2, positive=True), 2),
                 payment_status=random.choice(["unpaid", "paid", "pending"]),
@@ -133,7 +133,7 @@ def seed_data():
         
         
         avs_records = []
-        for _ in range(20):
+        for _ in range(200):
             avs = AVS(
                 record_date=faker.date_time_this_year(),
                 notes=faker.sentence(10),
@@ -148,7 +148,7 @@ def seed_data():
         
 
         prescriptions = []
-        for _ in range(20):
+        for _ in range(200):
             prescription = Prescription(
                 medication_name=faker.word() + " " + faker.word(),
                 dosage=f"{random.randint(1, 10)} mg",
