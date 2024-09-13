@@ -12,11 +12,8 @@ doctor_schema = DoctorSchema(session=db.session)
 class CheckSession(Resource):
     def get(self):
         try: 
-            # Correctly check if both 'patient_id' and 'doctor_id' are not in session
             if "patient_id" not in session and "doctor_id" not in session:
                 return{"error": "Unauthorized"}, 403
-            
-            # Fetch the user from the session, either patient or doctor
             user = None
             if "patient_id" in session:
                 user = db.session.get(Patient, session["patient_id"])
@@ -24,8 +21,6 @@ class CheckSession(Resource):
                 user = db.session.get(Doctor, session["doctor_id"])
             if not user:
                 return {"error": "User not found"}, 404
-            
-            # Check if the user was found
             if isinstance(user, Patient):
                 return patient_schema.dump(user), 200
             else:

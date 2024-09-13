@@ -8,7 +8,11 @@ avs_schema = AVSSchema(session=db.session)
 
 class AVSById(Resource):
     def get(self, id):
-        if avs := db.session.get(AVS, id):
-            avs_schema = AVSSchema()
-            return avs_schema.dump(avs), 200
-        return {"error": "Could not find that avs"}, 404
+        try:
+            if avs := db.session.get(AVS, id):
+                avs_schema = AVSSchema()
+                return avs_schema.dump(avs), 200
+            return {"error": "Could not find that avs"}, 404
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 400        

@@ -10,15 +10,19 @@ patients_schema = PatientSchema(many=True, session=db.session)
     
 class Patients(Resource):
     def get(self):
-        doctor_id = session.get("doctor_id")
-        
-        if not doctor_id:
-            return {"error": "User not authenticated"}, 401
-        
-        patients = Patient.query.join(Appointment).filter(Appointment.doctor_id == doctor_id).distinct().all()
+        try:
+            doctor_id = session.get("doctor_id")
+            
+            if not doctor_id:
+                return {"error": "User not authenticated"}, 401
+            
+            patients = Patient.query.join(Appointment).filter(Appointment.doctor_id == doctor_id).distinct().all()
 
-        if not patients:
-            return {"message": "No patients associated with this doctor."}, 404
+            if not patients:
+                return {"message": "No patients associated with this doctor."}, 404
 
-        result = patients_schema.dump(patients)
-        return result, 200
+            result = patients_schema.dump(patients)
+            return result, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 400

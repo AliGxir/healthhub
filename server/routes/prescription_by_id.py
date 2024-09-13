@@ -8,7 +8,11 @@ prescription_schema = PrescriptionSchema(session=db.session)
 
 class PrescriptionById(Resource):
     def get(self, id):
-        if prescription := db.session.get(Prescription, id):
-            prescription_schema = PrescriptionSchema()
-            return prescription_schema.dump(prescription), 200
-        return {"error": "Could not find that prescription"}, 404
+        try:
+            if prescription := db.session.get(Prescription, id):
+                prescription_schema = PrescriptionSchema()
+                return prescription_schema.dump(prescription), 200
+            return {"error": "Could not find that prescription"}, 404
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 400

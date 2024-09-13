@@ -13,15 +13,11 @@ doctor_schema = DoctorSchema(session=db.session)
 class Login(Resource):
     def post(self):
         try:
-            #get email and password
             data = request.json
-            
-            #query db by patient email
             patient = Patient.query.filter_by(email=data.get("email")).first()
             if not patient:
                 doctor = Doctor.query.filter_by(email=data.get("email")).first()
                 
-            #if patient/doctor exists and authenticate
             if patient and patient.authenticate(data.get("password_hash")):
                 session["patient_id"] = patient.id 
                 return patient_schema.dump(patient), 200
