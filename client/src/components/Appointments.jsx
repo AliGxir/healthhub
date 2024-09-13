@@ -8,6 +8,7 @@ const Appointments = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
+  const[filter, setFilter] = useState("all")
 
   useEffect(() => {
     if (!user) {
