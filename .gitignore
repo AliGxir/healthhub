@@ -25,5 +25,7 @@ dist-ssr
 
 .env
 
-app.db
-server/migrations
+*.db 
+instance
+.vscode
+package-lock.json
