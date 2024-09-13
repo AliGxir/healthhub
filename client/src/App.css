@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hanunoo:wght@400;700&display=swap');
-
 body {
   font-family: 'Noto Sans Hanunoo', sans-serif;
-  background-color: #ADE6F5;
+  background-color: #FFFFFF;
 }
 
 * {
@@ -20,7 +18,7 @@ p, a, span, div {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0rem;
   text-align: center;
 }
 
@@ -53,11 +51,37 @@ p, a, span, div {
     animation: logo-spin infinite 20s linear;
   }
 }
-
 .card {
   padding: 2em;
+  border: 2px solid #3079D9; 
+  border-radius: 8px; 
+}
+
+
+.content {
+  padding: 2em;
+  border: 2px solid #3079D9; 
+  border-radius: 8px; 
 }
 
 .read-the-docs {
   color: #888;
+}
+
+
+.registration-page {
+  background-color: #ADE6F5; 
+}
+
+
+
+html, body {
+  height: 100%; 
+  margin: 0; 
+} 
+
+.app {
+  height: 50%;
+  width: 90%;
+  overflow: auto; 
 }

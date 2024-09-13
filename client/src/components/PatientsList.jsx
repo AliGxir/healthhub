@@ -11,12 +11,12 @@ const PatientsList = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/"); 
+      navigate("/");
       return;
     }
 
     const fetchPatients = () => {
-      fetch(`/api/v1/patients?doctor_id=${user.id}`) 
+      fetch(`/api/v1/patients?doctor_id=${user.id}`)
         .then((resp) => {
           if (resp.ok) {
             return resp.json().then((data) => setPatients(data));
@@ -43,7 +43,9 @@ const PatientsList = () => {
               <Grid.Column key={patient.id} computer={4}>
                 <Card>
                   <Card.Content>
-                    <Card.Header>Patient: {patient.first_name} {patient.last_name}</Card.Header>
+                    <Card.Header>
+                      Patient: {patient.first_name} {patient.last_name}
+                    </Card.Header>
                     <Card.Description>
                       <p>DOB: {patient.date_of_birth}</p>
                       <p>Gender: {patient.gender}</p>

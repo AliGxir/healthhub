@@ -34,7 +34,6 @@ const AVSs = () => {
     fetchavss();
   }, [user, navigate]);
 
-
   return (
     <Container>
       <Header as="h2" textAlign="center" style={{ marginBottom: "20px" }}>
@@ -50,19 +49,30 @@ const AVSs = () => {
                   <Card.Content>
                     <Card.Header>AVS</Card.Header>
                     <Card.Meta>
-                      Record Date: {new Date(avs.record_date).toLocaleDateString()}
+                      Record Date:{" "}
+                      {new Date(avs.record_date).toLocaleDateString()}
                     </Card.Meta>
                     <Card.Description>
                       <p>Notes: {avs.notes}</p>
                       <p>Diagnosis: {avs.diagnosis}</p>
                       <p>Treatment: {avs.treatment}</p>
                       {user.patient_id && (
-                          <p>Doctor: {`${avs.appointment?.doctor?.first_name || ""} ${avs.appointment?.doctor?.last_name || "N/A"}`.trim()}</p>
-                        )}
-                        {user.doctor_id && (
-                          <p>Patient: {`${avs.appointment?.patient?.first_name || ""} ${avs.appointment?.patient?.last_name || "N/A"}`.trim()}</p>
-                        )}
-                      </Card.Description>
+                        <p>
+                          Doctor:{" "}
+                          {`${avs.appointment?.doctor?.first_name || ""} ${
+                            avs.appointment?.doctor?.last_name || "N/A"
+                          }`.trim()}
+                        </p>
+                      )}
+                      {user.doctor_id && (
+                        <p>
+                          Patient:{" "}
+                          {`${avs.appointment?.patient?.first_name || ""} ${
+                            avs.appointment?.patient?.last_name || "N/A"
+                          }`.trim()}
+                        </p>
+                      )}
+                    </Card.Description>
                   </Card.Content>
                 </Card>
               </Grid.Column>

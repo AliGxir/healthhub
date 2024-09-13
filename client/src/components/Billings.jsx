@@ -48,7 +48,8 @@ const Billings = () => {
                   <Card.Content>
                     <Card.Header>Billing</Card.Header>
                     <Card.Meta>
-                      Billing Date: {new Date(bill.billing_date).toLocaleDateString()}
+                      Billing Date:{" "}
+                      {new Date(bill.billing_date).toLocaleDateString()}
                     </Card.Meta>
                     <Card.Description>
                       <p>Amount Due: ${bill.amount_due.toFixed(2)}</p>

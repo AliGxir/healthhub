@@ -4,16 +4,14 @@ import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
-import { FilterProvider } from "./contexts/FilterContext";
-import DocNavBar from "./components/DocNavBar";
-import PatNavBar from "./components/PatNavBar";
-import { TailSpin } from 'react-loader-spinner';
+import NavBar from "./components/NavBar";
+import { TailSpin } from "react-loader-spinner";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     fetch("/api/v1/check-session")
@@ -33,7 +31,7 @@ const App = () => {
         toast.error(error.message);
       })
       .finally(() => {
-        setLoading(false); 
+        setLoading(false);
       });
   }, [navigate]);
 
@@ -41,7 +39,9 @@ const App = () => {
     setUser(value);
   };
 
-  const showNavBar = !(location.pathname === "/" || location.pathname === "/registration");
+  const showNavBar = !(
+    location.pathname === "/" || location.pathname === "/registration"
+  );
 
   if (loading) {
     return (
@@ -58,15 +58,13 @@ const App = () => {
 
   return (
     <UserProvider value={{ user, updateUser }}>
-      <FilterProvider>
-        <div className="app">
-          <Toaster />
-          {showNavBar && (user?.patient_id ? <PatNavBar /> : user?.doctor_id ? <DocNavBar /> : null)}
-          <div className="content">
-            <Outlet />
-          </div>
+      <div className="app">
+        <Toaster />
+        <NavBar />
+        <div className="content">
+          <Outlet />
         </div>
-      </FilterProvider>
+      </div>
     </UserProvider>
   );
 };

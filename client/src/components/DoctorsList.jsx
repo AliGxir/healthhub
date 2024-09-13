@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Container, Grid, Card, Header, Button, Menu } from "semantic-ui-react";
+import { Container, Grid, Card, Header } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 
@@ -10,7 +10,7 @@ const DoctorsList = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/"); 
+      navigate("/");
       return;
     }
 
@@ -42,7 +42,9 @@ const DoctorsList = () => {
               <Grid.Column key={doctor.id} computer={4}>
                 <Card>
                   <Card.Content>
-                    <Card.Header>Dr. {doctor.first_name} {doctor.last_name}</Card.Header>
+                    <Card.Header>
+                      Dr. {doctor.first_name} {doctor.last_name}
+                    </Card.Header>
                     <Card.Meta>Specialty: {doctor.specialty}</Card.Meta>
                     <Card.Description>
                       <p>Email: {doctor.email}</p>

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 const PatientPage = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
+  const [headerTitle, setHeaderTitle] = useState("Upcoming Appointments");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!user) {
@@ -16,7 +18,23 @@ const PatientPage = () => {
       return;
     }
 
-    fetch(`/api/v1/appointments`)
+    const params = new URLSearchParams(location.search);
+    const filter = params.get("filter") || "all";
+
+    switch (filter) {
+      case "past":
+        setHeaderTitle("Past Appointments");
+        break;
+      case "future":
+        setHeaderTitle("Upcoming Appointments");
+        break;
+      case "all":
+      default:
+        setHeaderTitle("All Appointments");
+        break;
+    }
+
+    fetch(`/api/v1/appointments?filter=${filter}`)
       .then((resp) => {
         if (resp.ok) {
           return resp.json().then((data) => {
@@ -27,7 +45,7 @@ const PatientPage = () => {
         }
       })
       .catch((errorObj) => toast.error(errorObj.message));
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
   const handleUpdateClick = (appointmentId) => {
     navigate(`/appointments/${appointmentId}/edit`);
@@ -41,7 +59,9 @@ const PatientPage = () => {
         .then((resp) => {
           if (resp.ok) {
             setAppointments((prevAppointments) =>
-              prevAppointments.filter((appointment) => appointment.id !== appointmentId)
+              prevAppointments.filter(
+                (appointment) => appointment.id !== appointmentId
+              )
             );
             toast.success("Appointment canceled successfully!");
           } else {
@@ -60,18 +80,23 @@ const PatientPage = () => {
         Welcome {firstName} to your Homepage!
       </Header>
 
-      <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
-          Upcoming Appointments
+      <Header
+        as="h2"
+        style={{
+          fontSize: "1.5em",
+          color: "#666",
+          textAlign: "left",
+          margin: "20px 0",
+        }}
+      >
+        {headerTitle}
       </Header>
 
       <Grid>
         <Grid.Row>
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
-              <Grid.Column
-                key={appointment.id}
-                computer={4}
-              >
+              <Grid.Column key={appointment.id} computer={4}>
                 <Card>
                   <Card.Content>
                     <Card.Header>Appointment</Card.Header>
@@ -81,7 +106,10 @@ const PatientPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Doctor: {appointment.doctor.first_name} {appointment.doctor.last_name}</p>
+                      <p>
+                        Doctor: {appointment.doctor.first_name}{" "}
+                        {appointment.doctor.last_name}
+                      </p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
@@ -103,7 +131,7 @@ const PatientPage = () => {
             ))
           ) : (
             <Grid.Column>
-              <p>No upcoming appointments found.</p>
+              <p>No {headerTitle.toLowerCase()} found.</p>
             </Grid.Column>
           )}
         </Grid.Row>

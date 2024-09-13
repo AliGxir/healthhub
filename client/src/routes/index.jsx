@@ -11,7 +11,6 @@ import AppointmentForm from "../components/forms/AppointmentForm";
 import DoctorPage from "../components/DoctorPage";
 import PatientsList from "../components/PatientsList";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -43,15 +42,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/appointments",
-        element: <Appointments />,               
+        element: <Appointments />,
       },
       {
         path: "/appointments/new",
-        element: <AppointmentForm/>,
+        element: <AppointmentForm />,
       },
       {
         path: "/appointments/:appointmentId/edit",
-        element: <AppointmentForm/>,
+        element: <AppointmentForm />,
       },
       {
         path: "/doctor-page",
@@ -59,8 +58,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "/patients-list",
-        element: <PatientsList />
-      }
+        element: <PatientsList />,
+      },
     ],
   },
 ]);

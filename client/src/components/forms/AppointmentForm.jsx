@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Container, Form, Button, Dropdown } from "semantic-ui-react";
+import { Container, Form, Button, Dropdown, Segment } from "semantic-ui-react";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import toast from "react-hot-toast";
@@ -24,8 +24,16 @@ const appointmentSchema = yup.object().shape({
     .oneOf(["scheduled", "completed", "canceled"], "Invalid status")
     .required("Status is required"),
   doctor_id: yup.number().integer().required("Doctor is required"),
-  billing_id: yup.number().integer().nullable().moreThan(0, "Billing ID must be greater than 0"),
-  avs_id: yup.number().integer().nullable().moreThan(0, "Billing ID must be greater than 0"),
+  billing_id: yup
+    .number()
+    .integer()
+    .nullable()
+    .moreThan(0, "Billing ID must be greater than 0"),
+  avs_id: yup
+    .number()
+    .integer()
+    .nullable()
+    .moreThan(0, "Billing ID must be greater than 0"),
 });
 
 const CreateOrUpdateAppointment = () => {
@@ -44,7 +52,7 @@ const CreateOrUpdateAppointment = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/"); 
+      navigate("/");
       return;
     }
 
@@ -76,11 +84,10 @@ const CreateOrUpdateAppointment = () => {
     }
   }, [appointmentId]);
 
-
   const handleSubmit = async (values) => {
     const formattedData = {
       ...values,
-      date: `${values.date}:00`, 
+      date: `${values.date}:00`,
     };
 
     try {
@@ -96,7 +103,7 @@ const CreateOrUpdateAppointment = () => {
         },
         body: JSON.stringify({
           ...formattedData,
-          ...(appointmentId ? {} : { patient_id: user.id }), 
+          ...(appointmentId ? {} : { patient_id: user.id }),
         }),
       });
 
@@ -118,100 +125,102 @@ const CreateOrUpdateAppointment = () => {
 
   return (
     <Container>
-      <h2>
-        {appointmentId ? "Update Appointment" : "Schedule a New Appointment"}
-      </h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={appointmentSchema}
-        onSubmit={handleSubmit}
-        enableReinitialize={true} 
-      >
-        {({ values, setFieldValue }) => (
-          <FormikForm>
-            <Form.Field>
-              <label>Date and Time</label>
-              <Field
-                as={Form.Input}
-                type="datetime-local"
-                name="date"
-                value={values.date}
-              />
-              <ErrorMessage
-                name="date"
-                component="div"
-                className="ui pointing red basic label"
-              />
-            </Form.Field>
+      <Segment raised>
+        <h2>
+          {appointmentId ? "Update Appointment" : "Schedule a New Appointment"}
+        </h2>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={appointmentSchema}
+          onSubmit={handleSubmit}
+          enableReinitialize={true}
+        >
+          {({ values, setFieldValue }) => (
+            <FormikForm>
+              <Form.Field>
+                <label>Date and Time</label>
+                <Field
+                  as={Form.Input}
+                  type="datetime-local"
+                  name="date"
+                  value={values.date}
+                />
+                <ErrorMessage
+                  name="date"
+                  component="div"
+                  className="ui pointing red basic label"
+                />
+              </Form.Field>
 
-            <Form.Field>
-              <label>Reason</label>
-              <Field as={Form.Input} type="text" name="reason" />
-              <ErrorMessage
-                name="reason"
-                component="div"
-                className="ui pointing red basic label"
-              />
-            </Form.Field>
+              <Form.Field>
+                <label>Reason</label>
+                <Field as={Form.Input} type="text" name="reason" />
+                <ErrorMessage
+                  name="reason"
+                  component="div"
+                  className="ui pointing red basic label"
+                />
+              </Form.Field>
 
-            <Form.Field>
-              <label>Doctor</label>
-              <Dropdown
-                fluid
-                search
-                selection
-                options={doctors}
-                name="doctor_id"
-                value={values.doctor_id}
-                onChange={(e, { value }) => setFieldValue("doctor_id", value)}
-              />
-              <ErrorMessage
-                name="doctor_id"
-                component="div"
-                className="ui pointing red basic label"
-              />
-            </Form.Field>
+              <Form.Field>
+                <label>Doctor</label>
+                <Dropdown
+                  fluid
+                  search
+                  selection
+                  options={doctors}
+                  name="doctor_id"
+                  value={values.doctor_id}
+                  onChange={(e, { value }) => setFieldValue("doctor_id", value)}
+                />
+                <ErrorMessage
+                  name="doctor_id"
+                  component="div"
+                  className="ui pointing red basic label"
+                />
+              </Form.Field>
 
-            {appointmentId && (
-              <>
-                <Form.Field>
-                  <label>Status</label>
-                  <Field as={Form.Input} type="text" name="status" />
-                  <ErrorMessage
-                    name="status"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-                </Form.Field>
+              {appointmentId && (
+                <>
+                  <Form.Field>
+                    <label>Status</label>
+                    <Field as={Form.Input} type="text" name="status" />
+                    <ErrorMessage
+                      name="status"
+                      component="div"
+                      className="ui pointing red basic label"
+                    />
+                  </Form.Field>
 
-                <Form.Field>
-                  <label>Billing ID</label>
-                  <Field as={Form.Input} type="number" name="billing_id" />
-                  <ErrorMessage
-                    name="billing_id"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-                </Form.Field>
+                  <Form.Field>
+                    <label>Billing ID</label>
+                    <Field as={Form.Input} type="number" name="billing_id" />
+                    <ErrorMessage
+                      name="billing_id"
+                      component="div"
+                      className="ui pointing red basic label"
+                    />
+                  </Form.Field>
 
-                <Form.Field>
-                  <label>AVS ID</label>
-                  <Field as={Form.Input} type="number" name="avs_id" />
-                  <ErrorMessage
-                    name="avs_id"
-                    component="div"
-                    className="ui pointing red basic label"
-                  />
-                </Form.Field>
-              </>
-            )}
+                  <Form.Field>
+                    <label>AVS ID</label>
+                    <Field as={Form.Input} type="number" name="avs_id" />
+                    <ErrorMessage
+                      name="avs_id"
+                      component="div"
+                      className="ui pointing red basic label"
+                    />
+                  </Form.Field>
+                </>
+              )}
 
-            <Button type="submit" >
-              {appointmentId ? "Update Appointment" : "Create Appointment"}
-            </Button>
-          </FormikForm>
-        )}
-      </Formik>
+              <Button type="submit">
+                {appointmentId ? "Update Appointment" : "Create Appointment"}
+              </Button>
+            </FormikForm>
+          )}
+        </Formik>
+      </Segment>
     </Container>
   );
 };

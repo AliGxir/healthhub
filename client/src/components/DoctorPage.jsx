@@ -40,7 +40,9 @@ const DoctorPage = () => {
         .then((resp) => {
           if (resp.ok) {
             setAppointments((prevAppointments) =>
-              prevAppointments.filter((appointment) => appointment.id !== appointmentId)
+              prevAppointments.filter(
+                (appointment) => appointment.id !== appointmentId
+              )
             );
             toast.success("Appointment canceled successfully!");
           } else {
@@ -59,7 +61,15 @@ const DoctorPage = () => {
         Welcome Dr. {lastName} to your Homepage!
       </Header>
 
-      <Header as="h2" style={{ fontSize: "1.5em", color: "#666", textAlign: "left", margin: "20px 0" }}>
+      <Header
+        as="h2"
+        style={{
+          fontSize: "1.5em",
+          color: "#666",
+          textAlign: "left",
+          margin: "20px 0",
+        }}
+      >
         Upcoming Appointments
       </Header>
 
@@ -77,7 +87,10 @@ const DoctorPage = () => {
                     <Card.Description>
                       <p>Reason: {appointment.reason}</p>
                       <p>Status: {appointment.status}</p>
-                      <p>Patient: {appointment.patient.first_name} {appointment.patient.last_name}</p>
+                      <p>
+                        Patient: {appointment.patient.first_name}{" "}
+                        {appointment.patient.last_name}
+                      </p>
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>

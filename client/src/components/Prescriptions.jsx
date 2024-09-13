@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Container, Grid, Card, Button, Header } from "semantic-ui-react";
+import { Container, Grid, Card, Header } from "semantic-ui-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
@@ -46,12 +46,23 @@ const Prescriptions = () => {
               <Grid.Column key={prescription.id} computer={4}>
                 <Card>
                   <Card.Content>
-                    <Card.Header>Prescription Name: {prescription.medication_name}</Card.Header>
+                    <Card.Header>
+                      Prescription Name: {prescription.medication_name}
+                    </Card.Header>
                     <Card.Description>
                       <p>Dosage: {prescription.dosage}</p>
-                      <p>Start Date: {new Date(prescription.start_date).toLocaleDateString()}</p>
-                      <p>End Date: {new Date(prescription.end_date).toLocaleDateString()}</p>
-                      <p>Doctor: {prescription.doctor.first_name} {prescription.doctor.last_name}</p>
+                      <p>
+                        Start Date:{" "}
+                        {new Date(prescription.start_date).toLocaleDateString()}
+                      </p>
+                      <p>
+                        End Date:{" "}
+                        {new Date(prescription.end_date).toLocaleDateString()}
+                      </p>
+                      <p>
+                        Doctor: {prescription.doctor.first_name}{" "}
+                        {prescription.doctor.last_name}
+                      </p>
                     </Card.Description>
                   </Card.Content>
                 </Card>
