@@ -8,10 +8,17 @@ from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
 from os import environ
+from dotenv import load_dotenv
+load_dotenv()
 
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+app = Flask(
+    __name__,
+    static_url_path="",
+    static_folder="../client/dist",
+    template_folder="../client/dist",
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 app.secret_key = environ.get("SESSION_SECRET")

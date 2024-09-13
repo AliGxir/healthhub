@@ -1,11 +1,12 @@
 # Remote library imports
 import os
+from flask import render_template
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
 
 # Local imports
-from config import app, api, db
+from config import app, api
 from routes.patients import Patients
 from routes.patient_by_id import PatientById
 from routes.doctors import Doctors
@@ -23,6 +24,21 @@ from routes.login import Login
 from routes.signup import Signup
 from routes.logout import Logout
 from routes.all_doctors import AllDoctors
+
+@app.route("/")
+@app.route("/patient-page")
+@app.route("/doctors-list")
+@app.route("/billings")
+@app.route("/avss")
+@app.route("/prescriptions")
+@app.route("/appointments")
+@app.route("/appointments/new")
+@app.route("/appointments/:appointmentId/edit")
+@app.route("/doctor-page")
+@app.route("/patients-list")
+def index(id=0):
+    return render_template("index.html")
+
 
 api.add_resource(Patients, "/patients")
 api.add_resource(PatientById, "/patients/<int:id>")

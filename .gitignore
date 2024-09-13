@@ -7,7 +7,9 @@ Pipfile.lock
 
 # database
 *.db
-instance
+server/instance
+server/__pycache__
+server/instance/*.db
 .vscode
 package-lock.json
 
