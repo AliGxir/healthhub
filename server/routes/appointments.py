@@ -10,22 +10,20 @@ from datetime import datetime
 appointments_schema = AppointmentSchema(many=True, session=db.session)
 appointment_schema = AppointmentSchema(session=db.session)
 
-
 class Appointments(Resource):
     def get(self):
         try:
             patient_id = session.get("patient_id")
             doctor_id = session.get("doctor_id")
-            
+
             if not patient_id and not doctor_id:
                 return {"error": "User not authenticated"}, 401
 
-
             filter_type = request.args.get('filter', 'all')
-            now = db.func.now()  
+            now = db.func.now()
 
             query = Appointment.query
-            
+
             if patient_id:
                 query = query.filter(Appointment.patient_id == patient_id)
             elif doctor_id:
@@ -38,7 +36,7 @@ class Appointments(Resource):
 
             appointments = query.all()
             serialized_appointments = appointments_schema.dump(appointments)
-            return serialized_appointments, 200  
+            return serialized_appointments, 200
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 400
@@ -74,4 +72,3 @@ class Appointments(Resource):
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 422
-
